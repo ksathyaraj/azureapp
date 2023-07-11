@@ -1,0 +1,20 @@
+.paragraph{
+    font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    line-height: 1.846;
+    color: #666666;
+    letter-spacing: .1px;
+    text-rendering: optimizeLegibility
+}
+
+blockquote{
+    padding: 10px 23px;
+    margin: 0 0 23px;
+    font-size: 16.25px;
+    border-left: 5px solid #eeeeee;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 40px;
+    margin-inline-end: 40px;
+}

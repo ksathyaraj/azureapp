@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="mt-5 col-md-8">
+    <h3>
+      <span translate="resources.reports-customerinvoicesdue-header"></span>
+    </h3>
+  </div>
+  <lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+</div>
+<lib-form-panel>
+  <form class="form-horizontal" #frmCustomerStatement="ngForm" >
+    <div class="row col-md-12">
+      <div class="col-md-6">
+        <lib-date-picker
+          [smLabel]="'resources.reports-customerstatementbycustomer-label-from'"
+          [smLabelClass]="'col-md-4 control-label'"
+          [smName]="'from'"
+          [smPlaceholder]="'DD/MM/YY e.g.24/05/2023'"
+          (smModelChange) ="fromDateRange($event)"
+          [smRequired]="true"
+        ></lib-date-picker>
+      </div>
+      <div class="col-md-6">
+        <lib-date-picker
+          [smLabel]="'resources.reports-customerstatementbycustomer-label-to'"
+          [smLabelClass]="'col-md-4 control-label'"
+          [smName]="'to'"
+          [smPlaceholder]="'DD/MM/YY e.g.24/05/2023'"
+          (smModelChange) ="toDateRange($event)"
+          [smRequired]="true"
+        ></lib-date-picker>
+      </div>
+    </div>
+    <div class="col-md-12 row">
+      <div class="col-md-6">
+        <lib-select-input
+          [smLabel]="'resources.reports-customerstatementbycustomer-label-bankaccount'"
+          [smLabelClass]="'col-md-4 control-label'"
+          [smName]="'bankaccount'"
+          [(smModel)]="selectedBankDetailsId"
+          (smModelChange)="changeBank($event)"
+          [smRequired]="true"
+          [smOptionDisplayField]="'displayAccountName'"
+          [smOptions]="banks"
+          [smOptionValueField]="'id'"
+        ></lib-select-input>
+      </div>
+      <div class="col-md-6">
+        <lib-select-input
+          [smLabel]="'resources.reports-customerstatementbycustomer-label-customer'"
+          [smLabelClass]="'col-md-4 control-label'"
+          [smName]="'customer'"
+          [(smModel)]="selectedCustomerId"
+          (smModelChange)="changeCustomer($event)"
+          [smOptionDisplayField]="'companyName'"
+          [smOptions]="customers"
+          [smOptionValueField]="'id'"
+          [smPlaceholder]="'resources.reports-customerinvoices-select-placeholder-allcustomers'"
+        ></lib-select-input>
+      </div>
+    </div>
+    <div class="col-md-12 row">
+      <div class="col-md-6">
+        <lib-textarea-input
+          [smLabel]="'resources.reports-customerstatementbycustomer-label-notes'"
+          [smLabelClass]="'col-md-4 control-label'"
+          [smName]="'notes'"
+          [(smModel)]="notesInfo"
+          (smModelChange)="notes($event)"
+          [smRows]="4"
+        >
+        </lib-textarea-input>
+      </div>
+      <div class="col-md-6" *ngIf="selectedCustomer">
+        <lib-select-input
+        [smLabel]="'resources.reports-customerstatementbycustomer-label-contact'"
+        [smLabelClass]="'col-md-4'"
+        [smName]="'contact'"
+        [(smModel)]="selectedContactId"
+        (smModelChange)="changeContact($event)"
+        [smOptionDisplayField]="'fullName'"
+        [smOptions]="selectedCustomer[0].invoiceableIndividualContacts"
+        [smOptionValueField]="'id'"    
+      ></lib-select-input>
+        </div>
+    </div>
+    <div class="form-group mb-5">
+      <lib-validation-message></lib-validation-message>
+        <lib-button
+            *ngIf = "selectedCustomer && selectedContactId"
+            [smLabel]="'Email'"
+            [smType]="'submit'"
+            [smIcon]="'fa fa-envelope-o'"
+            [smClass]="'btn btn-email pull-right'"
+            (smClick)="email(frmCustomerStatement)"/>
+          <lib-button
+            [smLabel]="'resources.common-buttons-pdf'"
+            [smType]="'submit'"
+            [smIcon]="'fa fa-file-pdf-o'"
+            [smClass]="'btn btn-pdf btnSecondaryAction pull-right'"
+            (smClick)="print(frmCustomerStatement)"/>
+      </div>
+  </form>
+</lib-form-panel>
+<div class="col-md-12">
+  <blockquote [innerHtml]="blockQuoteData">  
+</blockquote>
+</div>
+

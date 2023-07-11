@@ -1,0 +1,19 @@
+
+ <lib-table 
+ [tableColumns]="absaBatchReconReportColumns" 
+ [api]="api" 
+ [title]="title" 
+ [refreshButton]="true"
+ [exportButton]="false"
+ [addNewButton]="false"
+ [pdfButton]="false"
+ [searchUIOptions]="searchUIOptions"
+ [downloadButton]="true"
+ [resourceMessages]="resourceMessages"
+ [dropDownFilter]="dropDownFilter"
+ (smHandleDownloadButtonClick)="downloadData()"
+ [selectInputDivClass]="'col-md-4'"
+ [dateRangeDivClass]="'col-md-4'"
+ >
+ </lib-table>
+ 

@@ -1,0 +1,248 @@
+<div class="row clearfix">
+    <div class="col-md-8">
+        <lib-title [title]="'resources.staff-staffdetails-packagedetails-pageheading-staffpaypackagedetails'"></lib-title>
+    </div>
+    <div class="col-md-4 text-end heading-button-bar"
+        style=" display: flex; align-items: center; justify-content: flex-end;">
+        <lib-link [linkName]="'Help Video'" [url]="supportVideoBaseUrl" target="_blank"></lib-link>
+    </div>
+</div>
+
+<lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+
+<h3 style="color: #444444; margin-top: 20px;">
+    <span translate="resources.staff-staffdetails-packagedetails-pageheading-staffmenber"></span>
+    <b> {{packagedetails.fullName}}</b>
+</h3>
+
+<form #frm="ngForm" novalidate>
+    <lib-form-panel [smHeadingFont]="'15px'"
+        [smHeading]="'resources.staff-staffdetails-packagedetails-panelheading-standarddetailsforpayslip'" />
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel [smHeadingFont]="'15px'"
+                [smHeading]="'resources.staff-staffdetails-packagedetails-sectionheading-incomereceived'" />
+
+            <table class="table table-hover table-condensed table-bordered ">
+                <tr>
+                    <th>
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-incomereceived-tablecolumnheading-category"></span>
+                    </th>
+                    <th *ngIf="packagedetails.showGeneratedAllowancesHoursRateColumns" class="col-md-2">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-incomereceived-tablecolumnheading-hours"></span>
+                    </th>
+                    <th *ngIf="packagedetails.showGeneratedAllowancesHoursRateColumns" class="col-md-2">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-incomereceived-tablecolumnheading-rate"></span>
+                    </th>
+                    <th class="col-md-2">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-incomereceived-tablecolumnheading-amount"></span>
+                    </th>
+                </tr>
+
+                <tr *ngFor="let o of packagedetails.generatedAllowanceItems;index as index">
+                    <td class="form-group"
+                        [ngClass]="{
+                      'has-error': (frm.controls['allowanceAmount' + index]?.invalid && !frm.controls['allowanceAmount' + index]?.pristine) || (frm.controls['allowanceRate' + index]?.invalid && !frm.controls['allowanceRate' + index]?.pristine) || (frm.controls['allowanceHours' + index]?.invalid && !frm.controls['allowanceHours' + index]?.pristine)}">
+                        {{ 'resources.' + o.translationKey | translate }}
+                        <span class="help-block pull-right"
+                            *ngIf="frm.controls['allowanceAmount' + index]?.invalid && !frm.controls['allowanceAmount' + index]?.pristine">
+                            <span translate="resources.common-validation-numericfieldrequired"></span>
+                        </span>
+                        <span class="help-block pull-right"
+                            *ngIf="(frm.controls['allowanceRate' + index]?.invalid && !frm.controls['allowanceRate' + index]?.pristine) || (frm.controls['allowanceHours' + index]?.invalid && !frm.controls['allowanceHours' + index]?.pristine)">
+                            (<span translate="resources.common-validation-numericfieldrequired"></span>s)
+                        </span>
+                    </td>
+
+                    <td *ngIf="packagedetails.showGeneratedAllowancesHoursRateColumns" class="text-end form-group" style="padding: 0px 9px;"
+                        [ngClass]="{ 'has-error' : (frm.controls['allowanceHours' +index]?.invalid && !frm.controls['allowanceHours' + index]?.pristine)}">
+
+                        <lib-text-input [ngClass]="'d-block'" [smName]="'allowanceHours' + index" [(smModel)]="o.hours"
+                            (smModelChange)="calcGeneratedItemAmount(o)" [smType]="'number'" [addDefaultDecimal]="true"
+                            [smInputClass]="'form-control form-control-sm p-1 text-end'"></lib-text-input>
+                    </td>
+                    <td *ngIf="packagedetails.showGeneratedAllowancesHoursRateColumns" class="text-end form-group"
+                        [ngClass]="{ 'has-error' : (frm.controls['allowanceRate' +index]?.invalid && !frm.controls['allowanceRate' + index]?.pristine)}">
+
+                        <lib-text-input [ngClass]="'d-block'" [smName]="'allowanceRate' + index" [(smModel)]="o.rate"
+                            (smModelChange)="calcGeneratedItemAmount(o)" [smType]="'number'" [addDefaultDecimal]="true"
+                            [smInputClass]="'form-control form-control-sm p-1 text-end'"></lib-text-input>
+
+                    </td>
+                    <td class=" form-group text-end "
+                        [ngClass]="{ 'has-error' : (frm.controls['allowanceAmount' +index]?.invalid && !frm.controls['allowanceAmount' + index]?.pristine)}">
+
+                        <lib-text-input [ngClass]="'d-block'" *ngIf="packagedetails.generatedAllowanceAmountIsEditable"
+                            [smName]="'allowanceAmount' + index" [(smModel)]="o.amount" (smModelChange)="calcTotals()"
+                            [smType]="'number'" [addDefaultDecimal]="true"
+                            [smInputClass]="'form-control form-control-sm p-1  text-end'"></lib-text-input>
+
+                        <span
+                            *ngIf="!packagedetails.generatedAllowanceAmountIsEditable">{{o.amount|number:'1.2-2'}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <lib-form-panel [smHeadingFont]="'15px'"
+                [smHeading]="'resources.staff-staffdetails-packagedetails-sectionheading-deductionscontributions'" />
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <th>
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-deductionscontributions-tablecolumnheading-category"></span>
+                    </th>
+                    <th class="col-md-2">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-deductionscontributions-tablecolumnheading-amount"></span>
+                    </th>
+                </tr>
+
+                <tr *ngFor="let o of packagedetails.generatedDeductionItems; index as index ">
+                    <td class="form-group"
+                        [ngClass]="{ 'has-error' : (frm.controls['deductionAmount' + index]?.invalid && !frm.controls['deductionAmount' + index]?.pristine)}">
+                        {{'resources.' + o.translationKey | translate }}
+                        <span *ngIf="o.translationKey === 'staffsalarypackageitemtemplate-paye'">(Refer to link below
+                            for SARS tax deduction tables)
+                        </span>
+                        <span class="help-block pull-right"
+                            *ngIf=" (frm.controls['deductionAmount' + index]?.invalid && !frm.controls['deductionAmount' + index]?.pristine) ">
+                            <span translate="resources.common-validation-numericfieldrequired"></span>
+                        </span>
+                    </td>
+                    <td class="text-end form-group"
+                        [ngClass]="{ 'has-error' : (frm.controls['deductionAmount' + index]?.invalid && !frm.controls['deductionAmount' + index]?.pristine)}">
+
+                        <lib-text-input [ngClass]="'d-block'" [smName]="'deductionAmount' + index"
+                            [(smModel)]="o.amount" (smModelChange)="calcTotals()" [smType]="'number'"
+                            [addDefaultDecimal]="true"
+                            [smInputClass]="'form-control form-control-sm p-1  text-end'"></lib-text-input>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <lib-form-panel [smHeadingFont]="'14px'"
+        [smHeading]="'resources.staff-staffdetails-packagedetails-panelheading-customdetailsforpayslip'" />
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel [smHeadingFont]="'14px'"
+                [smHeading]="'resources.staff-staffdetails-packagedetails-sectionheading-incomereceived'" />
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <th class="col-md-7">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-customdetailsforpayslip-incomerecieved-tablecolumnheading-category"></span>
+                    </th>
+                    <th class="col-md-4">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-customdetailsforpayslip-incomerecieved-tablecolumnheading-hourlyrateoramount"></span>
+                    </th>
+                    <th>
+                        <lib-button [smType]="'button'" (smClick)="addCustomIncomeModal()" [smIcon]="'fa fa-plus'"
+                            [smClass]="'btn btn-success btn-xs'" />
+                    </th>
+                </tr>
+
+
+                <tr *ngFor="let o of packagedetails.customAllowanceItems">
+                    <td>
+                        <a style="color: #2196f3; text-decoration: none;"
+                            (click)="editCustomIncomeModal(o)">{{o.description}}</a>
+                    </td>
+                    <td class="text-end">{{o.amount|number:'1.2-2'}}</td>
+                    <td>
+                        <lib-button [smType]="'button'" (smClick)="deleteCustomIncomeModal(o)" [smIcon]="'fa fa-close'"
+                            [smClass]="'btn btn-danger btn-xs'" [smTitle]="'resources.common-buttons-delete-title'" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <lib-form-panel [smHeadingFont]="'14px'"
+                [smHeading]="'resources.staff-staffdetails-packagedetails-sectionheading-deductionscontributions'" />
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <th class="col-md-7">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-customdetailsforpayslip-deductionscontributions-tablecolumnheading-category"></span>
+                    </th>
+                    <th class="col-md-4">
+                        <span
+                            translate="resources.staff-staffdetails-packagedetails-customdetailsforpayslip-deductionscontributions-tablecolumnheading-hourlyrateoramount"></span>
+                    </th>
+                    <th>
+                        <lib-button [smType]="'button'" (smClick)="addCustomDeductionModal()" [smIcon]="'fa fa-plus'"
+                            [smClass]="'btn btn-success btn-xs'" />
+                    </th>
+                </tr>
+                <tr *ngFor="let o of packagedetails.customDeductionItems">
+                    <td>
+                        <a style="color: #2196f3; text-decoration: none;"
+                            (click)="editCustomDeductionModal(o)">{{o.description}}</a>
+                    </td>
+                    <td class="text-end">{{o.amount|number:'1.2-2'}}</td>
+                    <td>
+                        <lib-button [smType]="'button'" (smClick)="deleteCustomDeductionModal(o)"
+                            [smIcon]="'fa fa-close'" [smClass]="'btn btn-danger btn-xs'"
+                            [smTitle]="'resources.common-buttons-delete-title'" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <h4 style="color: #444444" class="text-end">
+                    <span translate="resources.staff-staffdetails-packagedetails-label-grosspay"></span>
+                    <b> {{packagedetails.totalAllowances|number:'1.2-2'}}</b>
+                </h4>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <h4 style="color: #444444" class="text-end">
+                    <span translate="resources.staff-staffdetails-packagedetails-label-totaldeductions"></span>
+                    <b> {{packagedetails.totalDeductions|number:'1.2-2'}}</b>
+                </h4>
+            </lib-form-panel>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <p style="height: 20px;">
+                    To access SARS tax deduction tables, click the link: <a style="color: #2196f3;"
+                        href="https://www.sars.gov.za/tax-rates/employers/tax-deduction-tables/" target="_blank">Tax
+                        Deduction Tables</a>
+                </p>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <h4 style="color: #444444" class="text-end">
+                    <span translate="resources.staff-staffdetails-packagedetails-label-nettpay"></span>
+                    <b> {{packagedetails.nettPay|number:'1.2-2'}}</b>
+                </h4>
+            </lib-form-panel>
+        </div>
+    </div>
+
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'"
+            (smClick)="save(packagedetails, frm)" [smDisabled]="enableSaveButton" [smIcon]="'fa fa-save'"
+            [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+
+</form>

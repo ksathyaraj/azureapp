@@ -1,0 +1,174 @@
+<div class="modal-header clearfix d-block">
+  <h3 class="modal-title pull-left">
+    <span
+      translate="resources.finance-invoicerequiredinfomodal-pageheading-requiredinformation"
+    ></span>
+    - {{ modalTitle }}
+  </h3>
+  <lib-button
+    [smType]="'button'"
+    (smClick)="cancel()"
+    [smClass]="'btn btn-danger btn-xs pull-right close'"
+    [smIcon]="'fa fa-close'"
+  />
+</div>
+
+<form
+  (submit)="ok(requiredInfoForm)"
+  class="form-horizontal"
+  #requiredInfoForm = "ngForm"
+  novalidate
+>
+  <div class="modal-body">
+    <!--Customer-->
+    <div
+      *ngIf="contactRelationshipType === contactRelationshipTypes.customer"
+    >
+      <div class="row">
+          <lib-select-input
+            [smLabel]="
+              'resources.finance-invoicerequiredinfomodal-label-selectcustomer'
+            "
+            [smLabelClass]="'col-md-4'"
+            [smName]="'customer'"
+            [(smModel)]="contact"
+            (smModelChange)="customerChange(contact.key)"
+            [smRequired]="true"
+            [smOptionDisplayField]="'value'"
+            [smOptions]="customers"
+          />
+      </div>
+      <div class="row">
+        <lib-select-input
+          [smLabel]="
+            'resources.finance-invoicerequiredinfomodal-label-selectinvoice'
+          "
+          [smLabelClass]="'col-md-4'"
+          [smName]="'customerInvoice'"
+          [(smModel)]="customerInvoice"
+          [smRequired]="true"
+          [smOptionDisplayField]="'formattedInvoiceNumber'"
+          [smOptions]="customerInvoices"
+        />
+      </div>
+      <hr style="size: 1px" />
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right">
+            <strong>
+              <span
+                translate="resources.finance-invoicerequiredinfomodal-label-details"
+              ></span>
+            </strong>
+          </label>
+          <label class="col-md-4 text-left">
+            <span
+              translate="resources.finance-invoicerequiredinfomodal-label-totalpaymentsmade"
+            ></span>
+          </label>
+          <label class="control-label col-md-4">{{
+            customerInvoice?.reportingTotalPaid | number : "1.2"
+          }}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label class="col-md-4"></label>
+          <label class="col-md-4 text-left">
+            <span
+              translate="resources.finance-invoicerequiredinfomodal-label-balanceowing"
+            ></span>
+          </label>
+          <label class="control-label col-md-4">{{
+            customerInvoice?.reportingTotalOutstanding | number : "1.2"
+          }}</label>
+        </div>
+      </div>
+    </div>
+    <!--Suppiers-->
+    <div
+      *ngIf="contactRelationshipType === contactRelationshipTypes.supplier"
+    >
+      <div class="row">
+        <lib-select-input
+          [smLabel]="
+            'resources.finance-invoicerequiredinfomodal-label-selectsupplier'
+          "
+          [smLabelClass]="'col-md-4'"
+          [smName]="'supplier'"
+          [(smModel)]="supplier"
+          (smModelChange)="supplierChange(supplier.key)"
+          [smPlaceholder]="''"
+          [smRequired]="true"
+          [smOptionDisplayField]="'value'"
+          [smOptions]="suppliers"
+        />
+      </div>
+      <div class="row">
+        <lib-select-input
+          [smLabel]="
+            'resources.finance-invoicerequiredinfomodal-label-selectinvoice'
+          "
+          [smLabelClass]="'col-md-4'"
+          [smName]="'supplierInvoice'"
+          [(smModel)]="supplierInvoice"
+          [smRequired]="true"
+          [smOptionDisplayField]="'supplierInvoiceNumber'"
+          [smOptions]="supplierInvoices"
+        />
+      </div>
+      <hr style="size: 1px" />
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label class="col-md-4 text-right">
+            <strong>
+              <span
+                translate="resources.finance-invoicerequiredinfomodal-label-details"
+              ></span>
+            </strong>
+          </label>
+          <label class="col-md-4 text-left">
+            <span
+              translate="resources.finance-invoicerequiredinfomodal-label-totalpaymentsmade"
+            ></span>
+          </label>
+          <label class="control-label col-md-4">{{
+            supplierInvoice?.paymentsTotal | number : "1.2"
+          }}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-12">
+          <label class="col-md-4"></label>
+          <label class="col-md-4 text-left">
+            <span
+              translate="resources.finance-invoicerequiredinfomodal-label-balanceowing"
+            ></span>
+          </label>
+          <label class="control-label col-md-4">{{
+            supplierInvoice?.balanceOwing | number : "1.2"
+          }}</label>
+        </div>
+      </div>
+    </div>
+    <br />
+  </div>
+  <div class="modal-footer">
+    <div class="button-bar button-bar-modal">
+      <lib-button
+        [smLabel]="'resources.modal-buttons-cancel'"
+        [smType]="'button'"
+        (smClick)="cancel()"
+        [smIcon]="'fa fa-minus'"
+        [smClass]="'btn btn-primary'"
+      />
+      <lib-button
+        [smLabel]="'resources.common-buttons-save'"
+        [smType]="'submit'"
+        [smDisabled]="false"
+        [smIcon]="'fa fa-plus'"
+        [smClass]="'btn btn-success'"
+      />
+    </div>
+  </div>
+</form>

@@ -1,0 +1,116 @@
+<lib-title [title]="'resources.accountant-adjustments-add-panelheading-addadjustment'"></lib-title>
+<form class="form-horizontal" (submit)="save(frm)" #frm="ngForm"  novalidate>
+    <lib-form-panel [smLabel]="'resources.accountant-customledgeraccounts-add-panelheading-addcustomledgeraccount'">
+        <div class="row">
+            <div class="col-md-8">
+                <lib-date-picker [smLabel]="'resources.accountant-adjustments-add-label-date'" [smLabelClass]="'col-md-4'" [smName]="'reportingDate'" [smModel]="adjustment.reportingDate" [smPlaceholder]="datePlaceHolder" (smModelChange) ="reportingDate($event)" [smRequired]="true" [smDisabled]="false" [smShowWeeks]="false"></lib-date-picker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <lib-select-input [smLabel]="'resources.accountant-adjustments-add-label-debitledger'" [smLabelClass]="'col-md-4 control-label'" [smName]="'debitLedgerAccount'" [(smModel)]="adjustment.debitLedgerAccount"  [smOptionDisplayField]="'displayName'" [smOptions]="debitAdjustmentLedgerAccounts" (smModelChange)="accountChange(adjustment.debitLedgerAccount,true)" [smOptionValueField]="'id'" [smPlaceholder]="'resources.accountant-adjustments-add-debitledgerplaceholder' | translate" />
+                    </div>
+                    <div class="col-md-3">
+                        <lib-checkbox-input
+                             class="col-md-9"
+                            [smLabelClass]="'col-md-9'"
+                            [smShowPostInput]="true"
+                            [(smModel)]="showDebitLedgerAccountDetails"
+                            [smLabel]="'resources.accountant-adjustments-add-label-checkbox-debitledger'"
+                        ></lib-checkbox-input>
+                  </div>
+                </div>
+              
+            </div>
+        </div>
+
+        
+        <div class="row" *ngIf="showDebitLedgerAccountDetails !== null && showDebitLedgerAccountDetails">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <label class="col-md-8 text-left">
+                                 <span translate="resources.accountant-accountant-adjustments-add-label-reportingsubcategory" ></span>: {{debit?.debitLedgerAccount?.reportingSubCategory}}
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-8 text-left">
+                                <span translate="resources.accountant-accountant-adjustments-add-label-reportingcategory" ></span>: {{debit?.debitLedgerAccount?.reportingCategory}}
+                            </label> 
+                        </div>
+                        <div class="row">
+                            <label class="col-md-8 text-left">
+                                <span translate="resources.accountant-accountant-adjustments-add-label-accounttype" ></span>: {{debit?.debitLedgerAccount?.accountType}}
+                            </label> 
+                        </div>
+                  </div>
+                </div>
+            </div>
+           
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-8">
+                        <lib-select-input [smLabel]="'resources.accountant-adjustments-add-label-creditledger'" [smLabelClass]="'col-md-4 control-label'" [smName]="'creditLedgerAccount'" [(smModel)]="adjustment.creditLedgerAccount" [smOptionDisplayField]="'displayName'" [smOptions]="creditAdjustmentLedgerAccounts" (smModelChange)="accountChange(adjustment.creditLedgerAccount,false)" [smOptionValueField]="'id'" [smPlaceholder]="'resources.accountant-adjustments-add-creditledgerplaceholder' | translate" />
+                    </div>
+                    <div class="col-md-3">
+                        <lib-checkbox-input
+                             class="col-md-9"
+                            [smLabelClass]="'col-md-9'"
+                            [smShowPostInput]="true"
+                            [(smModel)]="showCreditLedgerAccountDetails"
+                            [smLabel]="'resources.accountant-adjustments-add-label-checkbox-creditledger'"
+                        ></lib-checkbox-input>
+                  </div>
+                </div>
+              
+            </div>
+        </div>
+
+        <div class="row" *ngIf="showCreditLedgerAccountDetails !== null && showCreditLedgerAccountDetails">
+                   <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                                   <div class="col-md-9">
+                        <div class="row">
+                            <label class="col-md-8 text-left">
+                                 <span translate="resources.accountant-accountant-adjustments-add-label-reportingsubcategory" ></span>: {{credit?.creditLedgerAccount?.reportingSubCategory}}
+                            </label>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-8 text-left">
+                                <span translate="resources.accountant-accountant-adjustments-add-label-reportingcategory" ></span>: {{credit?.creditLedgerAccount?.reportingCategory}}
+                            </label> 
+                        </div>
+                        <div class="row">
+                            <label class="col-md-8 text-left">
+                                <span translate="resources.accountant-accountant-adjustments-add-label-accounttype" ></span>: {{credit?.creditLedgerAccount?.accountType}}
+                            </label> 
+                        </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <lib-textarea-input [smLabel]="'resources.accountant-adjustments-tablecolumnheading-reference'" [smLabelClass]="'col-md-4 control-label'" [smName]="'reference'" [(smModel)]="adjustment.reference" [smMaxlength]="2000" [smRows]="4" [smRequired]="true" />
+            </div>
+         </div>
+        <div class="row">
+            <div class="col-md-8">
+                 <lib-text-input [smType]="'decimal'"  [smLabel]="'resources.accountant-adjustments-tablecolumnheading-amount'" [smLabelClass]="'col-md-4 control-label'" [smName]="'amount'" [(smModel)]="adjustment.amount"/>
+            </div>
+         </div>
+    </lib-form-panel>
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smDisabled]="saveButton" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

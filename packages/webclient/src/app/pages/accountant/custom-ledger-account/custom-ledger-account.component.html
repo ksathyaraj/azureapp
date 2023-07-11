@@ -1,0 +1,20 @@
+<lib-title [title]="'resources.accountant-customledgeraccounts-add-heading'"></lib-title>
+<form class="form-horizontal" (submit)="save(frm)" #frm="ngForm"  novalidate>
+    <lib-form-panel [smLabel]="'resources.accountant-customledgeraccounts-add-panelheading-addcustomledgeraccount'">
+        <div class="row">
+            <div class="col-md-8">
+                <lib-text-input [smLabel]="'resources.accountant-customledgeraccounts-add-label-displayname'" [smLabelClass]="'col-md-4 control-label'" [smName]="'displayName'" [smType]="'text'" [(smModel)]="customLedgerAccount.displayName" [smMaxlength]="200" [smRequired]="true"/>
+                <lib-select-input [smLabel]="'resources.accountant-customledgeraccounts-add-label-accounttype'" [smLabelClass]="'col-md-4 control-label'" [smName]="'accountType'" [(smModel)]="selectedAccountType"  [smRequired]="true" (smModelChange)="accountTypeChange()" [smOptionDisplayField]="'description'" [smOptions]="customLedgerAccount?.accountTypeViewModels" [smOptionValueField]="'id'" [smPlaceholder]="'resources.accountant-customledgeraccounts-add-accounttype-placeholder' | translate"/>
+                <lib-select-input [smLabel]="'resources.accountant-customledgeraccounts-tablecolumnheading-reportingcategory'" [smLabelClass]="'col-md-4 control-label'" [smName]="'reportingCategory'" [(smModel)]="selectedReportingCategory"   (smModelChange)="reportingCategoryChange()" [smRequired]="true" [smOptionDisplayField]="'description'" [smOptions]="reportingCategory" [smOptionValueField]="'id'" [smPlaceholder]="'resources.accountant-customledgeraccounts-add-reportingcategory-placeholder' | translate" />
+                <lib-select-input [smLabel]="'resources.accountant-customledgeraccounts-tablecolumnheading-reportingsubcategory'" [smLabelClass]="'col-md-4 control-label'" [smName]="'reportingSubCategory'" [(smModel)]="selectedReportingSubCategory"  [smRequired]="true" [smOptionDisplayField]="'description'" [smOptions]="subCategory" [smOptionValueField]="'id'" [smPlaceholder]="'resources.accountant-customledgeraccounts-add-reportingsubcategory-placeholder' | translate"/>
+            </div>
+        </div>
+    </lib-form-panel>
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smDisabled]="saveButton" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>
+
+
+

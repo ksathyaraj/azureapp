@@ -1,0 +1,23 @@
+<div class="pull-right mt-4">
+    <lib-link 
+    [url]="supportVideoBaseUrl"
+    [translate]="'resources.common-buttons-helpvideo'"
+    [linkName]="'Help Video'"
+    >
+    </lib-link>
+</div>
+<div class="mt-5">
+    <lib-page-tab-bar [tabData]="tabData"> </lib-page-tab-bar>
+</div>
+<form class="form-horizontal" #frmcompanyprofile="ngForm" novalidate>
+    <lib-form-panel [smLabel]="'resources.settings-companyprofile-tabheading-bankingdetails-panelheading-bankingdetails'">
+        <div class=" form-group d-flex flex-row-reverse">
+            <i class="fa fa-question-circle fa-lg pull-right" (click)="showInfo()" title="{{'resources.common-buttons-info-title' | translate }}"></i>
+        </div>
+        <div class="button-bar">
+            <lib-button  [smLabel]="'resources.common-buttons-addnew'" [smType]="'button'" 
+        [smClass]="'btn btn-secondary'" [smIcon]="'fa fa-plus'" (smClick)="handleAddButtonClick($event)"/>
+        </div>
+        <lib-table [tableColumns]="bankingDetailsColumns" [showTitleBar]="false" [deleteModalWithData]="'accountName'" [api]="api" (smHandleUpdateButtonClick)="handleUpdateButtonClick($event)" [resourceMessages]="resourceMessages"></lib-table>
+    </lib-form-panel>
+</form>

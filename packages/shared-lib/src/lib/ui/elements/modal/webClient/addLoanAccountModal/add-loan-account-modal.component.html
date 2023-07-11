@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left">
+        <i class="fa fa-plus"></i>
+        <span class="nameSpace" translate="resources.finance-ownersmoney-heading-loanaccount"></span>
+    </h3>
+    <lib-button [smType]="'button'" (smClick)="closeModal()" [smClass]="'btn btn-close pull-right'" />
+</div>
+
+<form class="form-horizontal" #frm="ngForm" novalidate>
+    <div class="modal-body">
+        <div class="row">
+            <lib-text-input [smLabel]="'resources.finance-ownersmoney-label-loanaccountname'"
+                [smLabelClass]="'col-md-4'" [smName]="'loanAccountName'" [smType]="'text'" [(smModel)]="loanAccountName"
+                [smMaxlength]="50" [smRequired]="true" />
+        </div>
+        <br /><br />
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar button-bar-modal">
+            <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" (smClick)="closeModal()"
+                [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary'" />
+            <lib-button [smLabel]="'resources.modal-buttons-ok'" [smType]="'submit'" (smClick)="passBack(frm)"
+                [smIcon]="'fa fa-check'" [smClass]="'btn btn-secondary'" />
+        </div>
+    </div>
+</form>

@@ -1,0 +1,30 @@
+<div class="pull-right">
+    <lib-link *ngIf="helpLinkURL" [linkName]="'Help Video'" [translate]="'resources.common-buttons-helpvideo'" [url]="helpLinkURL" [target]="'_blank'"/>
+    
+    <lib-button *ngIf="emailButton" [smLabel]="emailText" [smType]="'button'" 
+    [smClass]="'btn  btn-default btnSecondaryAction'" [smIcon]="'fa fa-envelope-o'" (smClick)="handleClickEvent($event, buttonTypes.Email)"/>
+
+    <lib-button *ngIf="requestGLButton || requestReportButton" [smLabel]="requestGLText" [smType]="'button'" 
+    [smClass]="'btn btn-secondary'" [smIcon]="'fa fa-cloud-upload'" (smClick)="handleClickEvent($event, buttonTypes.RequestGL)"/>
+
+    <lib-button *ngIf="pdfButton" [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'" 
+    [smClass]="'btn btn-pdf btnSecondaryAction'" [smIcon]="'fa fa-file-pdf-o'" (smClick)="handleClickEvent($event, buttonTypes.PDF)"/>
+    
+    <lib-button *ngIf="exportButton" [smLabel]="exportText" [smType]="'button'" 
+    [smClass]="'btn btn-default btnSecondaryAction'" [smIcon]="'fa fa-file-excel-o'" (smClick)="handleClickEvent($event, buttonTypes.Export)"/>
+    
+    <lib-button *ngIf="refreshButton" [smLabel]="refreshMessage" [smType]="'button'" 
+    [smClass]="'btn btn-primary'" [smIcon]="'fa fa-refresh'" (smClick)="handleClickEvent($event, buttonTypes.Refresh)"/>
+
+    <lib-button *ngIf="downloadButton" [smLabel]="downloadText" [smType]="'button'" 
+    [smClass]="'btn btn-secondary'" [smIcon]="'fa fa-download'" (smClick)="handleClickEvent($event, buttonTypes.Download)"/>
+    
+    <lib-button *ngIf="usageReportButton" [smLabel]="usageReportText" [smType]="'button'" 
+    [smClass]="'btn btn-secondary'" [smIcon]="'fa fa-download'" (smClick)="handleClickEvent($event, buttonTypes.UsageReport)"/>
+
+    <lib-button *ngIf="detailReportButton" [smLabel]="detailedReportText" [smType]="'button'" 
+    [smClass]="'btn btn-secondary'" [smIcon]="'fa fa-download'" (smClick)="handleClickEvent($event, buttonTypes.DetailedReport)"/>
+    
+    <lib-button *ngIf="addNewButton" [smLabel]="addNewText" [smType]="'button'" 
+    [smClass]="'btn btn-secondary'" [smIcon]="'fa fa-plus'" (smClick)="handleClickEvent($event, buttonTypes.Add)"/>
+  </div>

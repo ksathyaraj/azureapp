@@ -1,0 +1,43 @@
+<div class="pull-right mt-4">
+    <lib-link
+      [linkName]="'Help Video'"
+      [translate]="'resources.common-buttons-helpvideo'"
+      [url]="supportVideoBaseUrl"
+    />
+  </div>
+  <div class="mt-5"><lib-page-tab-bar [tabData]="tabData"> </lib-page-tab-bar></div>
+<form class="form-horizontal" (submit)="save(frmcompanyprofile)" #frmcompanyprofile="ngForm"  novalidate>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <lib-form-panel [smLabel]="'resources.settings-companyprofile-tabheading-prefixandstartingnumbersettings'">
+
+          <div class="col-md-12">
+              <i class="fa fa-question-circle fa-lg pull-right" (click)="showInfo()" title="{{'resources.common-buttons-info-title' | translate }}"></i>
+          </div>
+          <div  class="col-lg-7">
+          <lib-title [title]="'resources.settings-companyprofile-labelheading-quote'">
+          </lib-title>
+          <lib-text-input [smLabel]="'resources.settings-companyprofile-label-prefix'" [smLabelClass]="'col-md-4 control-label'" [smName]="'quotePrefix'" [smType]="'text'" [(smModel)]="prefixInformation.quotePrefix" [smRequired]="true" />
+          <lib-text-input [smLabel]="'resources.prefixandstartingnumbersettings-controller-title-numbersettings'" [smLabelClass]="'col-md-4 control-label'" [smName]="'quoteNumber'" [smType]="'text'" [(smModel)]="prefixInformation.quoteNumber" [smDisabled]="true" />
+          <lib-title [title]="'resources.settings-companyprofile-labelheading-invoice'">
+          </lib-title>
+          <lib-text-input [smLabel]="'resources.settings-companyprofile-label-prefix'" [smLabelClass]="'col-md-4 control-label'" [smName]="'invoicePrefix'" [smType]="'text'" [(smModel)]="prefixInformation.invoicePrefix" [smRequired]="true" />
+          <lib-text-input [smLabel]="'resources.prefixandstartingnumbersettings-controller-title-numbersettings'" [smLabelClass]="'col-md-4 control-label'" [smName]="'invoiceNumber'" [smType]="'text'" [(smModel)]="prefixInformation.invoiceNumber" [smDisabled]="true" />
+          <lib-title [title]="'resources.settings-companyprofile-labelheading-creditnote'">
+          </lib-title>
+          <lib-text-input [smLabel]="'resources.settings-companyprofile-label-prefix'" [smLabelClass]="'col-md-4 control-label'" [smName]="'creditNotePrefix'" [smType]="'text'" [(smModel)]="prefixInformation.creditNotePrefix" [smRequired]="true" />
+          <lib-text-input [smLabel]="'resources.prefixandstartingnumbersettings-controller-title-numbersettings'" [smLabelClass]="'col-md-4 control-label'" [smName]="'creditNoteNumber'" [smType]="'text'" [(smModel)]="prefixInformation.creditNoteNumber" [smDisabled]="true" />
+          <lib-title [title]="'resources.settings-companyprofile-labelheading-project'">
+          </lib-title>
+          <lib-text-input [smLabel]="'resources.settings-companyprofile-label-prefix'" [smLabelClass]="'col-md-4 control-label'" [smName]="'projectPrefix'" [smType]="'text'" [(smModel)]="prefixInformation.projectPrefix" [smRequired]="true" />
+          <lib-text-input [smLabel]="'resources.prefixandstartingnumbersettings-controller-title-numbersettings'" [smLabelClass]="'col-md-4 control-label'" [smName]="'projectNumber'" [smType]="'text'" [(smModel)]="prefixInformation.projectNumber" [smDisabled]="true" />
+        </div>
+          <div class="form-group">
+              <div class="col-sm-12 button-bar">
+                  <lib-validation-message></lib-validation-message>
+                  <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smIcon]="'fa fa-save'"  [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+              </div>
+          </div>
+        
+        </lib-form-panel>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left"><i class="fa fa-file-pdf-o"></i> 
+        <span class="nameSpace" [translate]="modalInstance.reportName">  </span>
+    </h3>
+    <lib-button
+    [smType]="'button'"
+    [smClass]="'btn-close pull-right'"
+    (smClick)="passBack()"
+    ></lib-button>
+    <!-- <button type="submit" class="close pull-right" ng-click="vm.ok()">&times;</button> -->
+</div>
+<div class="modal-body">
+    <!-- <div *ngIf="true" class="d-flex flex-column align-items-center justify-content-center">
+        <div style="height: 400px;" class="d-flex justify-content-center"  >
+            <div class="sm-spinner text-center">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div> -->
+    <lib-pdf-report [iframesrc]="modalInstance.pdfUrl"></lib-pdf-report>
+</div>
+

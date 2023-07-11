@@ -1,0 +1,216 @@
+<form class="form-horizontal" novalidate #frm="ngForm">
+    <div class="row">
+        <div class="col-md-6 marginTop2">
+            <h3 *ngIf="isNew">
+                <span translate="resources.staff-payslips-addpayslipdetails-pageheading-addpayslipdetails"></span>
+            </h3>
+            <h3 *ngIf="isView">
+                <span translate="resources.staff-payslips-viewpayslipdetails-pageheading-viewpayslipdetails"></span>
+            </h3>
+        </div>
+        <div class="col-md-6 button-bar marginTop2">
+            <lib-link [linkName]="'Help Video'" [url]="supportVideoBaseUrl" target="_blank"></lib-link>
+            <lib-button *ngIf="isView" [smLabel]="'resources.common-buttons-pdf'" (smClick)="print(payslipId)"
+                [smIcon]="'fa fa-file-pdf-o'" [smClass]="'btn btn-pdf'" />
+            <lib-button *ngIf="isView"   [smLabel]="'resources.common-buttons-email'" (smClick)="emailPayslip(payslipId)"
+                 [smIcon]="'fa fa-envelope-o'" [smClass]="'btn btn-email'" />
+        </div>
+    </div>
+    <lib-form-panel *ngIf="isNew"  [smHeadingFont]="'15px'" [smLabel]="'resources.staff-payslips-tablecolumnheading-staffmember'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.staff-payslips-tablecolumnheading-staffmember'"
+                    [smLabelClass]="'col-md-4'" [smName]="'selectedstaffId'" [(smModel)]="selectedStaffId"
+                    (smModelChange)="onStaffChanged(selectedStaffId)" [smRequired]="true"
+                    [smOptionDisplayField]="'value'" [smOptions]="staffMembers" [smOptionValueField]="'key'"
+                    [smPlaceholder]="'Please Select'" />
+            </div>
+        </div>
+    </lib-form-panel>
+    <lib-form-panel  [smHeadingFont]="'15px'" [smLabel]="'resources.staff-payslips-viewpayslipdetails-panelheading-employeedetails'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-static-text [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-employeename'"
+                    [smLabelClass]="'col-md-4'" [smModel]="staff?.fullName" />
+                <lib-static-text [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-employeeidnumber'"
+                    [smLabelClass]="'col-md-4'" [smModel]="staff?.idNumber" />
+                <lib-static-text [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-employeetaxnumber'"
+                    [smLabelClass]="'col-md-4'" [smModel]="staff?.taxNumber" />
+            </div>
+            <div class="col-md-6">
+                <lib-static-text [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-employeenumber'"
+                    [smLabelClass]="'col-md-4'" [smModel]="staff?.employeeNumber" />
+                <lib-static-text [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-occupation'"
+                    [smLabelClass]="'col-md-4'" [smModel]="staff?.occupation" />
+                <lib-static-text *ngIf="!isNew" [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-comments'"
+                        [smLabelClass]="'col-md-4'" [smModel]="staff?.comments" />
+                <lib-textarea-input *ngIf="isNew" [(smModel)]="payslip.comments" [smMaxlength]="200" [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-comments'" [smLabelClass]="'col-md-4'"  [smRows]="3"></lib-textarea-input>
+            </div>
+            
+        </div>
+    </lib-form-panel>
+    <lib-form-panel  [smHeadingFont]="'15px'" [smLabel]="'resources.staff-payslips-viewpayslipdetails-panelheading-payperiod'">
+        <div class="row">
+            <div class="col-md-5">
+                <lib-static-text  *ngIf="isView" [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-fromdate'"
+                    [smLabelClass]="'col-md-4'" [smModel]="payslip.payslipFrom|date:'dd MMM yyyy'" />
+                <lib-date-picker *ngIf="isNew" [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-fromdate'"
+                    [smLabelClass]="'col-md-3'" [smName]="'payslipFrom'" [(smModel)]="payslip.payslipFrom"
+                    [smRequired]="selectedStaffId!==''" [smPlaceholder]="'DD MMM YYYY e.g. 01 Jan 2023'"
+                    [smDisabled]="false" />
+            </div>
+            <div class="col-md-5">
+                <lib-static-text *ngIf="isView" [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-todate'"
+                    [smLabelClass]="'col-md-4'" [smModel]="payslip.payslipTo|date:'dd MMM yyyy'" />
+                <lib-date-picker *ngIf="isNew" [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-todate'"
+                    [smLabelClass]="'col-md-3'" [smName]="'payslipTo'" [(smModel)]="payslip.payslipTo"
+                    [smRequired]="selectedStaffId!==''" [smPlaceholder]="'DD MMM YYYY e.g. 01 Jan 2023'"
+                    [smDisabled]="false" />
+                </div>
+        </div>
+    </lib-form-panel>
+    <lib-form-panel  [smHeadingFont]="'15px'" [smLabel]="'resources.staff-payslips-viewpayslipdetails-panelheading-mannerofpayment'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-static-text [smLabel]="'resources.staff-payslips-viewpayslipdetails-label-paypackagetype'"
+                    [smLabelClass]="'col-md-4'" [smModel]="payslip?.payPackageTypeName" [smStrong]="true"/>
+            </div>
+        </div>
+    </lib-form-panel>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel [smHeadingFont]="'15px'"
+                [smHeading]="'resources.staff-payslips-viewpayslipdetails-sectionheading-taxableincomereceived'" />
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <th
+                        [ngClass]="{'col-md-6' : payslip.showAllowanceHoursRateColumns, 'col-md-10' : !payslip.showAllowanceHoursRateColumns}">
+                        <span
+                            translate="resources.staff-payslips-viewpayslipdetails-taxableincomereceived-tablecolumnheading-category"></span>
+                    </th>
+                    <th class="col-md-2" *ngIf="payslip.showAllowanceHoursRateColumns">
+                        <span
+                            translate="resources.staff-payslips-viewpayslipdetails-taxableincomereceived-tablecolumnheading-hours"></span>
+                    </th>
+                    <th class="col-md-2" *ngIf="payslip.showAllowanceHoursRateColumns">
+                        <span
+                            translate="resources.staff-payslips-viewpayslipdetails-taxableincomereceived-tablecolumnheading-rate"></span>
+                    </th>
+                    <th class="col-md-2">
+                        <span
+                            translate="resources.staff-payslips-viewpayslipdetails-taxableincomereceived-tablecolumnheading-amount"></span>
+                    </th>
+                    <th *ngIf="isNew">
+                        <lib-button [smType]="'button'" (smClick)="addAllowanceItem()" [smIcon]="'fa fa-plus'"
+                            [smClass]="'btn btn-success btn-xs'" />
+                    </th>
+                </tr>
+                <tr *ngFor="let o of payslip.allowanceItems;index as index;">
+                    <td class="form-group"
+                        ngClass="{ 'has-error' : (frm.controls['allowanceHours' + index]?.invalid  && !frm.controls['allowanceHours' + index]?.pristine) || (frm.controls['allowanceRate' + index]?.invalid && !frm.controls['allowanceRate' + index]?.pristine)}">
+                        <a style="color: #2196f3; text-decoration: none;"
+                        (click)="editAllowanceItem(o)"  *ngIf="o.isCustomItem">{{o.description}}</a>                        
+                        <label *ngIf="o.isGeneratedItem || isView">{{o.description}}</label>
+                        <span class="help-block"
+                            *ngIf="(frm.controls['allowanceHours' + index]?.invalid && !frm.controls['allowanceHours' + index]?.pristine) || (frm.controls['allowanceRate' + index]?.invalid  && !frm.controls['allowanceRate' + index]?.pristine)">(<span
+                                translate="resources.common-validation-numericfieldrequired"></span>s)</span>
+                    </td>
+                    
+                    <td *ngIf="payslip.showAllowanceHoursRateColumns" class="form-group"
+                        [ngClass]="{ 'has-error' : frm.controls['allowanceHours' + index]?.invalid}">
+                        <lib-text-input *ngIf="isNew && o.isGeneratedItem" class="form-control input-sm text-right" [smName]="'allowanceHours{{index}}'" [(smModel)]="o.hours" (smModelChange)="calcGeneratedItemAmount(o)" [smRequired]="payslip.showAllowanceHoursRateColumns"></lib-text-input>
+                        <span *ngIf="isView" >{{o.hours|number:'1.2-2'}}</span>
+                    </td>
+                    <td *ngIf="payslip.showAllowanceHoursRateColumns" class="form-group"
+                        [ngClass]="{ 'has-error' : frm.controls['allowanceRate' + index]?.invalid}">
+                        <lib-text-input *ngIf="isNew && o.isGeneratedItem" class="form-control input-sm text-right" [smName]="'allowanceRate{{index}}'" [(smModel)]="o.rate" (smModelChange)="calcGeneratedItemAmount(o)" [smRequired]="payslip.showAllowanceHoursRateColumns"></lib-text-input>
+                        <span *ngIf="isView">{{o.rate|number:'1.2-2'}}</span>
+                    </td>
+                    <td class="text-right">{{o.amount|number:'1.2-2'}}</td>
+                    <td *ngIf="isNew">
+                        <lib-button *ngIf="o.isCustomItem" (smClick)="deleteAllowanceItem(o)" [smIcon]="'fa fa-close'"
+                            [smClass]="'btn btn-danger btn-xs'" />
+                    </td>
+                </tr>
+    
+            </table>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel [smHeadingFont]="'15px'"
+                [smHeading]="'resources.staff-payslips-viewpayslipdetails-sectionheading-deductionscontributions'" />
+            <table class="table table-hover table-condensed table-bordered">
+                <tr>
+                    <th class="col-md-10">
+                        <span
+                            translate="resources.staff-payslips-viewpayslipdetails-deductionscontributions-tablecolumnheading-category"></span>
+                    </th>
+                    <th class="col-md-2">
+                        <span
+                            translate="resources.staff-payslips-viewpayslipdetails-deductionscontributions-tablecolumnheading-amount"></span>
+                    </th>
+    
+                    <th *ngIf="isNew">
+                        <lib-button [smType]="'button'" (smClick)="addDeductionItem()" [smIcon]="'fa fa-plus'"
+                            [smClass]="'btn btn-success btn-xs'" />
+                    </th>
+                </tr>
+                <tr *ngFor="let o of payslip.deductionItems ; index as index;">
+                    <td class="form-group"
+                        [ngClass]="{ 'has-error' : frm.controls['deductionAmount' + index]?.invalid && !frm.controls['deductionAmount' + index]?.pristine}">
+                        <a style="color: #2196f3; text-decoration: none;"
+                        (click)="editDeductionItem(o)"  *ngIf="o.isCustomItem">{{o.description}}</a>                        
+                        <label *ngIf="o.isGeneratedItem || isView">{{o.description}}</label>
+                        <span class="help-block pull-right"
+                            *ngIf="!frm.controls['deductionAmount' + index]?.invalid && !frm.controls['deductionAmount' + index]?.pristine">
+                            <span translate="'resources.common-validation-numericfieldrequired'"></span>
+                        </span>
+                    </td>
+                    <td class="text-right form-group"
+                        [ngClass]="{ 'has-error' : frm.controls['deductionAmount' + index]?.invalid && !frm.controls['deductionAmount' + index]?.pristine}">
+                        <input name="deductionAmount{{index}}" *ngIf="isNew" class="form-control input-sm text-right" [(ngModel)]="o.amount" (ngModelChange)="calcTotals()" required />
+                        <span *ngIf="isView">{{o.amount|number:'1.2-2'}}</span>
+                    </td>
+                    <td *ngIf="isNew">
+                        <lib-button  *ngIf="o.isCustomItem" (smClick)="deleteDeductionItem(o)" [smIcon]="'fa fa-close'"
+                            [smClass]="'btn btn-danger btn-xs'" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <h4 class="text-right" style="color: #444444" >
+                    <span translate="resources.staff-payslips-viewpayslipdetails-label-grosspay"></span>
+                        <b> {{payslip.grossAmount|number:'1.2-2'}}</b>
+                </h4>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <h4 style="color: #444444" class="text-right">
+                    <span translate="resources.staff-payslips-viewpayslipdetails-label-totaldeductions"></span>
+                        <b> {{payslip.deductionAmount|number:'1.2-2'}}</b>
+                </h4>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <h4 style="color: #444444" class="text-right">
+                    <span translate="resources.staff-payslips-viewpayslipdetails-label-nettpay"></span>
+                    <b> {{payslip.nettAmount|number:'1.2-2'}}</b>
+                </h4>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div *ngIf="isNew" class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(payslip, frm)"
+            [smDisabled]="false" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

@@ -1,0 +1,11 @@
+<div class="form-group row">
+  <label class="control-label" [ngClass]="smLabelClass">
+      <span [translate]="smLabel"></span>
+  </label>
+  <div [ngClass]="elementClass">
+      <label class="form-control-static" [ngClass]="smElementClass">
+          <strong *ngIf="smStrong" [innerHtml]="(smType==='amount')? (smModel | number:'1.2-2'): smModel"></strong>
+          <span *ngIf="!smStrong"  [innerHtml]="(smType==='amount')? (smModel | number:'1.2-2'): smModel"></span>
+      </label>
+  </div>
+</div>

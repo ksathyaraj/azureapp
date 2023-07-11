@@ -1,0 +1,80 @@
+<div class="modal-header clearfix d-block">
+    <h3 class="modal-title pull-left">
+        <i class="fa fa-plus p-1"></i>
+        <span translate="resources.finance-openingbalancerequiredinfomodal-pageheading-requiredinformation"></span> - {{modalTitle}}
+    </h3>
+    <lib-button
+    [smType]="'button'"
+    (smClick)="cancel()"
+    [smClass]="'btn btn-danger btn-xs pull-right'"
+    [smIcon]="'fa fa-close'"
+  /></div>
+<form (submit)="ok(requiredInfoForm)" class="form-horizontal" #requiredInfoForm="ngForm" novalidate>
+    <div class="modal-body">
+        <!--Customer-->
+        <div *ngIf="contactRelationshipType === contactRelationshipTypes.customer">
+            <div class="row">
+                <lib-select-input [smLabel]="'resources.finance-openingbalancerequiredinfomodal-label-selectcustomer'" [smLabelClass]="'col-md-4'" [smName]="'customer'" [(smModel)]="contact" [smRequired]="true" [smOptionDisplayField]="'organisationName'" [smOptions]="customers" [smPlaceholder]="''" />
+            </div>
+            <hr style="size: 1px;" />
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-4 text-right">
+                        <strong>
+                            <span translate="resources.finance-openingbalancerequiredinfomodal-label-details"></span>
+                        </strong>
+                    </label>
+                    <label class="col-md-4 text-left">
+                        <span translate="resources.finance-openingbalancerequiredinfomodal-label-totalpaymentsmade"></span>
+                    </label>
+                    <label class="control-label col-md-4">{{contact?.paymentsReceived|number:'1.2'}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-4"></label>
+                    <label class="col-md-4 text-left">
+                        <span translate="resources.finance-openingbalancerequiredinfomodal-label-balanceowing"></span>
+                    </label>
+                    <label class="control-label col-md-4">{{contact?.balanceOwing|number:'1.2'}}</label>
+                </div>
+            </div>
+        </div>
+        <!--Suppiers-->
+        <div *ngIf="contactRelationshipType === contactRelationshipTypes.supplier">
+            <div class="row">
+                <lib-select-input [smLabel]="'resources.finance-openingbalancerequiredinfomodal-label-selectsupplier'" [smLabelClass]="'col-md-4'" [smName]="'supplier'" [(smModel)]="supplier" [smRequired]="true" [smOptionDisplayField]="'organisationName'" [smOptions]="suppliers" [smPlaceholder]="''"/>
+            </div>
+            <hr style="size: 1px;" />
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-4 text-right">
+                        <strong>
+                            <span translate="resources.finance-openingbalancerequiredinfomodal-label-details"></span>
+                        </strong>
+                    </label>
+                    <label class="col-md-4 text-left"><span translate="resources.finance-openingbalancerequiredinfomodal-label-totalpaymentsmade"></span></label>
+                    <label class="control-label col-md-4">{{supplier?.paymentsReceived|number:'1.2'}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-4"></label>
+                    <label class="col-md-4 text-left">
+                        <span translate="resources.finance-openingbalancerequiredinfomodal-label-balanceowing"></span>
+                    </label>
+                    <label class="control-label col-md-4">{{supplier?.balanceOwing|number:'1.2'}}</label>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar button-bar-modal">
+            <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" (smClick)="cancel()" [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary'" />
+            <!-- <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'"  [smDisabled]="requiredInfoForm['invalid']" [smIcon]="'fa fa-plus'" [smClass]="'btn btn-success'" /> -->
+            <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'"  [smIcon]="'fa fa-plus'" [smClass]="'btn btn-success'" />
+
+        </div>
+    </div>
+</form>

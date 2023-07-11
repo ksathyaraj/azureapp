@@ -1,0 +1,72 @@
+<div class="mt-5">
+    <lib-page-tab-bar [tabData]="tabData"> </lib-page-tab-bar>
+</div>
+
+<form class="form-horizontal" (submit)="save(frm)" #frm="ngForm" novalidate>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <lib-form-panel [smLabel]="'resources.settings-companyprofile-tabheading-currency'">
+
+            <div class="row">
+                <div class="col-md-12" style="margin-bottom: 10px;">
+                    <i class="fa fa-question-circle fa-lg pull-right" (click)="showInfo()"
+                        title="{{'resources.common-buttons-info-title' | translate }}"></i>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <lib-select-input *ngIf=" currencySettings && !currencySettings.companyHasCurrencySelected"
+                    [smLabel]="'resources.settings-currency-label-currency'" [smLabelClass]="'col-md-5  control-label'"
+                    [smName]="'selectedCurrency'" [(smModel)]="currencySettings.selectedCurrency"
+                    [smOptionDisplayField]="'description'" [smOptions]="currencySettings.companyCurrencies" />
+
+                <lib-text-input *ngIf=" currencySettings && currencySettings.companyHasCurrencySelected"
+                    [smLabel]="'resources.settings-currency-label-currency'" [smLabelClass]="'col-md-5'"
+                    [smType]="'text'" [smModel]="currencySettings.selectedCurrency.description"
+                    [smName]="'selectedCurrencyInput'" [smDisabled]="true"></lib-text-input>
+
+                <div class="form-group">
+                    <div class="row" *ngIf="currencySettings && currencySettings.selectedCurrency">
+                        <div class="col-md-5" style="margin: auto 0px;">
+                            <label class="control-label" style="float: right;">
+                                <span translate="resources.settings-currency-label-displayonpdf"></span>
+                            </label>
+                        </div>
+
+                        <div class="col-md-7">
+                            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                                <input type="radio" class="btn-check" name="btnradio" id="currencybtn1" [value]="1"
+                                    [(ngModel)]="currencyToShowOnPdfReports" autocomplete="off">
+
+                                <label class="btn btn-default" for="currencybtn1">
+                                    <span translate="resources.settings-currency-label-donotdisplay"></span>
+                                </label>
+
+                                <input type="radio" class="btn-check" name="btnradio" id="currencybtn2" [value]="2"
+                                    [(ngModel)]="currencyToShowOnPdfReports" autocomplete="off">
+                                <label class="btn btn-default" for="currencybtn2">
+                                    {{currencySettings.selectedCurrency.symbol}}</label>
+
+                                <input type="radio" class="btn-check" name="btnradio" id="currencybtn3" [value]="3"
+                                    [(ngModel)]="currencyToShowOnPdfReports" autocomplete="off">
+                                <label class="btn btn-default" for="currencybtn3">
+                                    {{currencySettings.selectedCurrency.code}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12 button-bar">
+                    <lib-validation-message></lib-validation-message>
+                    <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smIcon]="'fa fa-save'"
+                        [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+                </div>
+            </div>
+
+        </lib-form-panel>
+    </div>
+</form>

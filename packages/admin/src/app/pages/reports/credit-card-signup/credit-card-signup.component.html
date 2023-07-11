@@ -1,0 +1,97 @@
+<div>
+    <div class="row">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-title [title]="title"></lib-title>
+            </div>
+            <div class="col-md-6 mt-4">
+                <div class="pull-right">
+                    <lib-button [smLabel]="emailText" [smType]="'button'" [smClass]="'btn btn-email'"
+                        [smIcon]="'fa fa-envelope-o'" (smClick)="emailCreditCardReport()" [smDisabled]="pageData&&pageData.length>0?false:true" />
+                    <lib-button [smLabel]="refreshMessage" [smType]="'button'" [smClass]="'btn btn-primary'"
+                        [smIcon]="'fa fa-refresh'" (smClick)="refreshData()" />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="table-page">
+                <div class="row">
+                    <div class="card mt-2">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label>
+                                        <span>{{smLabel}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <select [name]="'search'" class="form-control" [(ngModel)]="companyStatus"
+                                        (ngModelChange)="refreshData()">
+                                        <option value="" selected>Please Select</option>
+                                        <option value="true">Active Companies</option>
+                                        <option value="false">Deactivated Companies</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div *ngIf="companyStatus==='true'" class="col-md-12">
+                            <lib-title [title]="activeCompanies"></lib-title>
+                        </div>
+                        <div *ngIf="companyStatus==='false'" class="col-md-12">
+                            <lib-title [title]="inactiveCompanies"></lib-title>
+                        </div>
+                    </div>
+                    <div *ngIf="pageData && pageData.length > 0; else noTableDataBlock">
+                        <table *ngIf="pageData && pageData.length > 0"
+                            class="table table-hover table-condensed table-bordered custom-table mt-2">
+                            <thead>
+                                <tr>
+                                    <th>Company Login Name</th>
+                                    <th>Client Name</th>
+                                    <th>Reseller/Affiliate</th>
+                                    <th>Date Reg</th>
+                                    <th>Previous Status</th>
+                                    <th>Current Status</th>
+                                    <th>Payment Method</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Cellphone No.</th>
+                                    <th>Landline No.</th>
+                                </tr>
+                            </thead>
+                            <tr *ngFor="let o of pageData">
+                                <td> {{o.companyLoginName}}</td>
+                                <td>{{o.clientName}}</td>
+                                <td>{{o.reseller}}</td>
+                                <td>{{o.registeredDate|date:'dd MMM yyyy'}}
+                                    <small>{{o.registeredDate|date:'HH:mm'}}</small></td>
+                                <td>{{o.previousStatus}}</td>
+                                <td>{{o.currentStatus}}</td>
+                                <td>{{o.paymentMethod}}</td>
+                                <td>{{o.userName}}</td>
+                                <td>{{o.email}}</td>
+                                <td>{{o.cellphone}}</td>
+                                <td>{{o.landline}}</td>
+                            </tr>
+                        </table>                
+                    </div>
+                    <ng-template #noTableDataBlock>
+                        <div class="card mt-2">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <h4>
+                                  <span class="no-data" translate={{noDataMsg}}></span>
+                                </h4>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left">
+        <i class="fa fa-plus"></i>
+        <span class="nameSpace"
+            translate="resources.staff-staffdetails-packagedetails-customdetailsforpayslip-deductionscontributions-add-heading-newcustomsalarypackageitem"></span>
+    </h3>
+    <lib-button [smType]="'button'" (smClick)="closeModal()" [smClass]="'btn btn-close pull-right'" />
+</div>
+<form class="form-horizontal" #frm="ngForm" novalidate>
+    <div class="modal-body">
+        <div>
+            <div class="row">
+                <lib-text-input
+                    [smLabel]="'resources.staff-staffdetails-packagedetails-customdetailsforpayslip-deductionscontributions-add-label-itemdescription'"
+                    [smLabelClass]="'col-md-4'" [smName]="'description'" [smType]="'text'"
+                    [(smModel)]="item.description" [smMaxlength]="50" [smRequired]="true" />
+            </div>
+            <div class="row">
+                <lib-text-input
+                    [smLabel]="'resources.staff-staffdetails-packagedetails-customdetailsforpayslip-deductionscontributions-add-label-amount'"
+                    [smLabelClass]="'col-md-4'" [smMaxlength]="50" [smName]="'amount'" [smType]="'decimal'"
+                    [smRequired]="false" [(smModel)]="item.amount"  />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar button-bar-modal">
+            <lib-button [smLabel]="'resources.modal-buttons-ok'" [smType]="'submit'" (smClick)="passBack(frm)"
+                [smIcon]="'fa fa-plus'" [smClass]="'btn btn-secondary'" />
+            <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" (smClick)="closeModal()"
+                [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary'" />
+        </div>
+    </div>
+</form>

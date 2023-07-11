@@ -1,0 +1,13 @@
+<lib-table 
+    [tableColumns]="quotesColumns" 
+    [api]="api" 
+    [title]="title" 
+    [exportButton]="exportButton"
+    [helpLinkURL]="helpLinkURL"
+    [resourceMessages]="resourceMessages"
+    [searchUIOptions]="searchUIOptions"
+    (smHandleAddButtonClick)="handleAddButtonClick($event)"
+    (smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+    [dateRangeDivClass]="'col-md-4'"
+    [searchInputDivClass]="'col-md-4'"
+    ></lib-table>

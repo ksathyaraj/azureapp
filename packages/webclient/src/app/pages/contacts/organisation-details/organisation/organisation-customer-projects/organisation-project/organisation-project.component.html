@@ -1,0 +1,15 @@
+<lib-title [title]="'resources.contacts-organisations-projects-panelheading-project'" />
+<form  #frm="ngForm"  class="form-horizontal" novalidate unsaved-warning-form>
+    <lib-form-panel [smLabel]="'Details'">
+        <div class="col-md-6"> 
+            <lib-static-text [smLabel]="'resources.contacts-organisations-projects-label-organisation'" [smLabelClass]="'col-md-4 control-label'" [smModel]="project?.company"/>
+            <lib-static-text [smLabel]="'resources.contacts-organisations-projects-label-projectnumber'" [smLabelClass]="'col-md-4 control-label'" [smModel]="project?.formattedProjectNumber"/>
+            <lib-text-input [smLabel]="'resources.contacts-organisations-projects-label-projectname'" [smLabelClass]="'col-md-4 control-label'" [smName]="'projectName'" [smType]="'text'" [(smModel)]="project.projectName" [smMaxlength]="50" [smRequired]="true" />
+            <lib-text-input [smLabel]="'resources.contacts-organisations-projects-label-projectdescription'" [smLabelClass]="'col-md-4 control-label'" [smName]="'description'" [smType]="'text'" [(smModel)]="project.description" [smMaxlength]="100" />
+        </div>    
+    </lib-form-panel>
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'button'" (smClick)="save(project, frm)" [smDisabled]="saveButton" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

@@ -1,0 +1,231 @@
+<div class="row">
+    <div class="col-md-4">
+        <img class="document-logo heightwidth100" [src]="'data:image/png;base64,'+companyProfileImage">
+    </div>
+    <div class="col-md-8 pull-right">
+        <label class="text-right col-md-12 document-header-info">{{companyProfile?.companyDisplayName}}</label>
+        <label class="text-right col-md-12 document-header-info" [innerHtml]="companyProfile?.htmlFormattedDisplayAddress"></label>
+    </div>
+</div>
+<div class="row">
+    <label class="control-label col-md-6 pull-left" style="text-align: left;" [hidden]="!showVat">
+        <strong>
+            <span translate="resources.finance-invoicing-creditnote-label-vatno"></span> {{companyProfile?.vatNumber}}
+        </strong>
+    </label>
+    <label class="control-label col-md-6 pull-right" style="text-align: right;">
+        <strong>{{companyProfile?.companyDisplayRegistrationNumber}}</strong>
+    </label>
+</div>
+<lib-form-panel [smHeading]="'resources.finance-invoicing-creditnote-panelheading-taxcreditnote'" />
+<form class="form-horizontal" novalidate #creditnoteForm="ngForm" >
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel class="'panel-creditnote-details-min-height'">
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-customer'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="contact?.companyName"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-postaladdress'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="contact?.invoiceAddress?.htmlFormattedFullAddress"/>
+            </lib-form-panel>
+        </div>
+  <div class="col-md-6">
+      <lib-form-panel class="'panel-creditnote-details-min-height'">
+        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-creditnote'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="creditNote!.formattedCreditNoteNumber"/>
+        <lib-date-picker [smLabel]="'resources.finance-invoicing-creditnote-label-date'" [smLabelClass]="'col-md-3'" [smName]="'createdDate'" [(smModel)]="creditNote!.dateIssued"  [smRequired]="true"/>
+        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-orderno'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="creditNote!.orderNumber"/>
+        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-vatno'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="creditNote!.vatNumber"/>
+        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-supplierno'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="creditNote!.supplierNumber"/>
+        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-project'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="project?.projectName"/>
+
+    </lib-form-panel>
+  </div>
+</div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel>
+                <div class="row">
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-attention'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="individualContact?.fullName"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-telephone'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="individualContact?.cellphone"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-email'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="individualContact?.emailAddress"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+        </div>
+    </div>
+ <div class="row">
+     <div class="col-md-12">
+        <table class="table table-hover table-condensed table-bordered ">
+             <thead>
+                    <tr>
+                        <th>
+                        </th>
+                        <th class="text-center col-md-6">
+                            <span translate="resources.finance-invoicing-creditnote-tablecolumnheading-description"></span>
+                        </th>
+                        <th class="text-center col-md-1">
+                            <span translate="resources.finance-invoicing-creditnote-tablecolumnheading-quantity"></span>
+                        </th>
+                        <th class="text-center col-md-1">
+                            <span translate="resources.finance-invoicing-creditnote-tablecolumnheading-unitprice"></span>
+                        </th>
+                        <th class="text-center col-md-1">
+                            <span translate="resources.finance-invoicing-creditnote-tablecolumnheading-amount"></span>
+                        </th>
+                        <th class="text-center col-md-1" [hidden]="!showVat">
+                            <span translate="resources.finance-invoicing-creditnote-tablecolumnheading-vat"></span>
+                        </th>
+                        <th class="text-center col-md-2">
+                            <span translate="resources.finance-invoicing-creditnote-tablecolumnheading-total"></span>
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr *ngFor="let item of creditNote?.invoiceOutItems; orderBy:'displayOrder'" style="background-color: lightgray">
+                        <td class="text-center" style="width: 50px;">
+                            <lib-button
+                                [smTitle]="'resources.common-buttons-delete-title'"
+                                [smType]="'button'"
+                                [smClass]="'btn btn-success btn-xs btnLineItemAction'"
+                                [smIcon]="'fa fa-plus'"
+                                (smClick)="addCreditNoteItem(item)"
+                                [smDisabled]="creditNoteId !== 0"
+                            />
+                        </td>
+                        <td>{{item?.description}}</td>
+                        <td class="text-right" style="width: 100px;">{{item?.quantity > 0 ? (item.quantity|number:'1.2-2') : item.displayQuantity}}</td>
+                        <td class="text-right">{{item?.unitPrice|number:'1.2-2'}}</td>
+                        <td class="text-right">{{item?.amount|number:'1.2-2'}}</td>
+                        <td class="text-right" [hidden]="!showVat">{{item?.vat|number:'1.2-2'}}</td>
+                        <td class="text-right">{{item?.total|number:'1.2-2'}}</td>
+                        <td></td>
+                    </tr>
+                    <tr *ngFor="let item of creditNote?.creditNoteItems; orderBy:'displayOrder'">
+                        <td></td>
+                        <td>{{item?.description}}</td>
+                        <td class="text-right" style="width: 100px;">
+                            {{(item?.quantity > 0 && item?.displayQuantity === "") || (item?.quantity === 0 && item?.displayQuantity === "") ? (item?.quantity|number:'1.2-2') : item?.displayQuantity}}
+                        </td>
+                        <td class="text-right">{{item?.unitPrice|number:'1.2-2'}}</td>
+                        <td class="text-right">{{item?.amount|number:'1.2-2'}}</td>
+                        <td class="text-right" [hidden]="!showVat">{{item?.vat|number:'1.2-2'}}</td>
+                        <td class="text-right">{{item?.total|number:'1.2-2'}}</td>
+                        <td class="text-center" style="width: 50px;">
+                            <lib-button
+                                [smTitle]="'resources.common-buttons-delete-title'"
+                                [smType]="'button'"
+                                [smClass]="'btn btn-danger btn-xs btnLineItemAction'"
+                                [smIcon]="'fa fa-close'"
+                                (smClick)="deleteItem(item,'')"
+                                [smDisabled]="creditNoteId !== 0"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td [attr.colspan]="showVat ? 6 : 5" style="padding-right: 20px;">
+                            <div class="pull-right form-inline">                                
+                                <div class="form-group" style="width: inherit !important;" show-errors>
+                                        <div name="items" [(ngModel)]="creditNote!.creditNoteItems[0]" [hidden]="true" required>
+                                        </div>
+                                     <label class="control-label">
+                                         <p class="red">
+                                             <span translate="resources.finance-invoicing-creditnote-label-warningmessage" [hidden]="warnmessage"></span>
+                                            </p>
+                                    </label> 
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+
+     </div>
+ </div>
+
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <lib-form-panel [smLabel]="'resources.finance-invoicing-creditnote-panelheading-summary'">
+                <div class="row">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-invoicing-creditnote-label-subtotal'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="creditNote!.subTotal"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-invoicing-creditnote-label-discount'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="creditNote!.totalDiscount"/>
+                    </div>
+                </div>
+                <div class="row" [hidden]="!showVat">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-invoicing-creditnote-label-vat'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="creditNote!.totalVat"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+            <div class="form-panel-footer">
+                <span class="pull-left">
+                    <strong>
+                        <span translate="resources.finance-invoicing-creditnote-panelfooter-total"></span>
+                    </strong>
+                </span>
+                <span class=" pull-right">
+                    <strong>{{creditNote.total|number:'1.2-2'}}</strong>
+                </span>
+                <span class="clearfix"></span>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+   <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-bankingaccount'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.accountName"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-bank'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.bankName"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-accname'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.accountName"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-accno'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.accountNo"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-acctype'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.accountType"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-branch'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.branch"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-code'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.branchCode"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-swiftcode'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="bankingDetail?.swiftCode"/>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-textarea-input [smLabel]="'resources.finance-invoicing-creditnote-label-comments'" [smLabelClass]="'control-label'" [smName]="'comments'" [(smModel)]="creditNote.comments" [smMaxlength]="2000" [smRows]="10"  [smDisabled]="creditNoteId !== 0"/>
+            </lib-form-panel>
+        </div>
+    </div>
+   <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel>
+                
+                <div class="row">
+                    <div class="col-md-5">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-tel'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="companyProfile?.officePhone"/>
+                    </div>
+                    <div class="col-md-3">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-email'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="companyProfile?.primaryContactEmail"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-website'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="companyProfile?.websiteUrl"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 button-bar">
+            <lib-validation-message></lib-validation-message>
+            <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(creditNote, creditnoteForm)" [smDisabled]="saveButton || creditNoteId!==0"[smIcon]="'fa fa-save'" [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+</form>

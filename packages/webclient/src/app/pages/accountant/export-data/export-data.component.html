@@ -1,0 +1,35 @@
+<div class="row clearfix d-flex mt-3">
+    <div class="col-md-11">
+        <lib-title [title]="'resources.accountant-exportdata-pageheading-exportdata'"></lib-title>
+    </div>
+    <div class="col heading-button-bar">
+        <lib-link [linkName]="'resources.common-buttons-helpvideo'"
+        [url]="supportVideoBaseUrl"></lib-link>
+    </div>
+</div>
+<form class="form-horizontal" novalidate  #frm="ngForm" >
+    <lib-form-panel>
+        <div class="row mb-2">
+            <div class = "col-md-7">
+                <lib-select-input [smPlaceholder]="'resources.accountant-exportdata-exporttypeplaceholder'" [smLabel]="'resources.accountant-exportdata-exportdata-label-exporttype'" [smLabelClass]="'col-md-3'" [smName]="'contact'" [(smModel)]="exportType" (smModelChange)="exportTypeDropdownChange()" [smRequired]="true" [smOptionDisplayField]="'value'" [smOptions]="exportTypes" />
+            </div>
+        </div>
+        <div class="row mt-3" *ngIf="exportType != ''">
+            <hr />
+            <div class="col-md-6">
+                <lib-date-picker [smShowWeeks]="false" [smPlaceholder]="placeHolderDate" [smLabel]="'resources.accountant-exportdata-exportdata-label-startdate'" [smLabelClass]="'col-md-4'" [smName]="'fromDate'" [(smModel)]="fromDate" [smDisabled]="false"/>
+            </div>
+            <div class="col-md-6">
+                <lib-date-picker [smShowWeeks]="false" [smPlaceholder]="placeHolderDate" [smLabel]="'resources.accountant-exportdata-exportdata-label-enddate'" [smLabelClass]="'col-md-4'" [smName]="'toDate'" [(smModel)]="toDate" [smDisabled]="false"/>
+            </div>
+        </div>
+        <div class="row" *ngIf="exportType != ''">
+            <div class="col-md-6" *ngIf="exportType != '' && exportType.key == exportTypesEnum.trialBalanceCsv">
+                <lib-checkbox-input [smLabel]="'resources.accountant-exportdata-exportdata-label-showallaccounts'" [smLabelClass]="'col-md-5'" [(smModel)]="showAllAccounts" />
+            </div>
+        </div>
+    </lib-form-panel>
+    <div class="button-bar">
+        <lib-button [smLabel]="'resources.common-buttons-download'" [smType]="'button'" (smClick)="download(frm)" [smIcon]="'fa fa-download'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

@@ -1,0 +1,35 @@
+<div class="form-group row">
+  <label class="control-label" [ngClass]="smLabelClass">
+      <span [translate]="smLabel"></span><span *ngIf="smRequired">*</span>
+  </label>
+  <div [ngClass]="elementClass">
+    <div class="input-group" [ngClass]="elementClass">
+      <input type="text"
+                [disabled]="smDisabled"
+                [placeholder]="smPlaceholder | translate"
+                class="form-control lib-date-picker"
+                [(ngModel)]="dateModel"
+                (ngModelChange)="handleModelChange($event)"
+                #dp="bsDatepicker"
+                [ngClass]="{'is-invalid': ngForm.form.controls[smName]?.errors?.['required'] && ngForm.form.controls[smName].touched}"
+                bsDatepicker
+                [name]="smName"
+                [bsConfig]="{ 
+                    showTodayButton: true, 
+                    todayPosition: 'left',
+                    showClearButton: true, 
+                    clearPosition: 'right',
+                    dateInputFormat: 'DD/MM/YYYY',
+                    showWeekNumbers: smShowWeeks,
+                  }"
+                [tabindex]="smTabindex"
+                [required]="smRequired"
+                [disabled]="smDisabled"
+                >
+      <lib-button [smClass]="'date-picker-btn btn btn-primary'" 
+                  [smIcon]="'fa fa-calendar-o'"
+                  (click)="dp.show()"
+                  [smDisabled]="smDisabled"/>
+    </div>
+  </div>
+</div>

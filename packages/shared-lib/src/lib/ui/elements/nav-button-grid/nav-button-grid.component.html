@@ -1,0 +1,24 @@
+<div class="row" [style]="{paddingTop:'56px'}">
+    <div class="col-md-4" *ngFor="let navButton of navButtonListTemp">
+        <div class="p-holder" *ngIf="!navButton.text || (!isAdminLogin && !isButtonSupported(navButton.buttonSupportName, navButton.conditionalRender))">
+            <a class="nav-button">
+                <div class="nav-grid-empty-item">
+                    <h4></h4>
+                    <p></p>
+                </div>
+            </a>
+        </div>
+        <a class="nav-button" [routerLink]="navButton.sref" *ngIf="navButton.sref && !isAdminLogin ? (navButton.buttonSupportName !== undefined && isButtonSupported(navButton.buttonSupportName, navButton.conditionalRender)) : navButton.sref">
+            <div class="nav-grid-item">
+                <h4>{{navButton.text | translate}}</h4>
+                <p *ngIf="navButton.subText">{{navButton.subText | translate}}</p>
+            </div>
+        </a>
+        <a class="nav-button" href="" target="_blank" *ngIf="navButton.href">
+            <div class="nav-grid-item">
+                <h4>{{navButton.text | translate}}</h4>
+                <p *ngIf="navButton.subText">{{navButton.subText | translate}}</p>
+            </div>
+        </a>
+    </div>
+</div>

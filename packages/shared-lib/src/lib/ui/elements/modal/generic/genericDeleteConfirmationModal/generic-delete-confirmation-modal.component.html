@@ -1,0 +1,31 @@
+<div class="modal-header danger">
+  <h3 class="modal-title pull-left">
+    <i class="fa fa-exclamation-triangle"></i>
+    <span class="nameSpace" translate="resources.common-modaltitle-deleteconfimation"></span>
+  </h3>
+  <lib-button
+    [smTitle]="'button'"
+    [smClass]="'btn btn-close pull-right'"
+    (smClick)="closeModal()"
+  />
+</div>
+<div class="modal-body">
+  <p [innerHTML]="confirmationMessage"></p>
+</div>
+<div class="modal-footer">
+  <div class="button-bar">
+    <lib-button
+      [smLabel]="'resources.common-button-no'"
+      [smType]="'button'"
+      [smClass]="'btn btnSecondaryAction btn-custom1'"
+      (smClick)="closeModal()"
+    />
+
+    <lib-button
+      [smLabel]="'resources.common-button-yes'"
+      [smType]="'button'"
+      [smClass]="'btn btn-danger btnPrimaryAction'"
+      (smClick)="passBack()"
+    />
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<!-- <div class="footer" ng-class="vm.isOnLoginScreen() ? 'footer-login' : ''"> -->
+<div class="footer" [ngClass]="{'footer-login':(url==='/login' || url==='/forgotpassword')}">
+  <p *ngIf="!isAdminSectionEnable" [style]="{color:(url==='/login' || url==='/forgotpassword')? 'var(--smeazy-copyright-color)' : ''}">
+    <!-- &copy; copyright SMEasy &trade; 2023&nbsp; -->
+    &copy; <span translate="resources.common-smeasyversion-label-copyright"></span> SMEasy&reg; {{year}}
+      <!-- &copy; COPYRIGHT SMEasy &trade; 2015 | Version: {{vm.version}}&nbsp;
+      <span ng-show="vm.hasVersionChanged" class="label label-danger">New Version Available. Please <a class="versionLabelHref" href="#" ng-click="vm.refreshApp()">Click Here</a> Or Press Ctrl + F5.&nbsp;</span>
+      <span data-ng-show="vm.showEnvDetails">
+          Environment: {{vm.environment}}, API endpoint: {{vm.endpoint}}
+      </span> -->
+  </p>
+  <p *ngIf="isAdminSectionEnable" [style]="{color:(url==='/login' || url==='/forgotpassword')? 'var(--smeazy-copyright-color)' : ''}">
+    &copy; COPYRIGHT SMEasy &trade; 2015 | Version: {{version}}&nbsp;
+    <span *ngIf="hasVersionChanged" class="label label-danger">New Version Available. Please <a class="versionLabelHref" href="#" (click)="refreshApp()">Click Here</a> Or Press Ctrl + F5.&nbsp;</span>
+    <span *ngIf="showEnvDetails">
+        Environment: {{environment}}, API endpoint: {{endpoint}}
+    </span>
+  </p>
+</div>

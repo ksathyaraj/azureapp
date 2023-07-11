@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left">
+        <i class="fa fa-plus"></i>
+        <span class="nameSpace" translate="resources.finance-invoicing-creditnote-pageheading-addcreditnote"></span>
+    </h3>
+ <lib-button
+    [smTitle]="'button'"
+    [smClass]="'btn btn-close pull-right'"
+    (smClick)="closeModal()"
+  />
+</div>
+
+<form class="form-horizontal"  #creditnoteForm="ngForm" novalidate>
+   <div class="modal-body">
+
+      <div class="row">
+            <div class="form-group">
+                <!-- <div class="col-md-12">
+                     <label class="control-label col-md-2">
+                        <span translate="resources.finance-invoicing-creditnote-label-invoicetocredit"></span>
+                        <span class="help-block" ng-if="creditnoteForm.customerInvoice.$error.required">
+                            <span translate="resources.common-validation-required"></span>
+                        </span>
+                    </label>
+                 </div> -->
+                 
+                 <div class="col-md-10">
+                    <lib-select-input
+                        [smLabel]="'resources.finance-invoicing-creditnote-label-invoicetocredit'"
+                        [smName]="'invoiceOutLookup'"
+                        (smModelChange)="invoiceChange($event)"
+                        [smOptionDisplayField]="'formattedInvoiceNumber'" 
+                        [smOptionValueField]="'id'" 
+                        [smRequired]="true" 
+                        [smOptions]="invoiceOptions"
+                        [smLabelClass]="'col-md-4 pull-left'"
+                        [smPlaceholder]="'resources.finance-accountdropdown-placeholder'"
+                        >
+                    </lib-select-input>
+                    </div>
+            </div>
+
+        <div [hidden]="!hideLabel">
+         <div class="form-group">
+                    <div class="container-fluid">
+                        <div class="col-md-12">
+                            <div class = "row">
+                                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-invoicenumber'" [smLabelClass]="'col-md-3'" [smStrong]="false" [smModel]="customerInvoice.formattedInvoiceNumber"/>
+                                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-totalamount'" [smLabelClass]="'col-md-3'" [smStrong]="false" [smModel]="customerInvoice.reportingTotal"/>
+                                <lib-static-text [smLabel]="'resources.finance-invoicing-creditnote-label-customer'" [smLabelClass]="'col-md-3'" [smStrong]="false" [smModel]="customerInvoice.customerName"/>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+<div class="modal-footer">
+    <div class="button-bar"> 
+        <lib-button
+      [smLabel]="'resources.modal-buttons-ok'"
+      [smType]="'submit'"
+      [smClass]="'btn btnSecondaryAction btn-success'"
+      (smClick)="passBack(form)"
+      [smIcon]="'fa fa-check'"
+      [smDisabled]="customerInvoice.reportingIsPaid || creditnoteForm.form.invalid"
+        />
+
+     <lib-button
+      [smLabel]="'resources.modal-buttons-cancel'"
+      [smType]="'button'"
+      [smClass]="'btn btnSecondaryAction btn-primary'"
+      (smClick)="closeModal()"
+      [smIcon]="'fa fa-minus'"
+    />
+    </div>
+    </div>
+</form>
+

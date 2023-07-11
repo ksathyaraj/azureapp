@@ -1,0 +1,13 @@
+<lib-table
+  [tableColumns]="auditingColumns"
+  [api]="api"
+  [title]="title"
+  [exportButton]="false"
+  [searchUIOptions]="searchUIOptions"
+  [resourceMessages]="resourceMessages"
+  [addNewButton]="false"
+  [dateFilter]="dateFilter"
+  (smHandleTableModal)="handleTableModal($event)"
+  [singleDateFilterDivClass]="'col-md-6'"
+  [searchInputDivClass]="'col-md-6'"
+></lib-table>

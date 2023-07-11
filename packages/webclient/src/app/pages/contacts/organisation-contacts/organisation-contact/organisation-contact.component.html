@@ -1,0 +1,63 @@
+<lib-title title="resources.contacts-organisations-contacts-pageheading-contact">
+</lib-title>
+<form class="form-horizontal" novalidate (submit)="save(contact, frm)" #frm="ngForm" >
+    <lib-form-panel [smLabel]="'resources.contacts-organisationcontacts-panelheading-detail'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.contacts-organisations-contacts-label-organisation'" [smLabelClass]="'col-sm-4 '" [smName]="'organisationId'" [(smModel)]="contact.organisationId" [smRequired]="true" [smDisabled]="!enableOrganisationSelect" [smOptionDisplayField]="'value'" [smOptions]="organisationContactCompanyNames" [smOptionValueField]="'key'" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-label-organisationcontactcode'" [smLabelClass]="'col-sm-4'" [smName]="'organisationContactCode'" [smType]="'text'" [(smModel)]="contact.organisationContactCode" tabindex="5" [smMaxlength]="10"  />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-label-department'" [smLabelClass]="'col-sm-4 '" [smName]="'department'" [smType]="'text'" [(smModel)]="contact.department" [smMaxlength]="50" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-label-title'" [smLabelClass]="'col-sm-4 '" [smName]="'title'" [smType]="'text'" [(smModel)]="contact.title" [smMaxlength]="50" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-tablecolumnheading-email'" [smLabelClass]="'col-sm-4 '" [smName]="'emailAddress'" [smType]="'email'" [(smModel)]="contact.emailAddress" [smMaxlength]="100" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-label-firstname'" [smLabelClass]="'col-sm-4 '" [smName]="'firstname'" [smType]="'text'" [(smModel)]="contact.firstName" [smMaxlength]="100" [smRequired]="true" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-tablecolumnheading-telephone'" [smLabelClass]="'col-sm-4 '" [smName]="'telephoneNumber'" [smType]="'text'" [(smModel)]="contact.telephoneNumber" [smMaxlength]="100" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-label-lastname'" [smLabelClass]="'col-sm-4 '" [smName]="'lastname'" [smType]="'text'" [(smModel)]="contact.lastName" [smMaxlength]="100" [smRequired]="true" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-tablecolumnheading-cellphone'" [smLabelClass]="'col-sm-4 '" [smName]="'cellphone'" [smType]="'text'" [(smModel)]="contact.cellphone" [smMaxlength]="50" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-contacts-label-position'" [smLabelClass]="'col-sm-4 '" [smName]="'position'" [smType]="'text'" [(smModel)]="contact.position" [smMaxlength]="50" />
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.contacts-organisations-contacts-tablecolumnheading-contacttype'" [smLabelClass]="'col-sm-4 '" [smName]="'individualContactType'" [(smModel)]="contact.individualContactType" [smRequired]="true" [smOptionDisplayField]="'value'" [smOptions]="individualContactTypes" [smOptionValueField]="'key'" />
+            </div>
+            <div class="col-md-6"></div>
+
+        </div>
+    </lib-form-panel>
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smDisabled]="saveButton" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

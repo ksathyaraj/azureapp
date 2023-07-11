@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs">
+  <li *ngFor="let dataValue of tabData" class="nav-item" > 
+    <a class="nav-link" [ngClass]="{'active':dataValue.isActive, 'disable-link': dataValue.smDisabled}" aria-current="page" [routerLink]="[dataValue.routerLink]" translate={{dataValue.header}} ></a>
+  </li></ul>

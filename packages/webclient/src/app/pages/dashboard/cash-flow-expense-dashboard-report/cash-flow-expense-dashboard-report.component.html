@@ -1,0 +1,62 @@
+<div [ngClass]="{'spin-me-round': showSpinner }">
+    <!-- <dashboard-form-panel panel-heading="Spending" refresh="filter(true)"> -->
+    <div class="card">
+        <div class="card-header">
+            Spending
+            <div class="pull-right">
+                <lib-button
+                    (smClick)="filter(true)" 
+                    [smClass]="'btn btn-primary btn-xs btnPrimaryAction'" 
+                    [smIcon]="'fa fa-refresh'">
+                </lib-button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <lib-date-picker [smLabel]="'resources.finance-quotes-quotes-fromdate'" [smName]="'fromDate'" [smModel]="fromDate"></lib-date-picker>
+                </div>
+                <div class="col-md-3">
+                    <lib-date-picker [smLabel]="'resources.finance-quotes-quotes-todate'" [smName]="'toDate'" [smModel]="toDate"></lib-date-picker>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+
+                        <lib-button
+                            (smClick)="filter(true)" 
+                            [smClass]="'btn btn-primary btn-lg btnPrimaryAction'" 
+                            [smIcon]="'fa fa-refresh'">
+                        </lib-button>
+                        <!-- <a class="btn btn-primary btnPrimaryAction" (click)="filter(true)"><i class="fa fa-refresh"></i></a> -->
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group pull-right margin0">
+                        <h3 class="text-primary" style="margin-top: 0; margin-bottom: 1px;">{{totalExpenseAmount | number:'1.2'}}</h3>total spending
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!hasData" class="row">
+                <div class="col-md-7">
+                    <div class="form-group pull-right margin0">
+                        <h3 style="margin-top: 0; margin-bottom: 1px;">No data available</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div style="display: block; height: 330px;">
+                        <canvas baseChart
+                                [datasets]="data"
+                                [options]="options"
+                                [labels]="labels"
+                                [type]="'doughnut'"
+                                ></canvas>
+                    </div>
+                </div>
+            </div>
+        <!-- </dashboard-form-panel> -->
+        </div>
+    </div>
+</div>
+

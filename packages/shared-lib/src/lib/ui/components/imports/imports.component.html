@@ -1,0 +1,316 @@
+<lib-title [title]="title"></lib-title>
+<div class="card" >
+  <div class="card-body">
+    <div class="wrapper-md" *ngIf="smCurrentPage !== 2">
+      <div class="button-bar">
+        <lib-link
+          [url]="templatefilepath"
+          [translate]="downloadexampletemplate"
+        ></lib-link>
+        <span *ngIf="lookupfilepath"> | </span>
+        <lib-link
+          *ngIf="lookupfilepath"
+          [url]="lookupfilepath"
+          [translate]="lookupDownloadexampletemplate"
+        ></lib-link>
+      </div>
+    </div>
+    <div class="accordion" id="accordionExample" *ngIf="smCurrentPage !== 2">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-controls="collapseOne"
+          >
+            <i class="fa fa-question-circle" aria-hidden="true"></i>
+            <span
+              class="button-margin heading"
+              translate="{{ panelheading }}"
+            ></span>
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-9">
+                    <span [innerHtml]="blockTemplate"></span>
+                  </div>
+                </div>
+              </li>
+              <li
+                class="list-group-item"
+                *ngFor="let dataValue of helpPanelData"
+              >
+                <div class="row">
+                  <div class="col-md-3">
+                    <span translate="{{ dataValue.header }}"></span>
+                  </div>
+                  <div class="col-md-9">
+                    <span translate="{{ dataValue.data }}"></span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="panel-footer">
+              <strong><span translate="{{ panelfooter }}"></span></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form #settingsForm="ngForm">
+      <div class="row mt-4">
+        <div class="col-md-8">
+          <div class="col-md-10" *ngIf="smCurrentPage === 0 || smCurrentPage === 2">
+            <i class="mt-2 fa fa-question-circle fa-lg pull-right" (click)="showInfo()" title="{{'resources.common-buttons-info-title' | translate }}"></i>
+
+            <lib-select-input
+              [smLabelClass]="'col-md-3'"
+              [smOptions]="smSelectOptions.bankAccounts"
+              [smRequired]="true"
+              [smLabel]="'resources.finance-bankaccounts-import-label-accountname'"
+              [smOptionDisplayField]="'displayAccountName'"
+              [(smModel)]="selectedAccount"
+              [smPlaceholder]="'Select account'"
+              [smName]="'accountName'"
+            ></lib-select-input>
+          </div>
+          <div class="col-md-10" [ngClass]="{ 'mt-2': smCurrentPage === 0 || smCurrentPage === 2}">
+            <div class="form-group row">
+              <label
+                class="control-label col-md-3"
+                *ngIf="smCurrentPage === 0 || smCurrentPage === 2"
+                translate="resources.finance-bankaccounts-import-label-importstatement"
+              ></label>
+              <label
+                class="control-label col-md-3"
+                *ngIf="smCurrentPage === 1"
+              ></label>
+              <div class="col-md-9">
+                <lib-file-input
+                  [accept]="'.csv'"
+                  (handleFileSelected)="onFileSelected($event)"
+                  [progress]="progress"
+                  [showProgressbar]="true"
+                  [type]="'file'"
+                  [uploaderFileName]="uploaderFileName"
+                ></lib-file-input>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-10" *ngIf="smCurrentPage === 0 || smCurrentPage === 2" [ngClass]="{ 'col-md-6': smCurrentPage === 2}">
+            <lib-text-input
+              [smLabel]="'resources.finance-bankaccounts-import-label-importname'"
+              [smRequired]="true"
+              [smType]="'text'"
+              [smModel]="selectedBankDetails.bankStatementName"
+              [smName]="'bankStatementName'"
+              [smMaxlength]="30"
+            ></lib-text-input>
+          </div>
+          <div class="row d-flex">
+          <div
+            class="col-md-10 mt-2"
+            *ngIf="smCurrentPage === 0 || smCurrentPage === 1"
+          >
+            <lib-select-input
+              [smLabelClass]="'col-md-3'"
+              [smOptions]="smSelectOptions.dateFormats"
+              [smRequired]="true"
+              [smLabel]="dateFormatLabel"
+              [smOptionDisplayField]="'dateFormat'"
+              [smOptionValueField]="'dateFormat'"
+              [(smModel)]="selectedDateFormat"
+              (smModelChange)="dateFormatChange()"
+              [smPlaceholder]="'Select format'"
+              [smName]="'dateFormat'"
+            ></lib-select-input>
+          </div>
+        </div>
+          <div class="form-group row mt-4" *ngIf="((smCurrentPage === -1 || smCurrentPage === 1) && tableData.length > 0) || (smCurrentPage === 0)">
+            <div class="row col-md-10" *ngIf="smCurrentPage === 0">
+              <div class="col-md-3"></div>
+              <div class="col-md-6">
+                <lib-checkbox-input
+                  [smLabelClass]="'col-md-10'"
+                  [smShowPostInput]="true"
+                  [(smModel)]="ignoreZeros"
+                  [smDisabled]="smCurrentPage !== 0 && tableData.length === 0 ? true : false"
+                  [smLabel]="'resources.settings-import-bankstatement-label-ignorezero'"
+                ></lib-checkbox-input>
+              </div>
+            </div>
+            <div class="row col-md-10">
+              <div class="col-md-3" *ngIf="smCurrentPage !== -1"></div>
+              <div class="col-md-6">
+                <lib-checkbox-input
+                  [smLabelClass]="'col-md-10'"
+                  [smShowPostInput]="true"
+                  [(smModel)]="firstRowIsHeader"
+                  (smModelChange)="firstRowHeaderChanged()"
+                  [smDisabled]="smCurrentPage !== 0 && tableData.length === 0 ? true : false"
+                  [smLabel]="'resources.settings-importdashboard-importfile-label-isthefirstrowaheader'"
+                ></lib-checkbox-input>
+              </div>
+            </div>
+            
+          </div>
+          <div class="row" *ngIf="smCurrentPage === 2">
+            <div class="row form-group mt-4">
+                <label class="col-md-6 control-label">
+                    <span translate="resources.finance-bankaccounts-imports-warningmessage"></span>
+                </label>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-success me-1" (click)="smOnYesNoClicked('yes')">
+                        <i class="fa fa-plus"></i>&nbsp;
+                        <span translate="resources.common-button-yes"></span>
+                    </button>
+                    <button type="button" class="btn btn-primary " (click)="smOnYesNoClicked('no')">
+                        <i class="fa fa-minus"></i>&nbsp;
+                        <span translate="resources.common-button-no"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br />
+            <div class="row col-md-12" *ngIf="selectedAccount.additionalInfo !=='' && smCurrentPage === 2">
+              <lib-form-panel>
+                <label class="col-md-12 text-start p-0">{{selectedAccount.additionalInfo}}</label>
+              </lib-form-panel>
+            </div>
+        </div>
+
+        <div class="col-md-4" *ngIf="smCurrentPage === 0 || smCurrentPage === 2">
+          <div class="col-md-12 mt-2">
+            <div class="col-md-12" *ngIf="smCurrentPage !== 2">
+              <lib-button
+                [smType]="'button'"
+                [smClass]="'btn btn-secondary'"
+                [smIcon]="'fa fa-plus'"
+                [smLabel]="'resources.finance-bankaccounts-import-add-new'"
+                (smClick)="handleAddNewClick()"
+              ></lib-button>
+            </div>
+            <div class="row" *ngIf="smCurrentPage !== 2"><br /><br /></div>
+            <div class="row">
+              <label class="col-md-6 text-start">
+                <span
+                  translate="resources.finance-bankaccounts-import-label-bank"
+                ></span>
+              </label>
+              <label class="col-md-6 text-start">{{
+                selectedAccount.bankName
+              }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-6 text-start">
+                <span
+                  translate="resources.finance-bankaccounts-import-label-accountnumber"
+                ></span>
+              </label>
+              <label class="col-md-6 text-start">{{
+                selectedAccount.accountNo
+              }}</label>
+            </div>
+            <div class="row">
+              <label class="col-md-6 text-start">
+                <span
+                  translate="resources.finance-bankaccounts-import-label-accounttype"
+                ></span>
+              </label>
+              <label class="col-md-6 text-start">{{
+                selectedAccount.accountType
+              }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="form-group row">
+      <div class="">
+        <lib-button
+          *ngIf="smCurrentPage !== 0 && tableData.length > 0"
+          [smType]="'button'"
+          [smClass]="'btn btn-primary pull-right btnPrimaryAction'"
+          (smClick)="save()"
+          [smIcon]="'fa fa-save'"
+          [smLabel]="saveText"
+        ></lib-button>
+        <lib-button
+          *ngIf="smCurrentPage === 0 && tableData.length > 0"
+          [smType]="'button'"
+          [smClass]="'btn btn-secondary pull-right'"
+          (smClick)="save()"
+          [smIcon]="'fa fa-cloud-upload'"
+          [smLabel]="'resources.common-button-import'"
+        ></lib-button>
+        <lib-button
+          *ngIf="smCurrentPage === 0 && tableData.length > 0"
+          [smType]="'button'"
+          [smClass]="'btn btn-secondary pull-right'"
+          (smClick)="save('allocate')"
+          [smIcon]="'fa fa-cloud-upload'"
+          [smLabel]="'resources.common-button-importandallocate'"
+        ></lib-button>
+        <lib-button
+          *ngIf="smCurrentPage === 0 || smCurrentPage === 1"
+          [smType]="'button'"
+          [smClass]="'btn btn-primary pull-right btnPrimaryAction'"
+          (smClick)="preview()"
+          [smIcon]="'fa fa-eye'"
+          [smLabel]="previewText"
+          [smDisabled]="!previewEnable"
+        ></lib-button>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-md-12" [ngClass]="{ 'col-md-8': hasErrors }">
+        <div style="overflow: auto">
+          <table
+            class="table table-hover table-condensed table-bordered"
+            *ngIf="tableData.length > 0"
+          >
+            <thead>
+              <tr class="tr-bold">
+                <th *ngFor="let disCol of tableColumns">
+                  <span>{{ disCol.header }}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dataValue of tableData">
+                <td *ngFor="let col of tableColumns">
+                  <span>{{ dataValue[col.columnDef] }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" *ngIf="hasErrors">
+        <span class="text-danger" [innerHtml]="errorMessages"></span>
+      </div>
+    </div>
+    <div class="pull-right" *ngIf="smCurrentPage !== 0 && tableData.length > 0">
+      <lib-button
+        [smType]="'button'"
+        [smClass]="'btn btn-primary btnPrimaryAction'"
+        (smClick)="save()"
+        [smIcon]="'fa fa-save'"
+        [smLabel]="saveText"
+      ></lib-button>
+    </div>
+  </div>
+</div>

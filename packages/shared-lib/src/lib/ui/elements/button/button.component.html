@@ -1,0 +1,13 @@
+<span title={{smTitle|translate}}>
+<button type={{smType}} 
+        class="{{ smClass }}"   
+        (click)="handleClickEvent($event)" 
+        [disabled]="smDisabled"
+        [tabindex]="smTabindex"
+        [hidden]="smHidden"
+        >
+  <i *ngIf="smIcon" [ngClass]="{'no-margin':!smLabel}" [class]="smIcon"></i>
+  <span [translate]="smLabel"></span>
+  <span *ngIf="smValue">{{smValue}}</span>
+</button>
+</span>

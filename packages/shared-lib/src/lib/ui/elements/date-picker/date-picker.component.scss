@@ -1,0 +1,51 @@
+.bs-datepicker-head {
+    background-color: var(--bs-primary) !important;
+}
+
+.bs-datepicker-body table td span{
+    border-radius: 0% !important;
+}
+
+.bs-datepicker-body table td span.selected {
+    background-color: var(--bs-primary) !important;
+}
+
+.bs-datepicker-container {
+    padding: 0px;
+}
+.bs-datepicker-buttons {
+    padding: 10px !important;
+}
+
+.bs-datepicker-buttons .btn {
+    --bs-btn-padding-y: 0.25rem  !important;
+    --bs-btn-padding-x: 0.5rem  !important;
+    --bs-btn-font-size: 0.875rem  !important;
+    --bs-btn-border-radius: 0.25rem  !important;
+
+    /* background-color: var(--bs-primary) !important; */
+    /* border: none; */
+}
+
+.bs-datepicker-buttons .btn-today-wrapper .btn {
+    background-color: var(--smeazy-datepicker-today-bg) !important;
+    color:  var(--smeazy-datepicker-color) !important;
+    border: 1px solid var(--smeazy-datepicker-today);
+}
+
+.bs-datepicker-buttons .btn-today-wrapper .btn {
+    background-color: var(--smeazy-btn-primary) !important;
+    color:  var(--smeazy-custom1-color) !important;
+    border: 1px solid var(--smeazy-btn-primary) !important;
+}
+.bs-datepicker-buttons .btn-clear-wrapper .btn {
+    background-color: var(--smeazy-custom1-bg) !important;
+    color:  var(--smeazy-custom1-color) !important;
+    border: 1px solid var(--smeazy-custom1-bg) !important;
+}
+
+.bs-datepicker-buttons .btn-clear-wrapper .btn {
+    background-color: var(--smeazy-custom1-bg) !important;
+    color:  var(--smeazy-custom1-color) !important;
+    border: 1px solid var(--smeazy-custom1-bg) !important;
+}

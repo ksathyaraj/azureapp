@@ -1,0 +1,138 @@
+<div style="padding-top:24px">
+    <form #frm="ngForm" novalidate>
+    <table class="table table-hover table-condensed table-bordered">
+        <thead>
+        <tr>
+            <th *ngIf="!itemEditMode && isFinalised()">
+            </th>
+            <th class="col-md-3 text-center">
+                <span translate="resources.finance-invoicing-customerinvoices-tablecolumnheading-description"></span>
+            </th>
+            <th class="col-md-1 text-center">
+                <span translate="resources.finance-invoicing-customerinvoices-tablecolumnheading-quantity"></span>
+            </th>
+            <th class="col-md-2 text-center">
+                <span translate="resources.finance-invoicing-customerinvoices-tablecolumnheading-unitprice"></span>
+            </th>
+            <th class="col-md-2 text-center" [hidden]="!vatInfo?.showVat">
+                Sub Total
+            </th>
+            <th class="col-md-2 text-center" [hidden]="!vatInfo?.showVat">
+                VAT
+            </th>
+            <th class="col-md-2 text-center">
+                Total
+            </th>
+            <th>
+            </th>
+        </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+            <tr cdkDrag [cdkDragDisabled]="editMode!==-1" cdkDragLockAxis="y" *ngFor="let item of filterItems(items); let idx = index" [attr.data-index]="idx">
+                <!-- --------------- - View MODE ------------------->
+
+                <!-- ALL -->
+                <td *ngIf=" !isDisabled()" cdkDragHandle ><i [ngStyle]="{color:(editMode!==-1)?'grey':'black'}" style="cursor: pointer;" class="handle fa fa-arrows"></i></td>
+                <!-- Enabled -->
+                <td *ngIf="!(editMode===idx) && !isDisabled()"><a class="description-pointer" (click)="edit(idx,item)" >{{item.description}}</a></td>
+                <!-- Enabled -->
+                <!-- Disabled -->
+                <td *ngIf="!(editMode===idx) && isDisabled()">{{item.description}}</td>
+                <!-- Disabled -->
+                <!-- ALL -->
+
+                <!--Discount or Interest Item-->
+                <td *ngIf="!(editMode===idx) && item.itemType !== 0" class="text-end">{{item.displayQuantity}}</td>
+                <!--Discount or Interest Item-->
+
+                <!--Sales Item-->
+                <td *ngIf="!(editMode===idx) && item.itemType === 0" class="text-end">{{item.quantity|number:'1.2-2'}}</td>
+                <!--Sales Item-->
+
+                <!-- ALL -->
+                <td *ngIf="!(editMode===idx)" class="text-end">{{item.unitPrice|number:'1.2-2'}}</td>
+                <td *ngIf="!(editMode===idx) && vatInfo.showVat" class="text-end">{{item.amount|number:'1.2-2'}}</td>
+                <td *ngIf="!(editMode===idx) && vatInfo.showVat" class="text-end">{{item.vat|number:'1.2-2'}}</td>
+                <td *ngIf="!(editMode===idx)" class="text-end">{{item.total|number:'1.2-2'}}</td>
+                <td *ngIf="!(editMode===idx)" class="text-center">
+                    <lib-button [smType]="'button'" (smClick)="delete(frm,item)" [smDisabled]="disabled!==undefined ? disabled : isDisabled()" [smIcon]="'fa fa-close'" [smClass]="'btn btn-danger btn-xs btnLineItemAction'" />
+                </td>
+                <!-- ALL -->
+
+
+                <!-- ------------------ EDIT MODE --------------- -->
+
+                <!--Sales Item-->
+                <td *ngIf="(editMode===idx) && item.itemType === 0">
+                    <lib-textarea-input [smName]="'description'" [smPlaceholder]="'search for price list items or type in your own'" [smMaxlength]="200" (smModelChange)="handleModalChange($event)" [smRows]="4" [(smModel)]="item.description" [smValues]="autoFillValues" [smRequired]="true"></lib-textarea-input>
+                    <i *ngIf="maxLength" class="fa fa-info-circle pull-right" style="color: red" title="To many characters"></i>
+                </td>
+                <td *ngIf="(editMode===idx) && item.itemType === 0">
+                    <lib-text-input [smName]="'quantity'" [(smModel)]="item.quantity" [smType]="'decimal'" (smModelChange)="calculateVat(item)" [smRequired]="true"></lib-text-input>
+                </td>
+                <!--Sales Item-->
+
+                <!--Discount or Interest Item-->
+                <td *ngIf="(editMode===idx)  && item.itemType !== 0">
+                    <lib-textarea-input [smName]="'description'" [smPlaceholder]="'description'" [smMaxlength]="200" [smRows]="4" [(smModel)]="item.description" [smRequired]="true"></lib-textarea-input>
+                </td>
+                <td *ngIf="(editMode===idx)  && item.itemType !== 0" class="text-end">{{item.displayQuantity}}</td>
+                <!--Discount or Interest Item-->
+
+                <!-- ALL -->
+                <td *ngIf="(editMode===idx)" class="text-end">
+                    <!-- Unit Price -->
+                    <lib-text-input [smName]="'exclusiveAmount'" [smType]="'decimal'" [(smModel)]="item.unitPrice" (smModelChange)="calculateVat(item)" [smRequired]="true"></lib-text-input>
+                </td>
+                <td *ngIf="(editMode===idx) && vatInfo.showVat" class="text-end">
+                    <!-- Total Excl. Vat -->
+                    {{item.amount|number:'1.2-2'}}
+                </td>
+                <!-- ALL -->
+
+                <!--Sales Item or Discount-->
+                <td *ngIf="(editMode===idx) && item.itemType !== 2 && vatInfo.showVat" class="text-end">
+
+                    <lib-select-input [smName]="'vatType'" *ngIf="item.itemType !== 2 && vatInfo.isVatRegistered" [(smModel)]="item.vatType" (ngModelChange)="calculateSummary(item)" [smOptions]="(item.itemType === 0)? vatOptionsManual : vatOptions" [smOptionDisplayField]="'display'" [smOptionValueField]="'value'"></lib-select-input>
+                    <lib-text-input [smName]="'vatAmount'" [smType]="'decimal'" [smDisabled]="item.vatType!=='MANUAL'" [(smModel)]="item.vat" (smModelChange)="calculateSummary(item)" [smRequired]="vatInfo.isVatRegistered"></lib-text-input>
+                </td>
+                <!--Sales Item or Discount-->
+
+
+                <!--Interest Item-->
+                <td *ngIf="(editMode===idx) && item.itemType === 2  && vatInfo.showVat"></td>
+                <!--Interest Item-->
+
+                <!-- ALL -->
+                <td *ngIf="(editMode===idx)" class="text-end">{{item.total|number:'1.2-2'}}</td>
+                <td *ngIf="(editMode===idx)" class="text-center">
+                    <lib-button [smType]="'submit'" (smClick)="save(item)" [smDisabled]="frm.form.invalid" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btn-xs btnLineItemAction'" />
+                    <lib-button (smClick)="undo(idx)" [smDisabled]="notEdited(item)" [smIcon]="'fa fa-undo'" [smClass]="'btn btn-xs btn-warning  btnLineItemAction mt-2'" />
+                    <lib-button [smType]="'button'" (smClick)="delete(frm,item)" [smIcon]="'fa fa-close'" [smDisabled]="disabled!==undefined ? disabled : false" [smClass]="'btn btn-danger btn-xs  btnLineItemAction mt-2'" />
+                </td>
+                <!-- ALL -->
+                <div *cdkDragPreview matchSize="true" class="container dragdrop-placeholder">
+                    {{item.description}}
+                </div>
+            </tr>
+            <tr>
+                <td [attr.colspan]="vatInfo?.showVat ? 8 : 7" style="padding-right: 20px;">
+                    <div class="pull-right form-inline">
+                        <div class="form-group" style="width: inherit !important;" show-errors>
+                            <label class="control-label">
+                                <span class="help-block" > 
+                                    <!-- TODO help block -->
+                                    <span translate="resources.common-validation-required"></span>
+                                </span>
+                            </label>
+                            <lib-button [smLabel]="'resources.common-button-finance-salesitem'" (smClick)="addSalesItem()" [smDisabled]="disabled ? disabled : editMode!==-1" [smIcon]="'fa fa-plus'" [smClass]="'btn btn-success btn-sm btnSecondaryAction'" />
+                            <lib-button [smLabel]="'resources.common-button-finance-discountitem'" (smClick)="addDiscountItem()" [smDisabled]="disabled ? disabled : editMode!==-1" [smIcon]="'fa fa-plus'" [smClass]="'btn btn-success btn-sm btnSecondaryAction'" />
+                            <lib-button *ngIf="!hideInterestItemBtn" [smLabel]="'resources.common-button-finance-interestitem'" (smClick)="addInterestItem()" [smDisabled]="disabled ? disabled : (isDisabled()||editMode!==-1)" [smIcon]="'fa fa-plus'" [smClass]="'btn btn-success btn-sm btnSecondaryAction'" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+</div>

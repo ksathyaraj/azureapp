@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left"><i class="fa fa-check"></i> Activate Subscription for - {{params.company.sanitizedName}}</h3>
+    <lib-button [smType]="'button'" (smClick)="cancel()" [smClass]="'btn-close pull-right'" />
+</div>
+<form class="form-horizontal"  #frm="ngForm"  novalidate>
+    <div class="modal-body">
+        <div class="row">
+            <lib-select-input [smOptions]="options" [smOptionDisplayField]="'display'" [smOptionValueField]="'value'" [smLabel]="'Activation reason'" [smLabelClass]="'col-md-4'" [smName]="'activationReason'" [(smModel)]="activationReason" (smModelChange)="activationReasonChanged()" />
+        </div>
+        <div class="row">
+            <lib-textarea-input [smLabel]="'Comment'" [smLabelClass]="'col-md-4'" [smName]="'description'" [(smModel)]="comment" [smMaxlength]="200" [smRows]="4" [smRequired]="true" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar button-bar-modal">
+            <lib-button [smLabel]="'Cancel'" [smType]="'button'" (smClick)="cancel()" [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary'" />
+            <lib-button [smLabel]="'Activate'" [smType]="'submit'" (smClick)="ok(frm)" [smIcon]="'fa fa-check'" [smClass]="'btn btn-success'" />
+        </div>
+    </div>
+</form>
+

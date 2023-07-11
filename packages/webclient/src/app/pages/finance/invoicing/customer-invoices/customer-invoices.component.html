@@ -1,0 +1,15 @@
+<lib-table
+  [api]="api"
+  [title]="title"
+  *ngIf="dataLoaded"
+  [helpLinkURL]="helpLinkURL"
+  [searchUIOptions]="searchUIOptions"
+  [resourceMessages]="resourceMessages"
+  [tableColumns]="customerInvoiceColumns" 
+  (smHandleAddButtonClick)="handleAddButtonClick($event)"
+  (smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+  (smHandleCheckboxUpdate)="handlePaidStatus($event)"
+  [dateRangeDivClass]="'col-md-4'"
+  [searchInputDivClass]="'col-md-4'"
+  [isCustomerInvoice]="true"
+></lib-table>

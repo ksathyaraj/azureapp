@@ -1,0 +1,69 @@
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h3>
+            <span translate="resources.finance-bankstatement-allocateditems-pageheading-requiredinformation"></span>
+        </h3>
+        <h5>{{subHeading}}</h5>
+    </div>
+    <div class="d-flex col flex-row-reverse marginTop2">
+        <lib-button [hidden]="isByMonth" [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'" 
+    [smClass]="'btn btn-pdf btnSecondaryAction'" [smIcon]="'fa fa-file-pdf-o'" (smClick)="printUpload(bankStatementId)"/>
+    <lib-button [hidden]="!isByMonth" [smLabel]="'resources.common-buttons-pdf'" [smDisabled]=false [smType]="'button'" 
+    [smClass]="'btn btn-pdf btnSecondaryAction'" [smIcon]="'fa fa-file-pdf-o'" (smClick)="print(accountId,year,month)"/>
+    <lib-button [hidden]="!isByMonth" [smLabel]="'resources.common-buttons-refresh'" [smType]="'button'" 
+        [smClass]="'btn btn-primary'" [smIcon]="'fa fa-refresh'" (smClick)="getData(true)"/>
+        <lib-button [hidden]="isByMonth" [smLabel]="'resources.common-buttons-refresh'" [smType]="'button'" 
+        [smClass]="'btn btn-primary'" [smIcon]="'fa fa-refresh'" (smClick)="getUploadData(true)"/>
+    </div>
+</div>
+<table class="table table-hover table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-date"></span>
+            </th>
+            <th>
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-reference"></span>
+            </th>
+            <th>
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-description"></span>
+            </th>
+            <th>
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-allocation"></span>
+            </th>
+            <th>
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-amount"></span>
+            </th>
+            <th [hidden]="!showVatColumns">
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-vat"></span>
+            </th>
+            <th [hidden]="!showVatColumns">
+                <span translate="resources.finance-bankstatement-allocateditems-tablecolumnheading-total"></span>
+            </th>
+        </tr>
+    </thead>
+    <!-- orderBy should be added -->
+    <tbody *ngFor="let o of data">
+        <tr>
+            <td>{{o.datePosted|date:'dd MMM yyyy'}}</td>
+            <td>{{o.reference}}</td>
+            <td>{{o.description}}</td>
+            <td [hidden]="!o.hasSplits" class="table-warning text-center"><b>{{o.allocation}}</b></td>
+            <td [hidden]="o.hasSplits">{{o.allocation}}</td>
+            <td class="text-right">{{o.amount|number:'1.2'}}</td>
+            <td [hidden]="!showVatColumns" class="text-right">{{o.vat|number:'1.2'}}</td>
+            <td [hidden]="!showVatColumns" class="text-right">{{o.total|number:'1.2'}}</td>
+        </tr>
+        <ng-container  *ngIf="o.hasSplits">
+            <tr *ngFor="let a of o.allocations">
+                <td></td>
+                <td class="table-warning">{{a.reference}}</td>
+                <td class="table-warning">{{a.description}}</td>
+                <td class="table-warning">{{a.allocation}}</td>
+                <td class="table-warning text-right">{{a.amount|number:'1.2'}}</td>
+                <td [hidden]="!showVatColumns" class="table-warning text-right">{{a.vat|number:'1.2'}}</td>
+                <td [hidden]="!showVatColumns" class="table-warning text-right">{{a.total|number:'1.2'}}</td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

@@ -1,0 +1,44 @@
+<div class="modal-header">
+  <h3 class="modal-title pull-left">
+    <span class="nameSpace" translate="{{ params.title }}"></span>
+  </h3>
+  <lib-button
+    [smTitle]="'button'"
+    [smClass]="'btn btn-close pull-right'"
+    (smClick)="closeModal()"
+  />
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th class="col-md-2">
+              <span
+                translate="resources.reports-cashflowdetailmodal-tablecolumnheading-date"
+              ></span>
+            </th>
+            <th class="col-md-6">
+              <span
+                translate="resources.reports-cashflowdetailmodal-tablecolumnheading-reference"
+              ></span>
+            </th>
+            <th class="col-md-4">
+              <span
+                translate="resources.reports-cashflowdetailmodal-tablecolumnheading-amount"
+              ></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of params.items">
+            <td>{{ item.reportingDate | date : "dd MMM yyyy" }}</td>
+            <td>{{ item.reference }}</td>
+            <td class="text-right">{{ item.value | number : "1.2-2" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+:root {
+    --bs-primary: #2196f3;
+    --bs-secondary: #4caf50;
+    --bs-danger: #ff2f01;
+
+    --bs-primary-rgb: 33, 150, 243;
+
+
+    /* Button */
+
+    --smeazy-text-color: #fff;
+    --smeazy-copyright-color: #fff;
+
+    --smeazy-btn-primary: var(--bs-primary);
+    --smeazy-btn-secondary: var(--bs-secondary);
+
+    --smeazy-custom1: #6c757d;
+    --smeazy-custom1-bg: #6c757d;
+    --smeazy-custom1-color: var(--smeazy-text-color);
+
+    --smeazy-custom2: var(--bs-primary);
+    --smeazy-custom2-bg: var(--bs-primary);
+    --smeazy-custom2-color: var(--smeazy-text-color);
+
+    /* navBar */
+    --smeazy-nav-color: #b2dbfb;
+    --smeazy-nav-active-bg: #fff;
+    --smeazy-nav-active-color: var(--bs-primary);
+    --smeazy-nav-active-font-weight: 400;
+    --smeazy-nav-border: 1px solid #dbdbdb;
+    --smeazy-nav-border-bottom: 0 !important;
+
+    /* NavGridItem */
+    --smeazy-nav-grid-bg: var(--bs-primary);
+    --smeazy-nav-grid-color: #fff;
+    --smeazy-nav-grid-box-shadow: none;
+
+    /* datepicker */
+    --smeazy-datepicker-today: #9c27b0;
+    --smeazy-datepicker-today-bg: #9c27b0;
+
+    --smeazy-datepicker-clear: #ff2f00;
+    --smeazy-datepicker-clear-bg: #ff2f00;
+
+    --smeazy-datepicker-close: var(--bs-secondary);
+    --smeazy-datepicker-close-bg: var(--bs-secondary);
+
+    --smeazy-datepicker-color: #fff;
+
+
+    /* login */
+    --login-bg: var(--bs-primary);
+    --login-logo: url("/assets/images/smeasy_logo.png");
+  }

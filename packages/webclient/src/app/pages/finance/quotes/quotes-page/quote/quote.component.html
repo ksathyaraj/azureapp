@@ -1,0 +1,158 @@
+<div class="row" *ngIf="quoteId !== 0">
+    <div class="col-md-12 button-bar">
+        <lib-button [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'" (smClick)="print(quoteId)" [smDisabled]="quoteId === 0" [smIcon]="'fa fa-file-pdf-o'" [smClass]="'btn btn-pdf'" />
+        <lib-button [smLabel]="'resources.common-buttons-email'" [smType]="'button'" (smClick)="emailQuote(quoteId)" [smDisabled]="quoteId === 0" [smIcon]="'fa fa-envelope-o'" [smClass]="'btn btn-email'" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <img class="document-logo heightwidth100" [src]="'data:image/png;base64,'+companyProfileImage">
+    </div>
+    <div class="col-md-8 pull-right">
+        <label class="text-right col-md-12 document-header-info">{{companyProfile.companyDisplayName}}</label>
+        <label class="text-right col-md-12 document-header-info" [innerHtml]="companyProfile.htmlFormattedDisplayAddress"></label>
+    </div>
+</div>
+<div class="row">
+    <label class="control-label col-md-6 pull-left" style="text-align: left;" [hidden]="!showVat">
+        <strong>
+            <span translate="resources.finance-quotes-quotes-label-vatno"></span> {{companyProfile.vatNumber}}
+        </strong>
+    </label>
+    <label class="control-label col-md-6 pull-right" style="text-align: right;">
+        <strong>{{companyProfile.companyDisplayRegistrationNumber}}</strong>
+    </label>
+</div>
+<lib-form-panel [smHeading]="'resources.finance-quotes-quotes-panelheading-quote'" />
+<form class="form-horizontal"  #quoteForm="ngForm"  novalidate>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-select-input [smLabel]="'resources.finance-quotes-quotes-label-selectcustomer'" [smLabelClass]="'col-md-4'" [smName]="'contact'" [(smModel)]="quote.contact" (smModelChange)="customerChange(quoteForm)" [smRequired]="true" [smOptionDisplayField]="'companyName'" [smOptions]="customers" [smPlaceholder]="'Select Customer'"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-postaladdress'" [smElementClass]="'pull-left'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote.contact?.invoiceAddress?.htmlFormattedFullAddress"/>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-text-input [smLabel]="'resources.finance-quotes-quotes-label-quoteno'" [smLabelClass]="'col-md-3'" [smName]="'formattedQuoteNumber'" [smType]="'text'" [(smModel)]="quote.formattedQuoteNumber" [smDisabled]="true" [smPlaceholder]="'Quote Not Saved'"/>
+                <lib-date-picker [smLabel]="'resources.finance-quotes-quotes-label-quotedate'" [smLabelClass]="'col-md-3'" [smName]="'createdDate'" [(smModel)]="quote.createdDate" (smModelChange)="createdDateChanged()" [smRequired]="true"/>
+                <lib-text-input [smLabel]="'resources.finance-quotes-quotes-label-orderno'" [smLabelClass]="'col-md-3'" [smName]="'orderNumber'" [smType]="'text'" [(smModel)]="quote.orderNumber" [smMaxlength]="200" />
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-vatno'" [smLabelClass]="'col-md-3'" [smModel]="quote?.contact?.vatNumber"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-supplierno'" [smLabelClass]="'col-md-3'" [smModel]="quote?.contact?.supplierNumber"/>
+                <lib-select-input [smLabel]="'resources.finance-quotes-quotes-label-project'" [smLabelClass]="'col-md-3'" [smName]="'projectId'" [(smModel)]="quote.projectId" [smOptionDisplayField]="'projectName'" [smOptions]="quote.contact.invoiceableProjects" [smOptionValueField]="'id'" [smPlaceholder]="'Select Project'"/>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel>
+                <div class="row">
+                    <div class="col-md-4">
+                        <lib-select-input [smLabel]="'resources.finance-quotes-quotes-label-attention'" [smLabelClass]="'col-md-4'" [smName]="'individualContact'" [(smModel)]="quote.contact.individualContact" (smModelChange)="contactChange(quoteForm)" [smRequired]="true" [smOptionDisplayField]="'fullName'" [smOptions]="quote.contact.invoiceableIndividualContacts" />
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-telephone'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.contact?.individualContact?.cellphone"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-email'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="quote?.contact?.individualContact?.emailAddress"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-editable-table [items]="quote.quoteItems"
+                            [vatInfo]="vatInfo"
+                            [vatDate]="quote.createdDate"
+                            [productList]="productlist"
+                            (itemDeleted)="onItemDeleted($event)"
+                            (itemSaved)="onItemSaved($event)"
+                            [hideInterestItemBtn]="true"
+                            (itemOnCreation)="handleItemCreation($event)">
+            </lib-editable-table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <lib-form-panel [smLabel]="'resources.finance-quotes-quotes-panelheading-summary'">
+                <div class="row">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-quotes-quotes-label-subtotal'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="quote?.subTotal"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-quotes-quotes-label-discount'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="quote?.totalDiscount"/>
+                    </div>
+                </div>
+                <div class="row" [hidden]="!showVat">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-quotes-quotes-label-vat'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="quote?.totalVat"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+
+            <div class="form-panel-footer">
+                <span class="pull-left">
+                    <strong>
+                        <span translate="resources.finance-quotes-quotes-panelfooter-total"></span>
+                    </strong>
+                </span>
+                <span class=" pull-right">
+                    <strong>{{quote.total|number:'1.2-2'}}</strong>
+                </span>
+                <span class="clearfix"></span>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-select-input [smLabel]="'resources.finance-quotes-quotes-label-selectbankingaccount'" [smLabelClass]="'col-md-4'" [smName]="'bankingDetail'" [(smModel)]="quote.bankingDetail" [smRequired]="true" [smOptionDisplayField]="'displayAccountName'" [smOptions]="bankingDetails" />
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-bank'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.bankName"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-accname'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.accountName"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-accno'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.accountNo"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-acctype'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.accountType"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-branch'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.branch"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-code'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.branchCode"/>
+                <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-swiftcode'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="quote?.bankingDetail?.swiftCode"/>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-textarea-input [smLabel]="'resources.finance-quotes-quotes-label-comments'" [smLabelClass]="'control-label'" [smName]="'comments'" [(smModel)]="quote.comments" [smMaxlength]="2000" [smRows]="10" />
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel>
+                
+                <div class="row">
+                    <div class="col-md-5">
+                        <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-email'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="companyProfile?.primaryContactEmail"/>
+                    </div>
+                    <div class="col-md-3">
+                        <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-tel'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="companyProfile?.officePhone"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-quotes-quotes-label-website'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="companyProfile?.websiteUrl"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 button-bar">
+            <lib-validation-message></lib-validation-message>
+            <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(quote,quoteForm)" [smDisabled]="enableSaveButton || isDisabled()" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</form>

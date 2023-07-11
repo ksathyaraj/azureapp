@@ -1,0 +1,218 @@
+<lib-title [title]="'resources.finance-businesscash-pageheading-addbusinesscash'"></lib-title>
+<lib-form-panel>
+    <div class="row col-md-12">
+        <div class="row">
+            <label class="col-md-6 d-flex align-items-start">
+                <span translate="resources.finance-businesscash-addbusinesscash-label-pleasenote"></span>
+                <span style='color: red; font-weight: bold;'>
+                    &nbsp;<span translate="resources.finance-businesscash-addbusinesscash-label-red"></span> &nbsp; 
+                </span>
+                <span translate="resources.finance-businesscash-addbusinesscash-label-meansmoneyspent"></span>
+                <span style='color: green; font-weight: bold;'>
+                    &nbsp;<span translate="resources.finance-businesscash-addbusinesscash-label-green"></span> &nbsp; 
+                </span>
+                <span translate="resources.finance-businesscash-addbusinesscash-label-meansmoneyreceived"></span>
+            </label>
+        </div>
+        <br />
+        <div class="row mt-4">
+            <div class=" col-md-4 mx-auto">
+                <label class="radio-inline pull-left ">
+                    <input type="radio" name="inlineRadioOptions" value="{{businessCashItemTypes.outOfBusinessCash}}"
+                        [(ngModel)]="businessCash.item.businessCashItemType"
+                        (change)='directionChange(businessCashItemTypes.outOfBusinessCash)'>
+                    <span class="mx-2" style='color: red; font-weight: bold;'>
+                        <span translate="resources.finance-businesscash-addbusinesscash-label-moneyout"></span>
+                    </span>
+                </label>
+                <label class="radio-inline  pull-right">
+                    <input type="radio" name="inlineRadioOptions" value="{{businessCashItemTypes.intoBusinessCash}}"
+                        [(ngModel)]="businessCash.item.businessCashItemType"
+                        (change)='directionChange(businessCashItemTypes.intoBusinessCash)' />
+                    <span class="mx-2 " style='color: green; font-weight: bold;'>
+                        <span translate="resources.finance-businesscash-addbusinesscash-label-moneyin"></span>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row" [hidden]="businessCash.item.businessCashItemType == null">
+        <form class="form-horizontal" #businessCashForm="ngForm" novalidate>
+            <div class="row d-flex align-items-center justify-content-between">
+                <div class="col-md-8">
+                    <lib-date-picker [smLabel]="'resources.finance-businesscash-addbusinesscash-label-date'"
+                        [smPlaceholder]="placeHolderDate"
+                        [smLabelClass]="'col-md-4'" [smName]="'businessCashDate'"
+                        [(smModel)]="businessCash.item.dateTime" (smModelChange)="businessCashDateChanged()"
+                        [smRequired]="true" [smDisabled]="customerInvoice.isFinalised" />
+                </div>
+                <div class="col-md-3" >
+                    <lib-checkbox-input [(smModel)]="splitItems" (smModelChange)="splitItemsChange()"
+                        [smDisabled]="false"
+                        [smLabel]="'resources.finance-businesscash-addbusinesscash-label-splititem'"
+                        [smLabelClass]="'col-md-9'"
+                        [smInputClass]="'ml-17'"
+                        [smShowPostInput]="true"></lib-checkbox-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <lib-text-input [smLabel]="'resources.finance-businesscash-addbusinesscash-label-description'"
+                    [smLabelClass]="'col-md-4'" [smName]="'description'" [smType]="'text'"
+                    [(smModel)]="businessCash.item.description" [smMaxlength]="1000" [smRequired]="true" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                <lib-text-input [smLabel]="'resources.finance-businesscash-addbusinesscash-label-reference'"
+                    [smLabelClass]="'col-md-4'" [smName]="'reference'" [smType]="'text'"
+                    [(smModel)]="businessCash.item.reference" [smMaxlength]="100" [smRequired]="true" />
+                </div>
+            </div>
+            <div class="row">
+                <div class=" col-md-8 ">
+                        <lib-select-input  
+                        [smName]="'staffMember'" [(smModel)]="staffMember" [smRequired]="true" [smLabelClass]="'col-md-4'" [smLabel]="(businessCash.item.businessCashItemType == businessCashItemTypes.outOfBusinessCash) ? 'resources.finance-businesscash-addbusinesscash-label-whospentmoney' :'resources.finance-businesscash-addbusinesscash-label-whoreceivedmoney'"
+                        [smOptionDisplayField]="'value'" [smOptions]="staffMembers"  [smPlaceholder]="'resources.common-dropdown-selectplaceholder'"/>
+                </div>
+            </div>
+            <div *ngIf="splitItems == false">
+                <div class="row ">
+                    <div class="col-md-8 "
+                        [ngClass]="{ 'has-error' : businessCashForm.form.controls['ledgerAccount']?.invalid && businessCashForm.submitted }">       
+                        <div [name]="'ledgerAccount'" [(ngModel)]="businessCash.ledgerAccount" class="form-control"
+                            *ngIf="false" required>
+                        </div>
+                        <lib-select-input [smLabel]="'resources.finance-businesscash-addbusinesscash-label-selectoption'" [(smModel)]="businessCash.ledgerAccount" [smLabelClass]="'col-md-4'" [smPlaceholder]="'resources.finance-accountdropdown-placeholder'"
+                        [smOptions]="filteredLedgerAccounts" [smOptionDisplayField]="'customDisplayName'" [smRequired]="true" [smName]="'businessCashLedgerAccount'"
+                        (smModelChange)="accountChange(businessCash.item,$event)"></lib-select-input>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <lib-text-input [smLabel]="'resources.finance-businesscash-addbusinesscash-label-total'"
+                        [smLabelClass]="'col-md-4'" [smName]="'total'" [smType]="'decimal'"
+                        [(smModel)]="businessCash.item.total" [smRequired]="true"
+                        [smDisabled]="businessCash.ledgerAccount == ''" (smModelChange)="calculateVat()" />
+                    </div>
+                </div>
+                <div class="row" *ngIf="showVat && businessCash.ledgerAccount.isVatable">
+                    <div class="col-md-8">
+                        <lib-text-input [smLabel]="'resources.finance-businesscash-addbusinesscash-label-vat'"
+                        [smLabelClass]="'col-md-4'" [smName]="'vatAmount'" [smType]="'decimal'"
+                        [(smModel)]="businessCash.item.vatAmount" [smRequired]="showVat && !isVatRegistered"
+                        [smDisabled]="!isVatRegistered" (smModelChange)="calculateExclusiveAmount()" />
+                    </div>
+                </div>
+                <div class="row" *ngIf="showVat && businessCash.ledgerAccount.isVatable">
+                    <div class="col-md-8">
+                        <lib-text-input [smLabel]="'resources.finance-businesscash-addbusinesscash-label-amountexclvat'"
+                        [smLabelClass]="'col-md-4'" [smName]="'exclusiveAmount'" [smType]="'decimal'"
+                        [(smModel)]="businessCash.item.exclusiveAmount" [smDisabled]="true" />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <!--Splits-->
+            <div class="row">
+                <div *ngIf="splitItems == true">
+                    <div class="form-group col-md-12">
+                        <div class="control-label col-md-1">
+                        </div>
+                        <div class="col-md-11">
+                            <p class="red" *ngIf="isAllocatedAmountZero()">
+                                <span
+                                    translate="resources.finance-businesscash-addbusinesscash-label-greaterthanzero"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-11">
+                        <div class="control-label col-md-1">
+                        </div>
+                        <div class="col-md-10 mx-auto">
+                            <table class="table table-hover table-condensed table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-3">
+                                            <span
+                                                translate="resources.finance-businesscash-addbusinesscash-tablecolumnheading-description"></span>
+                                        </th>
+                                        <th class="col-md-3">
+                                            <span
+                                                translate="resources.finance-businesscash-addbusinesscash-tablecolumnheading-selectoption"></span>
+                                        </th>
+                                        <th class="col-md-2">
+                                            <span
+                                                translate="resources.finance-businesscash-addbusinesscash-tablecolumnheading-amountexcl"></span>
+                                        </th>
+                                        <th class="col-md-2" *ngIf="showVat">
+                                            <span
+                                                translate="resources.finance-businesscash-addbusinesscash-tablecolumnheading-vat"></span>
+                                        </th>
+                                        <th class="col-md-2">
+                                            <span
+                                                translate="resources.finance-businesscash-addbusinesscash-tablecolumnheading-total"></span>
+                                        </th>
+                                        <th>
+                                            <lib-button (smClick)="addSplitRow()" [smType]="'button'"
+                                                [smIcon]="'fa fa-plus'" [smClass]="'btn btn-success btn-xs'" />
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let o of businessCash.allocations; let idx = index">
+                                        <td>
+                                            <lib-text-input [smName]="'description'+idx" type="text"
+                                                [(smModel)]="o.description" maxlength="100" [smRequired]="true" />
+                                        </td>
+                                        <td>
+                                            <lib-select-input [(smModel)]="o.ledgerAccount"  [smPlaceholder]="'resources.finance-accountdropdown-placeholder'"
+                                            [smOptions]="filteredLedgerAccounts" [smOptionDisplayField]="'customDisplayName'"   [smRequired]="true" [smName]="'businessCashLedgerAccount'+idx"
+                                            (smModelChange)="accountChange(o,$event)"></lib-select-input>
+                                        </td>
+                                        <td>
+                                            <lib-text-input [smName]="'exclusiveAmount'+idx" 
+                                                class=" text-right" select-text money [(smModel)]="o.exclusiveAmount"
+                                                [smDisabled]="true" [smType]="'decimal'" />
+                                        </td>
+                                        <td *ngIf="showVat">
+                                            <lib-text-input [smName]="'vatAmount'+idx" [smType]="'decimal'" class="text-right"
+                                            select-text money [(smModel)]="o.vatAmount"
+                                                (smModelChange)="calculateSplitExclusiveAmount(o)"
+                                                [smDisabled]="!isVatRegistered || !(showVat && o.ledgerAccount ? o.ledgerAccount.isVatable:false)"
+                                                [smRequired]="showVat && (o.ledgerAccount ? o.ledgerAccount.isVatable:false) && !isVatRegistered" />
+                                        </td>
+                                        <td>
+                                            <lib-text-input
+                                                title="{{o.ledgerAccount == null ?  pleaseSelectAnOption : enterTotal}}"
+                                                [smName]="'total'+idx" class=" text-right" select-text money
+                                                [(smModel)]="o.total" (smModelChange)="calculateSplitVat(o)"
+                                                [smDisabled]="o.ledgerAccount == ''" [smType]="'decimal'" />
+                                        </td>
+                                        <td>
+                                            <lib-button [smType]="'button'" (smClick)="removeSplitItem(o,idx)"  [smIcon]="'fa fa-close'"
+                                                [smClass]="'btn btn-danger btn-xs'" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-inline pull-right">
+                    <lib-validation-message></lib-validation-message>
+                    <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" (smClick)="cancel()"
+                        [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary '" />
+                    <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'"
+                        (smClick)="save(businessCash,businessCashForm)"
+                        [smDisabled]="enableSaveButton || (isAllocatedAmountZero() || businessCashForm.invalid)"
+                        [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+                </div>
+            </div>
+        </form>
+    </div>
+</lib-form-panel>

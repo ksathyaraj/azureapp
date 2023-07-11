@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-6 mt-5">
+    <h3>ABSA Batch Registration Settings</h3>
+  </div>
+</div>
+
+<form
+  class="form-horizontal"
+  #frmRegistrationBatchSettings="ngForm"
+  novalidate
+  (submit)="save(frmRegistrationBatchSettings)"
+>
+  <div
+    class="panel-group"
+    id="accordion"
+    role="tablist"
+    aria-multiselectable="true"
+  >
+    <lib-form-panel>
+      <div class="row">
+        <div class="col-md-5">
+          <lib-text-input
+            [(smModel)]="settings.batchSize"
+            [smLabel]="'Registration Batch Size'"
+            [smLabelClass]="'col-md-6'"
+            [smName]="'batchsize'"
+            [smType]="'number'"
+            [smRequired]="true"
+            [smMin]="0"
+            [smMax]="500"
+            [isSpinRequired]="true"
+          >
+          </lib-text-input>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3 ms-5">
+          <small class="text"
+            >This is the # of Registration Emails that the Automated Nightly Job
+            will send (Batch size) Min: 0, Max: 500</small
+          >
+        </div>
+      </div>
+
+      <div class="row ms-5 checkbox">
+
+        <lib-checkbox-input  
+        [smLabelClass]="'col-md-10'"
+        [smShowPostInput]="true"
+        [(smModel)]="settings.jobStatus"
+        [smLabel]="'Enable / Disable the Automated Nightly Job that sends the ABSA Registration emails'"  />
+      </div>
+
+      <div class="form-group row">
+        <div class="button-bar button-bar-modal">
+          <lib-button
+            [smLabel]="'Save'"
+            [smType]="'submit'"
+            [smIcon]="'fa fa-save'"
+            [smClass]="'btn btn-success pull-right'"
+          />
+        </div>
+      </div>
+    </lib-form-panel>
+  </div>
+</form>

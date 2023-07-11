@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left"><i class="fa fa-credit-card"></i> Add New Licensees</h3>
+    <lib-button [smType]="'button'" [smClass]="'btn btn-close pull-right'" (click)="closeModal()"></lib-button>
+</div>
+<form class="form-horizontal" #frm="ngForm" novalidate>
+    <div class="modal-body">
+        <div>
+            <div class="row">
+                <lib-text-input [smLabel]="'Licensee Name'" [smLabelClass]="'col-md-3'" [smName]="'name'"
+                    [smType]="'text'" [(smModel)]="formData.name" [smRequired]="true" />
+            </div>
+            <div class="row">
+                <lib-text-input [smLabel]="'Contact Name'" [smLabelClass]="'col-md-3'" [smName]="'contactName'"
+                    [smType]="'text'" [(smModel)]="formData.contactName" [smRequired]="true" />
+            </div>
+            <div class="row">
+                <lib-text-input [smLabel]="'Contact Email'" [smLabelClass]="'col-md-3'" [smName]="'contactEmail'"
+                    [smType]="'email'" [(smModel)]="formData.contactEmail" [smRequired]="true" />
+            </div>
+            <div class="row">
+                <lib-text-input [smLabel]="'Contact Telephone'" [smLabelClass]="'col-md-3'"
+                    [smName]="'contactTelephone'" [smType]="'text'" [(smModel)]="formData.contactTelephone"
+                    [smRequired]="true" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar button-bar-modal">
+            <lib-button [smLabel]="'Cancel'" [smType]="'button'" (smClick)="closeModal()" [smIcon]="'fa fa-minus'"
+                [smClass]="'btn btn-primary'" />
+            <lib-button [smLabel]="'Save'" [smType]="'submit'" (smClick)="ok(frm)" [smIcon]="'fa fa-save'"
+                [smClass]="'btn btn-success'" />
+        </div>
+    </div>
+</form>

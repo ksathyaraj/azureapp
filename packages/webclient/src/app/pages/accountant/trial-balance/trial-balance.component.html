@@ -1,0 +1,27 @@
+<lib-title-bar [title]="'resources.accountant-trialbalance-pageheading-trialbalance'" [exportButton]="true" [api]="api" 
+[helpLinkURL]="supportVideoBaseUrl" [refreshButton]="false" [addNewButton]="false" [pdfButton]="true" [resourceMessages]="resourceMessages"/>
+
+<form novalidate  #frm="ngForm" >
+    <lib-form-panel>
+        <div class="row">
+            <div class="col-md-5">
+                <lib-date-picker [smLabel]="'resources.accountant-trialbalance-trialbalance-label-startdate'" [smLabelClass]="'col-md-3 text-start'" (smModelChange) ="fromDateRange($event)"
+                [smName]="'periodStart'" [smDisabled]="false" [smPlaceholder]="'resources.calendar-placeholder'" [smShowWeeks]="false" />
+            </div>
+            <div class="col-md-5">
+                <lib-date-picker [smLabel]="'resources.accountant-trialbalance-trialbalance-label-enddate'" [smLabelClass]="'col-md-3 text-start'" (smModelChange) = "toDateRange($event)"
+                [smName]="'endDate'"  [smDisabled]="false" [smPlaceholder]="'resources.calendar-placeholder'" [smShowWeeks]="false"/>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+        <div class="row">
+            <br />
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <lib-checkbox-input [smLabel]="'resources.accountant-trialbalance-trialbalance-label-showallaccounts'" (smModelChange)="showAccountsChanged($event)" [smShowPostInput]="true" [smLabelClass]="'col-md-10'"  [(smModel)]="showAllAccounts" />
+            </div>
+        </div>
+    </lib-form-panel>
+</form>

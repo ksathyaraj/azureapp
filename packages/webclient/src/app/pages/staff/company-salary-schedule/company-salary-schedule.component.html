@@ -1,0 +1,54 @@
+<lib-form-panel>
+  <form class="form-horizontal" #frm="ngForm" novalidate>
+    <div class="row">
+      <div class="col-md-4 marginTop2">
+        <h3>
+          <span
+            translate="resources.staff-companysalaryschedule-pageheading-companysalaryschedule"
+          ></span>
+        </h3>
+      </div>
+      <div class="col-md-8 pull-right marginTop2">
+        <lib-title-bar
+          [exportButton]="exportButton"
+          [pdfButton]="pdfButton"
+          [refreshButton]="refreshButton"
+          [helpLinkURL]="helpLinkUrl"
+          [addNewButton]="addNewButton"
+          [api] ="api"
+          [resourceMessages]="resourceMessages"
+          
+        ></lib-title-bar>
+      </div>
+      <lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+    </div>
+    <lib-form-panel>
+   <div class="row">
+      <div class="col-md-5">
+        <lib-date-picker
+          [smLabel]="'resources.staff-companysalaryschedule-fromdate'"
+          [smLabelClass]="'col-md-3'"
+          [smPlaceholder]="datePlaceHolder"
+          [smName]="'fromDate'"
+          [(smModel)]="fromDate"
+          (smModelChange) ="fromDateRange($event)"
+          [smRequired]="true"
+          [smDisabled]="false"
+        />
+      </div>
+      <div class="col-md-7">
+        <lib-date-picker
+          [smLabel]="'resources.staff-companysalaryschedule-todate'"
+          [smLabelClass]="'col-md-3'"
+          [smPlaceholder]="datePlaceHolder"
+          [smName]="'toDate'"
+          [(smModel)]="toDate"
+          (smModelChange) = "toDateRange($event)"
+          [smRequired]="true"
+          [smDisabled]="false"
+        />
+      </div>
+    </div>
+    </lib-form-panel>
+  </form>
+</lib-form-panel>

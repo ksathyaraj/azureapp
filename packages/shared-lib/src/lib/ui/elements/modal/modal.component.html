@@ -1,0 +1,57 @@
+<div class="modal" style="display: block" id="{{ modalID }}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header {{ modalStyle }}">
+        <h5 class="modal-title">
+          <i class="{{ modalIconClass }}"></i>
+          {{ modalTitle }}
+        </h5>
+
+        <lib-button
+          [smLabel]="'Close'"
+          [smType]="'button'"
+          [smClass]="'btn btn-close '"
+          (smClick)="modalClose()"
+        />
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+        <!-- <ng-template></ng-template> -->
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="buttonOrder; then buttonOrder1; else buttonOrder2"></div>
+        <ng-template #buttonOrder1>
+          <lib-button
+            [smLabel]="cancelName"
+            [smType]="'button'"
+            [smClass]="cancelColour"
+            (smClick)="modalClose()"
+            [hidden]="visible"
+          />
+          <lib-button
+            [smLabel]="okName"
+            [smType]="'button'"
+            [smClass]="'btn btn-primary'"
+            (smClick)="actionFunction()"
+          />
+        </ng-template>
+
+        <ng-template #buttonOrder2>
+          <lib-button
+            [smLabel]="okName"
+            [smType]="'button'"
+            [smClass]="'btn btn-primary'"
+            (smClick)="actionFunction()"
+          />
+          <lib-button
+            [smLabel]="cancelName"
+            [smType]="'button'"
+            [smClass]="'btn btn-danger'"
+            (smClick)="modalClose()"
+          />
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop show"></div>

@@ -1,0 +1,639 @@
+<div>
+  <lib-title-bar
+    [title]="title"
+    [exportButton]="exportButton"
+    [pdfButton]="pdfButton"
+    [refreshButton]="refreshButton"
+    [helpLinkURL]="helpLinkURL"
+    [addNewButton]="addNewButton"
+    [api]="api"
+  ></lib-title-bar>
+  <lib-form-panel>
+    <div class="row">
+      <div class="col-md-3">
+        <lib-checkbox-input
+          [smLabelClass]="'col-md-10'"
+          [smShowPostInput]="true"
+          [(smModel)]="showCategories"
+          (smModelChange)="updateCategories()"
+          [smLabel]="'resources.reports-cashflow-label-showallcategories'"
+        ></lib-checkbox-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label class="control-label pull-left">
+          <span translate="resources.reports-cashflow-label-pleasenote"></span>
+          <span style="color: #2196f3" class="ml-4">
+            <span translate="resources.reports-cashflow-label-blue"></span>
+          </span>
+          <span
+            translate="resources.reports-cashflow-label-meansactuals"
+            class="ml-4"
+          ></span>
+          <span style="color: #000" class="ml-4">
+            <span
+              translate="resources.reports-cashflow-label-black"
+              class="ml-4"
+            ></span>
+          </span>
+          <span
+            translate="resources.reports-cashflow-label-meansforecast"
+            class="ml-4"
+          ></span>
+        </label>
+      </div>
+    </div>
+  </lib-form-panel>
+  <lib-form-panel
+    [smHeadingFont]="'15px'"
+    [smHeadingColor]="'rgb(33, 33, 33)'"
+    smHeading="resources.reports-cashflow-panelheading-ownerscashflowmanagementworkings"
+  ></lib-form-panel>
+  <!-- Owner's Cashflow Management Workings Section  -->
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th class="col-md-3"></th>
+            <th
+              class="col-md-1"
+              *ngFor="
+                let item of cashFlow.datesRepresented;
+                let colIndex = index
+              "
+              [ngClass]="{ 'th-blue': colIndex < 3 }"
+            >
+              {{ item }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="tr-bold tr-grey">
+            <td>{{ cashFlow.openingBalanceRowTotal?.categoryName }}</td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month1.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month2.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month3.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month4.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month5.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month6.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month7.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month8.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.openingBalanceRowTotal?.month9.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+          </tr>
+          <tr class="tr-bold tr-grey">
+            <td>
+              <span
+                translate="resources.reports-cashflow-tablecolumnheading-totalmoneyin"
+              ></span>
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month1.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month2.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month3.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month4.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month5.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month6.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month7.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month8.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyInRowTotal?.month9.monthAmount | number : "1.0-0"
+              }}
+            </td>
+          </tr>
+          <tr class="tr-bold tr-grey">
+            <td>
+              <span
+                translate="resources.reports-cashflow-tablecolumnheading-totalmoneyout"
+              ></span>
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month1.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month2.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month3.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month4.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month5.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month6.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month7.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month8.monthAmount | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.moneyOutRowTotal?.month9.monthAmount | number : "1.0-0"
+              }}
+            </td>
+          </tr>
+          <tr class="tr-bold tr-grey">
+            <td>{{ cashFlow.closingBalanceRowTotal?.categoryName }}</td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month1.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month2.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month3.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month4.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month5.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month6.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month7.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month8.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+            <td class="text-right">
+              {{
+                cashFlow.closingBalanceRowTotal?.month9.monthAmount
+                  | number : "1.0-0"
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- Owner's Cashflow Management Workings Section End -->
+  <form #cashFlowForm="ngForm" novalidate>
+    <!-- Income items's section -->
+    <lib-form-panel
+    [smHeadingFont]="'15px'"
+    [smHeadingColor]="'rgb(33, 33, 33)'"
+    smHeading="resources.reports-cashflow-panelheading-incomeitems"
+  ></lib-form-panel>
+  <div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover table-condensed table-bordered ">
+            <thead>
+                <tr>
+                    <th class="col-md-3"></th>
+                    <th class="col-md-1"  *ngFor="
+                    let item of cashFlow.datesRepresented;
+                    let colIndex = index
+                  "
+                  [ngClass]="{ 'th-blue': colIndex < 3 }">
+                        {{item}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr class="tr-bold tr-grey"
+                    *ngIf="(cashFlow.moneyInRowItems | customFilter:true) !== undefined ? (cashFlow.moneyInRowItems | customFilter:true).length > 0 : false">
+                    
+                    <td><span translate="resources.reports-cashflow-label-customitems"></span></td>
+                    <td *ngFor="let item of cashFlow.datesRepresented; let colIndex = index"></td>
+                    
+                </tr>
+                <tr 
+                    *ngFor="let moneyInItems of cashFlow.moneyInRowItems | customFilter:true; let colIndex = index">
+                    <td>{{moneyInItems.categoryName}}</td>
+                    <td class="text-right">{{moneyInItems.month1.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{moneyInItems.month2.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{moneyInItems.month3.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right form-group"
+                        >
+                         <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCustomItems4'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month4.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCustomItems5'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month5.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCustomItems6'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month6.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCustomItems7'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month7.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCustomItems8'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month8.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCustomItems9'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month9.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                </tr>
+                <tr *ngIf="cashFlow.moneyInRowItems?.length > 0">
+                    <td></td>
+                    <td *ngFor="let item of cashFlow.datesRepresented; let colIndex = index"></td>
+                </tr>
+                <tr class="tr-bold tr-grey"
+                *ngIf="(cashFlow.moneyInRowItems | customFilter:false) !== undefined ? (cashFlow.moneyInRowItems | customFilter:false).length > 0 : 0">
+                  
+                    <td>
+                        <span translate="resources.reports-cashflow-tablecolumnheading-calculateditems"></span>
+                    </td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index"></td>
+                 
+                </tr>
+                <ng-container *ngIf="cashFlow.moneyInRowItems?.length > 0">
+                <tr 
+                    *ngFor="let moneyInItems of cashFlow.moneyInRowItems;let colIndex = index;">
+                    <ng-container *ngIf="cashFlowCategoryFilter(moneyInItems)">
+                    <td>{{moneyInItems?.categoryName}}</td>
+                    <td class="text-right"><a (click)="viewDetail(moneyInItems.month1.ledgerAccountId, moneyInItems.month1.dateRepresented, cashFlowType.MoneyIn)">{{moneyInItems.month1.monthAmount | number:'1.0-0'}}</a>
+                    </td>
+                    <td class="text-right"><a (click)="viewDetail(moneyInItems.month2.ledgerAccountId, moneyInItems.month2.dateRepresented, cashFlowType.MoneyIn)">{{moneyInItems.month2.monthAmount | number:'1.0-0'}}</a>
+                    </td>
+                    <td class="text-right" *ngIf="moneyInItems.month3.ledgerAccountId !== null">
+                        <a (click)="viewDetail(moneyInItems.month3.ledgerAccountId, moneyInItems.month3.dateRepresented, cashFlowType.MoneyIn)">{{moneyInItems.month3.monthAmount | number:'1.0-0'}}</a>
+                    </td>
+                    <td class="text-right" *ngIf="moneyInItems.month3.ledgerAccountId === null">
+                        {{moneyInItems?.month3?.monthAmount | number:'1.0-0'}}
+                      </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCalculatedItems4'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month4.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                       >
+                       <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCalculatedItems5'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month5.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                       >
+                       <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCalculatedItems6'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month6.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                       >
+                       <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCalculatedItems7'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month7.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCalculatedItems8'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month8.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyInCalculatedItems9'+colIndex" [smType]="'number'" [(smModel)]="moneyInItems.month9.monthAmount" (smBlur)="calculateIncomeTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+                <tr *ngIf="cashFlow.moneyInRowItems?.length > 0">
+                    <td></td>
+                    <td *ngFor="let item of cashFlow.datesRepresented; let colIndex = index"></td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                              <lib-text-input [addDefaultDecimal]="true" [smName]="'moneyInCustomItem'" [smType]="'text'" [(smModel)]="moneyInCategoryName" [smPlaceholder]="'resources.reports-cashflow-textplaceholder'" [smMaxlength]="100"
+                         />
+                                <lib-button
+                                (smClick)="addMoneyInCustomItem()" 
+                                [smClass]="'btn btn-default'" 
+                                [smType]="'button'"
+                                [smLabel]="'resources.common-buttons-add'">
+                                </lib-button>
+                            </div>
+                            <span class="red" *ngIf="!isMoneyInCustomItemValid"
+                                translate="resources.reports-cashflow-label-customnamevalidation">
+                            </span>
+                        </div>
+                    </td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index"></td>
+                </tr>
+                <tr class="tr-bold tr-grey">
+                    <td>{{cashFlow.moneyInRowTotal?.categoryName}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month2.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month3.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month1.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month4.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month5.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month6.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month7.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month8.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyInRowTotal?.month9.monthAmount | number:'1.0-0'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <div class="col-md-12 button-bar">
+                <lib-validation-message></lib-validation-message>
+                  <lib-button
+                  (smClick)="save(cashFlow)" 
+                  [smClass]="'btn btn-primary btn-xs btnPrimaryAction'" 
+                  [smLabel]="'resources.common-buttons-save'"
+                  [smIcon]="'fa fa-save'">
+                  </lib-button>
+            </div>
+        </div>
+    </div>
+</div>
+  <!-- Income item's section end -->
+  <!-- Expense item's section -->
+
+  <lib-form-panel
+    [smHeadingFont]="'15px'"
+    [smHeadingColor]="'rgb(33, 33, 33)'"
+    smHeading="resources.reports-cashflow-panelheading-expenseitems"
+  ></lib-form-panel>
+  <div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover table-condensed table-bordered ">
+            <thead>
+                <tr>
+                    <th class="col-md-3"></th>
+                    <th class="col-md-1" *ngFor="let item of cashFlow.datesRepresented;let colIndex = index"
+                    [ngClass]="{ 'th-blue': colIndex < 3 }">
+                        {{item}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tr-bold tr-grey"
+                    *ngIf="(cashFlow.moneyOutRowItems | customFilter:true) !== undefined ? (cashFlow.moneyOutRowItems | customFilter:true).length > 0 : false">
+                    <td>
+                        <span translate="resources.reports-cashflow-label-customitems"></span>
+                    </td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index;"></td>
+                </tr>
+                <ng-container *ngIf="(cashFlow.moneyOutRowItems | customFilter:true) !== undefined ? (cashFlow.moneyOutRowItems | customFilter:true).length > 0 : false">
+                <tr *ngFor="let moneyOutItems of cashFlow.moneyOutRowItems | customFilter:true; let colIndex = index">
+                    <td>{{moneyOutItems.categoryName}}</td>
+                    <td class="text-right">{{moneyOutItems.month1.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{moneyOutItems.month2.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{moneyOutItems.month3.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right form-group"
+                        >
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCustomItems4'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month4.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         />
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCustomItems5'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month5.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCustomItems6'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month6.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCustomItems7'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month7.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCustomItems8'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month8.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                        <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCustomItems9'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month9.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                </tr>
+              </ng-container>
+                <tr *ngIf="cashFlow.moneyOutRowItems?.length > 0">
+                    <td></td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index;"></td>
+                </tr>
+                <tr class="tr-bold tr-grey"
+                    *ngIf="(cashFlow.moneyOutRowItems | customFilter:false) !== undefined ? (cashFlow.moneyOutRowItems | customFilter:false).length > 0 : false">
+                    <td>
+                        <span translate="resources.reports-cashflow-tablecolumnheading-calculateditems"></span>
+                    </td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index"></td>
+                </tr>
+                <ng-container *ngIf="cashFlow.moneyOutRowItems?.length > 0">
+                <tr *ngFor="let moneyOutItems of cashFlow.moneyOutRowItems; let colIndex = index;">
+                  <ng-container *ngIf="cashFlowCategoryFilter(moneyOutItems)">
+                    <td>{{moneyOutItems.categoryName}}</td>
+                    <td class="text-right"><a (click)="viewDetail(moneyOutItems.month1.ledgerAccountId, moneyOutItems.month1.dateRepresented, cashFlowType.MoneyOut)">{{moneyOutItems.month1.monthAmount | number:'1.0-0'}}</a>
+                    </td>
+                    <td class="text-right"><a (click)="viewDetail(moneyOutItems.month2.ledgerAccountId, moneyOutItems.month2.dateRepresented, cashFlowType.MoneyOut)">{{moneyOutItems.month2.monthAmount | number:'1.0-0'}}</a>
+                    </td>
+                    <td class="text-right" ng-if="moneyOutItems.month3.ledgerAccountId != null">
+                        <a (click)="viewDetail(moneyOutItems.month3.ledgerAccountId, moneyOutItems.month3.dateRepresented, cashFlowType.MoneyOut)">{{moneyOutItems.month3.monthAmount | number:'1.0-0'}}</a>
+                    </td>
+                    <td class="text-right" *ngIf="moneyOutItems.month3.ledgerAccountId === null">
+                        {{moneyOutItems.month3.monthAmount|number:'1.0-0'}}</td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCalculatedItems4'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month4.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCalculatedItems5'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month5.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCalculatedItems6'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month6.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCalculatedItems7'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month7.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCalculatedItems8'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month8.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                    <td class="text-right form-group">
+                      <lib-text-input [addDefaultDecimal]="true" [smInputClass]="'form-control p-0'" [smName]="'moneyOutCalculatedItems9'+colIndex" [smType]="'number'" [(smModel)]="moneyOutItems.month9.monthAmount" (smBlur)="calculateExpenseTotals()"
+                         [smMin]="0.00"/>
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+                <tr *ngIf="cashFlow.moneyOutRowItems?.length > 0">
+                    <td></td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index"></td>
+                </tr>
+                <tr>
+                    <td class="text-right">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                              <lib-text-input [addDefaultDecimal]="true" [smName]="'moneyOutCustomItem'" [smType]="'text'" [(smModel)]="moneyOutCategoryName" [smPlaceholder]="'resources.reports-cashflow-textplaceholder'" [smMaxlength]="100"/>
+                                <lib-button
+                                (smClick)="addMoneyOutCustomItem()" 
+                                [smClass]="'btn btn-default'" 
+                                [smType]="'button'"
+                                [smLabel]="'resources.common-buttons-add'">
+                                </lib-button>
+                            </div>
+                            <span class="red" *ngIf="!isMoneyOutCustomItemValid"
+                                translate="resources.reports-cashflow-label-customnamevalidation"></span>
+                        </div>
+                    </td>
+                    <td *ngFor="let item of cashFlow.datesRepresented;let colIndex = index"></td>
+                </tr>
+                <tr class="tr-bold tr-grey">
+                    <td>{{cashFlow.moneyOutRowTotal?.categoryName}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month1.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month2.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month3.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month4.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month5.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month6.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month7.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month8.monthAmount | number:'1.0-0'}}</td>
+                    <td class="text-right">{{cashFlow.moneyOutRowTotal?.month9.monthAmount | number:'1.0-0'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <div class="col-md-12 button-bar">
+              <lib-validation-message></lib-validation-message>
+              <lib-button
+                    (smClick)="save(cashFlow)" 
+                    [smClass]="'btn btn-primary btn-xs btnPrimaryAction'" 
+                    [smLabel]="'resources.common-buttons-save'"
+                    [smIcon]="'fa fa-save'">
+                </lib-button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Expense item section end -->
+  </form>
+</div>

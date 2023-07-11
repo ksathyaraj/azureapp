@@ -1,0 +1,106 @@
+<div>
+    <div class="row">
+      <lib-title-bar *ngIf="showTitleBar"
+        [title]="title"
+        [exportButton]="exportButton"
+        [pdfButton]="pdfButton"
+        [refreshButton]="refreshButton"
+        [requestGLButton]="requestGLButton"
+        [tabData]="tabData"
+        [api]="api"
+        [helpLinkURL]="helpLinkURL"
+        [resourceMessages]="resourceMessages"
+        (handleRefreshButtonClick)="handleRefreshButtonClick()"
+        [addNewButton]="addNewButton"
+        [blockquote]="blockquote"
+      ></lib-title-bar>
+    </div>
+    <div class="table-page">
+      <div class="row">
+        <form #searchForm="ngForm" novalidate>
+            <div class="card mt-2">
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                      <lib-date-picker
+                        [smLabelClass]="'col-md-3'"
+                        [smLabel]="'resources.finance-quotes-quotes-fromdate'"
+                        [smName]="'fromDateForSearch'"
+                        [(smModel)]="fromDate"
+                        (smModelChange)="onSearchByDateRange()"
+                        [smPlaceholder]="'resources.calendar-placeholder'"
+                      ></lib-date-picker>
+                    </div>
+                    <div class="col-md-3">
+                      <lib-date-picker
+                        [smLabelClass]="'col-md-3'"
+                        [smLabel]="'resources.staff-payslips-label-todate'"
+                        [smName]="'toDateForSearch'"
+                        [(smModel)]="toDate"
+                        (smModelChange)="onSearchByDateRange()"
+                        [smPlaceholder]="'resources.calendar-placeholder'"
+                      ></lib-date-picker>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="control-label" [ngClass]="'col-md-2'"> 
+                              <span [translate]="'resources.reports-customerinvoicesduebycustomer-label-customer'"></span>
+                          </label>
+                          <div class="col-md-10">
+                            <select
+                            [name]="'contact'" 
+                            class='form-select col-md-3'
+                            [(ngModel)]="selectedCustomer" 
+                            (ngModelChange)="handleSearch($event)" 
+                            >                     
+                            <option translate={{customersPlaceHolder}} value="" selected></option>
+                            <option *ngFor="let item of customers" [ngValue]="item" [selected]="item === selectedCustomer">{{item["companyName"]}}</option>
+                            </select>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<div class="row">
+    <table class="table table-hover table-condensed table-bordered" ng-if="vm.customerInvoices.length > 0">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    <span
+                        translate="resources.reports-customerinvoicesduebycustomer-tablecolumnheading-customerasat"></span>
+                    {{currentDate}}
+                </th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th class="col-md-3">
+                    <span
+                        translate="resources.reports-customerinvoicesduebycustomer-tablecolumnheading-date"></span>
+                </th>
+                <th class="col-md-6">
+                    <span
+                        translate="resources.reports-customerinvoicesduebycustomer-tablecolumnheading-details"></span>
+                </th>
+                <th class="col-md-3">
+                    <span
+                        translate="resources.reports-customerinvoicesduebycustomer-tablecolumnheading-amount"></span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let o of customerInvoices">
+                <td colspan="3" *ngIf="o.isHeader"><strong>{{o.companyName}}</strong></td>
+                <td *ngIf="o.isBlankRow">&nbsp;</td>
+                <td *ngIf="!o.isHeader && !o.isBlankRow">{{o.date}}</td>
+                <td *ngIf="!o.isHeader">{{o.details}}</td>
+                <td *ngIf="!o.isHeader" style="text-align: right;"> {{o.amount}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

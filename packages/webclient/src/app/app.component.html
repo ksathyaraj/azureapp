@@ -1,0 +1,24 @@
+<div *ngIf="(showSpinner && url!=='/dashboard') || showMainSplashScreen" class="overlay d-flex flex-column align-items-center justify-content-center">
+    <p *ngIf="showMainSplashScreen" class="text-center" [style]='{fontSize:"32px",paddingLeft:"28px"}'>
+        Loading...
+    </p>    
+    <div class="d-flex justify-content-center"  >
+        <div class="sm-spinner text-center">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- <div class="sm-spinner text-center">
+        <span class="sr-only">Loading...</span>
+    </div> -->
+</div>
+
+
+<lib-header [hidden]="showMainSplashScreen" *ngIf="url!=='/login' && url!=='/forgotpassword'"></lib-header>
+<div class="fixed-top " [ngStyle]="{marginTop:(url!=='/login' && url!=='/forgotpassword')?'75px':'42px'}" style="text-align: center; background-color: red; color: white; margin-top: 75px;z-index:998" *ngIf="!env.production && !showMainSplashScreen">This is a {{env.environment}} environment NOT the LIVE environment.</div>
+<div [hidden]="showMainSplashScreen" [ngClass]="(url!=='/login' && url!=='/forgotpassword')?'container': ''" [style]="{paddingTop:(url!=='/login' && url!=='/forgotpassword')?(!env.production?'110px':'85px'):'',paddingBottom:(url!=='/login' && url!=='/forgotpassword')?'65px':''}">
+    <lib-navigation-bar *ngIf="url!=='/login' && url!=='/forgotpassword'"></lib-navigation-bar>
+    <router-outlet></router-outlet>
+</div>
+<lib-footer [hidden]="showMainSplashScreen"></lib-footer>
+
+

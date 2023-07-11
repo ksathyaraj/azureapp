@@ -1,0 +1,45 @@
+<div class="form-group row">
+  <label class="control-label" [ngClass]="smLabelClass" *ngIf="smLabel"> 
+      <span [translate]="smLabel"></span>
+      <span *ngIf="smRequired">*</span>
+  </label>
+  <div [ngClass]="elementClass">
+    <ng-container *ngIf="!smSelectWithSearchOption && !smMultiSelectOption">
+      <select
+              [name]="smName"
+              class={{smInputClass}}
+              [(ngModel)]="smModel" 
+              (ngModelChange)="handleModelChange($event)" 
+              [disabled]="smDisabled"
+              [tabindex]="smTabindex"
+              [ngClass]="{'is-invalid': ngForm.form.controls[smName]?.errors?.['required'] && ngForm.form.controls[smName].touched}"
+              [required]="smRequired">
+              <option *ngIf="smPlaceholder" translate={{smPlaceholder}} value="" disabled selected></option>
+              <option *ngFor="let item of smOptions" [ngValue]="smOptionValueField? item[smOptionValueField] : item" [selected]="smOptionValueField?item[smOptionValueField] === smModel:item === smModel">{{item[smOptionDisplayField]}}</option>
+        </select>
+      </ng-container>
+      <ng-container *ngIf="smMultiSelectOption">
+        <ng-select [items]="smOptions"
+                    [bindLabel]="smOptionDisplayField"
+                    [bindValue]="smOptionValueField"
+                    [multiple]="true"
+                    [placeholder]="smPlaceholder"
+                    [(ngModel)]="smModel"
+                    [name]="smName"
+                    (ngModelChange)="handleModelChange(smModel)"
+                    >
+                    <ng-template *ngIf="smImageDisplayField" ng-option-tmp let-item="item" let-index="index">
+                      <img height="15" width="15" [src]="item[smImageDisplayField].toLowerCase()"/>
+                        {{item[smOptionDisplayField]}}
+                    </ng-template>   
+        </ng-select>
+        </ng-container>
+      <ng-container *ngIf="smSelectWithSearchOption">
+        <input class={{smInputClass}} type="text" list="datalistOptions" id="exampleDataList" [(ngModel)]="smModel" (keyup)="handleModelChange($event)" placeholder={{smPlaceholder|translate}}>
+        <datalist id="datalistOptions">
+          <option *ngIf="smPlaceholder" translate={{smPlaceholder}} value="" disabled selected></option>
+          <option *ngFor="let item of smOptions" [ngValue]="smOptionValueField? item[smOptionValueField] : item" [selected]="item[smOptionValueField] === smModel">{{item[smOptionDisplayField]}}</option>
+        </datalist>
+      </ng-container>
+  </div>
+</div>

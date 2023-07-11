@@ -1,0 +1,22 @@
+<lib-title-bar
+[title]="'resources.accountant-incomestatement-pageheading-incomestatement'"
+[addNewButton]="false"
+[helpLinkURL]="supportVideoBaseUrl"
+[pdfButton]="true"
+[exportButton]="true"
+[api]="api"
+[resourceMessages]="resourceMessages"
+[refreshButton]="false"
+></lib-title-bar>
+<form novalidate  #frm="ngForm" >
+    <lib-form-panel>
+        <div class="row">
+            <div class="col-md-5">
+                <lib-date-picker [smShowWeeks]="false" (smModelChange) ="fromDateRange($event)" [smPlaceholder]="placeHolderDate" [smLabel]="'resources.accountant-incomestatement-incomestatement-label-startdate'" [smLabelClass]="'col-md-3'" [smName]="'fromDate'"  [smDisabled]="false"/>
+            </div>
+            <div class="col-md-5">
+                <lib-date-picker [smShowWeeks]="false" (smModelChange) = "toDateRange($event)" [smPlaceholder]="placeHolderDate" [smLabel]="'resources.accountant-incomestatement-incomestatement-label-enddate'" [smLabelClass]="'col-md-3'" [smName]="'toDate'"  [smDisabled]="false"/>
+            </div>
+        </div>
+    </lib-form-panel>
+</form>

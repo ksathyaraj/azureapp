@@ -1,0 +1,194 @@
+
+<lib-form-panel
+      [smHeadingColor]="'rgb(33, 33, 33)'"
+      smHeading="resources.finance-invoicing-supplierinvoice-panelheading-supplierinvoice"
+    ></lib-form-panel>
+<form class="form-horizontal" novalidate (submit)="save(supplierInvoiceDetails, addsupplierInvoiceForm)" #addsupplierInvoiceForm="ngForm" >
+  <lib-form-panel [smLabel]="'resources.finance-invoicing-supplierinvoice-panelheading-details'">
+  <div class="row">
+    <div class="col-md-6">
+      <lib-select-input [smLabel]="'resources.finance-invoicing-supplierinvoice-label-supplier'"
+        [smLabelClass]="'col-sm-4'" [smName]="'contactId'" [(smModel)]="supplierInvoiceDetails.contactId"
+        [smRequired]="supplierInvoiceId === 0" [smOptionDisplayField]="'value'" [smOptions]="suppliers"
+        [smOptionValueField]="'key'" [smPlaceholder]="'resources.finance-invoicing-supplierinvoices-supplierdropdown-placeholder'"/>
+    </div>
+    <div class="col-md-6">
+      <lib-text-input [smLabel]="'resources.finance-invoicing-supplierinvoice-label-invoicenumber'" [smRequired]="true"
+        [smLabelClass]="'col-sm-4 '" [smName]="'supplierInvoiceNumber'" [smType]="'text'" [(smModel)]="supplierInvoiceDetails.supplierInvoiceNumber"
+        [smMaxlength]="50" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <lib-date-picker [smLabel]="'resources.finance-invoicing-supplierinvoice-label-invoicedate'" [smLabelClass]="'col-md-3'" [smName]="'createdDate'" [(smModel)]="supplierInvoiceDetails.createdDate" (smModelChange)="createdDateChange(supplierInvoiceDetails.createdDate)" [smRequired]="true" [smPlaceholder]="'resources.calendar-placeholder'"/>
+    </div>
+    <div class="col-md-6">
+      <lib-text-input [smLabel]="'resources.finance-invoicing-supplierinvoice-label-reference'" [smRequired]="true"
+        [smLabelClass]="'col-sm-4 '" [smName]="'sourceDocumentReference'" [smType]="'text'" [(smModel)]="supplierInvoiceDetails.sourceDocumentReference"/>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <lib-date-picker [smLabel]="'resources.finance-invoicing-supplierinvoice-label-paybydate'" [smLabelClass]="'col-md-3'" [smName]="'paybydate'" [(smModel)]="supplierInvoiceDetails.payByDate" [smRequired]="true" [smPlaceholder]="'resources.calendar-placeholder'"/>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group row">
+        <label class="control-label col-md-3 text-right">
+            <span translate="resources.finance-invoicing-supplierinvoice-label-invoicetotal"></span>
+        </label>
+        <div class="col-md-9">
+            <label class="control-label pull-right pt-2"><strong>{{supplierInvoiceDetails.total | number:'1.2-2'}}</strong></label>
+        </div>
+    </div>
+    </div>
+  </div>
+</lib-form-panel>
+  <lib-form-panel [smLabel]="'resources.finance-invoicing-supplierinvoice-panelheading-items'">
+  <div class="row ">
+    <div class="col-md-12">
+        <table class="table table-hover table-condensed table-bordered ">
+            <thead>
+                <tr>
+                    <th style="text-align: center">
+                        <span translate="resources.finance-invoicing-supplierinvoice-tablecolumnheading-category"></span>
+                    </th>
+                    <th style="text-align: center">
+                        <span translate="resources.finance-invoicing-supplierinvoice-tablecolumnheading-description"></span>
+                    </th>
+                    <th style="text-align: center">
+                        <span translate="resources.finance-invoicing-supplierinvoice-tablecolumnheading-amount"></span>
+                    </th>
+                    <th *ngIf="showVat" style="text-align: center">
+                        <span translate="resources.finance-invoicing-supplierinvoice-tablecolumnheading-vat"></span>
+                    </th>
+                    <th style="text-align: center">
+                        <span translate="resources.finance-invoicing-supplierinvoice-tablecolumnheading-total"></span>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of supplierInvoiceDetails.invoiceInItems;">
+                    <td style="width: 250px;">{{item?.category}}</td>
+                    <td>{{item?.description}}</td>
+                    <td class="text-right" style="width: 100px;">{{item?.amount | number:'1.2-2'}}</td>
+                    <td class="text-right" style="width: 100px;" ng-show="vm.showVat">{{item?.vat | number:'1.2-2'}}</td>
+                    <td class="text-right" style="width: 100px;">{{item?.total | number:'1.2-2'}}</td>
+                    <td style="width: 50px; text-align: center;">
+                      <lib-button
+                        [smTitle]="'resources.common-buttons-delete-title'"
+                        [smType]="'button'"
+                        [smClass]="'btn btn-danger btn-xs btnLineItemAction'"
+                        [smIcon]="'fa fa-close'"
+                        (smClick)="deleteItem(item,'')"
+                      />
+                    </td>
+                </tr>
+                <tr>
+                    <td [attr.colspan]="showVat ? 6 : 5" style="padding-right: 20px;">
+                        <div class="pull-right form-inline">
+                            <div class="form-group" style="width: inherit !important;">
+                              <lib-button
+                                [smLabel]="'resources.common-button-finance-accountitem'"
+                                [smType]="'button'"
+                                [smClass]="'btn btn-secondary'"
+                                [smIcon]="'fa fa-plus'"
+                                (smClick)="addSalesItem()"
+                              />
+                              <lib-button
+                                [smLabel]="'resources.common-button-finance-interestitem'"
+                                [smType]="'button'"
+                                [smClass]="'btn btn-secondary'"
+                                [smIcon]="'fa fa-plus'"
+                                (smClick)="addInterestItem()"
+                              />
+                              <lib-button
+                                [smLabel]="'resources.common-button-finance-discountitem'"
+                                [smType]="'button'"
+                                [smClass]="'btn btn-secondary'"
+                                [smIcon]="'fa fa-plus'"
+                                (smClick)="addDiscountItem()"
+                              />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-9">
+  </div>
+  <div class="col-md-3">
+    <lib-form-panel [smLabel]="'resources.finance-invoicing-supplierinvoice-panelheading-summary'" >
+      <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-5">
+                    <span translate="resources.finance-invoicing-supplierinvoice-label-subtotal"></span>
+                </label>
+                    <label class="control-label pull-right">
+                        <strong>{{supplierInvoiceDetails.subTotal | number:'1.2-2'}}</strong>
+                    </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-5"><span translate="resources.finance-invoicing-supplierinvoice-label-discount"></span></label>
+                    <label class="control-label pull-right">
+                        <strong>{{supplierInvoiceDetails.totalDiscount | number:'1.2-2'}}</strong>
+                    </label>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="showVat">
+        <div class="col-md-12">
+            <div class="form-group" style="margin-bottom: 0">
+                <label class="control-label col-md-5">
+                    <span translate="resources.finance-invoicing-supplierinvoice-label-vat"></span>
+                </label>
+                    <label class="control-label pull-right">
+                        <strong>{{supplierInvoiceDetails.totalVat | number:'1.2-2'}}</strong>
+                    </label>
+            </div>
+        </div>
+    </div>
+    <div class="row footer">
+      <div class="col-md-12">
+        <div class="card-footer" translate="resources.finance-invoicing-supplierinvoice-panelfooter-summary">
+          <label class="control-label pull-right">
+            {{supplierInvoiceDetails.total | number:'1.2-2'}}
+          </label>
+        </div>
+      </div>
+    </div>
+    
+    </lib-form-panel>
+  
+  </div>
+</div>
+</lib-form-panel>
+<lib-form-panel [smLabel]="'resources.finance-invoicing-supplierinvoice-panelheading-comments'">
+<div class="row">
+  <div class="col-md-12">
+    <lib-textarea-input [smName]="'comments'" [(smModel)]="supplierInvoiceDetails.comments" [smRows]="4" />
+  </div>
+</div>
+</lib-form-panel>
+<div class="form-group">
+  <div class="col-sm-12 button-bar pb-20">
+    <lib-validation-message></lib-validation-message>
+    <lib-button
+      [smLabel]="'resources.common-buttons-save'"
+      [smType]="'submit'"
+      [smClass]="'btn btn-primary pull-right btnPrimaryAction'"
+      [smIcon]="'fa fa-save'"
+      [smDisabled]="!addsupplierInvoiceForm.valid"
+    />
+  </div>
+</div>
+</form>

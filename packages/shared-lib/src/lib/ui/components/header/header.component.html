@@ -1,0 +1,68 @@
+<form #HeaderForm="ngForm" novalidate>
+<nav class="headerBar fixed-top navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container-fluid" style="justify-content: 'flex-start'">
+      <a class="navbar-brand" href="#"><img class="img-responsive companyLogo" src="../../assets/images/smeasy_logo.png"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="col-md-9">        
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+          <ng-container *ngIf="!isAdminSectionEnable">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/settings']" href="#" translate="resources.layout-settings-menu-settings"></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://support.smeasy.co.za/enZA/" target="_blank" translate="resources.layout-settings-menu-support"></a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="isAdminSectionEnable">
+          <li><h4 style="padding-top: 5px;">MANAGEMENT PORTAL</h4></li>
+          <li>
+            <div class="col-md-11 ml-11">
+              <lib-select-input
+                [smOptions]="companies"
+                [smOptionDisplayField]="'sanitizedName'"
+                [smOptionValueField]="'id'"
+                [(smModel)]="selectedCompany"
+                (smModelChange)="onSelect()"
+                [smPlaceholder]="'Please select a company'"
+                [smName]="'company'"
+              ></lib-select-input>
+            </div>
+          </li>
+          <li>
+            <lib-button  (smClick)="refreshData()" [smClass]="'btn btn-primary'" [smIcon]="'fa fa-refresh'"></lib-button>
+          </li>
+        </ng-container>
+        </ul>
+      </div>
+        <div class="col-md-4">
+        <div class="d-flex">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="loggedin-text nav-link">
+                    <span class="hidden-sm" *ngIf="!isAdminSectionEnable">
+                        <b>{{userName}}</b>&nbsp;<span translate="resources.common-of-label"></span>&nbsp;<b>{{companyName}}</b>
+                    </span>
+                    <span class="hidden-sm" *ngIf="isAdminSectionEnable">
+                      <span>Logged in as</span>&nbsp;&nbsp;<b>{{userName}}</b>
+                    </span>
+                </a>
+                </li>
+                <li class="nav-item">
+                    <!-- <button (click)="logout()" class="btn btn-secondary btn-sm header-logout">Logout</button> -->
+                    <div class="header-logout">
+                      <lib-button [smLabel]="'Logout'" (smClick)="logout()" [smClass]="isAdminSectionEnable ? 'btn btn-custom1 admin-logout' : 'btn btn-custom1 btn-sm'"></lib-button>
+                    </div>
+                </li>
+                <li class="nav-item" *ngIf="!isAdminSectionEnable">
+                    <a class="navbar-brand" href="#"><img class="img-responsive companyLogo" [src]="'data:image/png;base64,'+companyProfileImage"></a>
+                </li>
+            </ul>
+        </div>
+      </div>
+      </div>
+    </div>
+  </nav>
+</form>

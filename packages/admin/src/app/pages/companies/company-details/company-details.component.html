@@ -1,0 +1,514 @@
+
+<br/>
+<br/>
+<h3 >Company Detail - {{company.sanitizedName}}</h3>
+<form class="form-horizontal" #frm="ngForm" novalidate>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel >   
+                <div>
+                    <div class="row">
+                        <div class="col-md-4"><h4>Main Details</h4></div>
+                        <div class="col-md-8 button-bar">
+                            <a class="btn btn-danger" target="_blank" [hidden]="!canImpersonate" [href]="company.impersonationUrl"><i class="fa fa-eye-slash"></i> Impersonate Primary User</a>
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Company Name</strong>
+                    </div>
+                    <div class="col-md-4">{{company.registeredName}}</div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Company ID</strong>
+                    </div>
+                    <div class="col-md-4">{{company.id}}</div>
+                    <div class="col-md-2">
+                        <strong>Country</strong>
+                    </div>
+                    <div class="col-md-4">
+                        {{company.countryName}}
+                        <img class="img-responsive flag" title="{{company.countryName}}" [src]="company.countryImageUrl">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Source</strong>
+                    </div>
+                    <div class="col-md-4">{{company.source}}</div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Company Login</strong>
+                    </div>
+                    <div class="col-md-4">{{company.sanitizedName}}</div>
+                    <div class="col-md-2">
+                        <strong>Primary User</strong>
+                    </div>
+                    <div class="col-md-4">{{company.primaryUserName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Primary User Full Name</strong>
+                    </div>
+                    <div class="col-md-4">{{company.primaryUserFullName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Registered Date</strong>
+                    </div>
+                    <div class="col-md-4">
+                        {{company.registeredDate|date:'dd MMM yyyy'}} <small>{{company.registeredDate|date:'HH:mm'}}</small>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Can Login</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <i [hidden]="!company.canLogin" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.canLogin" class="fa fa-square-o"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Email</strong>
+                    </div>
+                    <div class="col-md-4">{{company.primaryContactEmail}}</div>
+                    <div class="col-md-2">
+                        <strong>Mobile</strong>
+                    </div>
+                    <div class="col-md-4">{{company.primaryContactNumber}}</div>
+                </div>
+                <br/>
+                <br/>
+                <h4>Signup Type</h4>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Payment Type</strong>
+                    </div>
+                    <div class="col-md-4">{{company.paymentType}}</div>
+                    <div class="col-md-2">
+                        <strong>Payment Frequency</strong>
+                    </div>
+                    <div class="col-md-4">{{company.paymentFrequency}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Reseller</strong>
+                    </div>
+                    <div class="col-md-4">{{company.resellerName}}</div>
+                    <div class="col-md-2">
+                        <strong>Campaign</strong>
+                    </div>
+                    <div class="col-md-4">{{company.campaignName}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Is MTN Company</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <i [hidden]="!company.isMtnCompany" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.isMtnCompany" class="fa fa-square-o"></i>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Subscription Ending Soon</strong>
+                    </div>
+                    <div class="col-md-4"><a [href]="company.absaVoucherPaymentUrl" target="_blank">Payment Method</a></div>
+                </div>
+                <br/>
+                <br/>
+                <h4>Other Details</h4>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Is VAT Registered</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <i [hidden]="!company.isVatRegistered" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.isVatRegistered" class="fa fa-square-o"></i>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>VAT Rate</strong>
+                    </div>
+                    <div class="col-md-4">{{company.vatRate}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Website</strong>
+                    </div>
+                    <div class="col-md-4">
+                        {{company.websiteUrl}}
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Completed the wizard?</strong>
+                    </div>
+                    <div class="col-md-4">
+                        <i [hidden]="company.isWizardVisible" class="fa fa-check-square-o"></i>
+                        <i [hidden]="!company.isWizardVisible" class="fa fa-square-o"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <strong>Last Logged In</strong>
+                    </div>
+                    <div class="col-md-4">
+                        {{company.lastLoggedInDescription}}
+                    </div>
+                    <div class="col-md-2">
+                        <strong></strong>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <h4>Prefixes and Starting Numbers</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Invoice Details Set</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <i [hidden]="!company.invoiceStartingDetails.detailSet" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.invoiceStartingDetails.detailSet" class="fa fa-square-o"></i>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Quote Details Set</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <i [hidden]="!company.quoteStartingDetails.detailSet" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.quoteStartingDetails.detailSet" class="fa fa-square-o"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Invoice Prefix</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.invoiceStartingDetails.prefix}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Quote Prefix</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.quoteStartingDetails.prefix}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Invoice Starting Number</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.invoiceStartingDetails.startingNumber}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Quote Starting Number</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.quoteStartingDetails.startingNumber}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Invoice Current Counter Value</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.invoiceStartingDetails.numberCounter}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Quote Current Counter Value</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.quoteStartingDetails.numberCounter}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Credit Note Details Set</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <i [hidden]="!company.creditNoteStartingDetails.detailSet" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.creditNoteStartingDetails.detailSet" class="fa fa-square-o"></i>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Project Details Set</strong>
+                    </div>
+                    <div class="col-md-3">
+                        <i [hidden]="!company.projectStartingDetails.detailSet" class="fa fa-check-square-o"></i>
+                        <i [hidden]="company.projectStartingDetails.detailSet" class="fa fa-square-o"></i>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Credit Note Prefix</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.creditNoteStartingDetails.prefix}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Project Prefix</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.projectStartingDetails.prefix}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Credit Note Starting Number</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.creditNoteStartingDetails.startingNumber}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Project Starting Number</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.projectStartingDetails.startingNumber}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Credit Note Current Counter Value</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.creditNoteStartingDetails.numberCounter}}
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Project Current Counter Value</strong>
+                    </div>
+                    <div class="col-md-3">
+                        {{company.projectStartingDetails.numberCounter}}
+                    </div>
+                </div>
+                    <br />
+                    <br/>
+                    <h4>Setup Wizard Question Answers</h4>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>I currently do my accounting using...</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{company.setupWizardQuestions?.howDoYouDoYourAccountingDescription}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>I've been up and running for...</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{company.setupWizardQuestions?.howLongHaveYouBeenRunningDescription}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>My industry is...</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{company.setupWizardQuestions?.yourIndustryIsDescription}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>I heard about you from...</strong>
+                        </div>
+                        <div class="col-md-3">
+                            {{company.setupWizardQuestions?.youHeardAboutUsFromDescription}}
+                        </div>
+                    </div>
+                <br/>
+                <br/>
+                <div class="row">
+                    <div class="col-md-4"><h4>Subscription Info</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <lib-button [smLabel]="'View History'" [smType]="'button'" [smClass]="'btn btn-primary pull-right'" (smClick)="showSubscriptionHistory()"></lib-button>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <table class="table table-hover table-condensed table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="col-md-2">
+                                <strong>Start</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Expiry</strong>
+                            </th>
+                            <th class="col-md-1">
+                                <strong>Type</strong>
+                            </th>
+                            <th class="col-md-1">
+                                <strong>Payment</strong>
+                            </th>
+                            <th class="col-md-1">
+                                <strong>Status</strong>
+                            </th>
+                            <th class="col-md-3">
+                                <strong>Comment</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Reporting Category</strong>
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let o of company.subscriptions">
+                            <td>{{o.start|date:'dd MMM yyyy'}}</td>
+                            <td>{{o.expiry|date:'dd MMM yyyy'}}</td>
+                            <td>{{o.subscriptionType}}</td>
+                            <td>{{o.paymentType}}</td>
+                            <td>{{o.subscriptionStatus}}</td>
+                            <td>{{o.comment}}</td>
+                            <td>{{o.reportingCategoryDisplayName}}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <!-- <a id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="btn btn-default">
+                                        <i class="fa fa-caret-down"></i> Actions
+                                    </a> -->
+                                    <lib-button [smLabel]="'Action'" [smType]="'button'" [smClass]="'btn btn-default btnSecondaryAction dropdown-toggle'" data-bs-toggle="dropdown" aria-expanded="false">
+                                    
+                                      </lib-button>
+                                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                        <li><a class="dropdown-item" (click)="showExtraInfo(o.extraInfo)"><i class="fa fa-eye"></i> View Extra Info</a></li>
+                                        <li><a class="dropdown-item" (click)="changeReportingCategory(o.id, company)"><i class="fa fa-cog"></i> Change Reporting Category</a></li>
+                                        <li><hr/></li>
+                                        <li><a class="dropdown-item" *ngIf="company.isAbsaCustomer" (click)="manualAbsaHandover(company)"><i class="fa fa-level-up"></i> Manual Absa Handover</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showPaymentPendingActivateSubscriptionLink" (click)="activatePendingPaymentSubscription(o.id)"><i class="fa fa-level-up"></i> Activate Pending Payment Subscription</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showPaymentPendingSuspendSubscriptionLink" (click)="suspendPendingPaymentSubscription(o.id)"><i class="fa fa-level-down"></i> Suspend Pending Payment Subscription</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showSendFreeTrialEndingEmailLink" (click)="sendFreeTrialEndingEmail()"><i class="fa fa-envelope-o"></i> Send Free Trial ending email</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showSendSubscriptionEndingEmailLink" (click)="sendSubscriptionEndingEmail()"><i class="fa fa-envelope-o"></i> Send Subscription ending email</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showExtendExpiryLink" (click)="extendSubscriptionExpiry(o.id, company)"><i class="fa fa-long-arrow-right"></i> Extend Subscription Expiry Date</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showChangeExpiryLink" (click)="changeSubscriptionExpiry(o.id, company)"><i class="fa fa-cog"></i> Change Subscription Expiry Date</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showActivateSubscriptionLink" (click)="showActivateSubscriptionModal(o.id, company)"><i class="fa fa-check-square-o"></i> Activate Subscription</a></li>
+                                        <li><a class="dropdown-item" *ngIf="o.showSuspendSubscriptionLink" (click)="showSuspendSubscriptionModal(o.id, company)"><i class="fa fa-exclamation-circle"></i> Suspend Subscription</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br/>
+                <h4>Debit Order Banking Details</h4>
+                <div class="col-md-12 form-group">
+                    <table class="table table-hover table-condensed table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="col-md-1">
+                                <strong>Amount</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Bank Name</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Branch Name</strong>
+                            </th>
+                            <th class="col-md-1">
+                                <strong>Branch Code</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Account Number</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Start Date</strong>
+                            </th>
+                            <th class="col-md-3">
+                                <strong>Account Name</strong>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let o of company.debitOrderDetails">
+                            <td> {{o.amount | number:'2'}}</td>
+                            <td> {{o.bankName}}</td>
+                            <td> {{o.branchName}}</td>
+                            <td> {{o.branchCode}}</td>
+                            <td> {{o.accountNumber}}</td>
+                            <td> {{o.startDate | date:'dd MMM yyyy'}} <small>{{o.startDate | date:'HH:mm'}}</small></td>
+                            <td> {{o.accountName}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br/>
+                <h4>Payment Details</h4>
+                <div class="col-md-12 form-group">
+                    <table class="table table-hover table-condensed table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="col-md-2">
+                                <strong>Payment Type</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Payment Frequency</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Voucher Code</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Active Reseller</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Campaign Name</strong>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let o of company.paymentDetails">
+                            <td> {{o.paymentType}}</td>
+                            <td> {{o.paymentFrequency}}</td>
+                            <td> {{o.voucherCode}}</td>
+                            <td> {{o.vendorCode}}</td>
+                            <td> {{o.campaign}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br/>
+                <div class="row">
+                    <h4 class="col-md-10">Company History</h4>
+                    <div class="col-md-2 text-right">
+                        <lib-button [smType]="'button'" [smClass]="'btn btn-success pull-right'" (smClick)="showAddCompanyHistory()" [smIcon]="'fa fa-plus'" [smLabel]="'Add'"></lib-button>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <table class="table table-hover table-condensed table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="col-md-2">
+                                <strong>Status</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Comment</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Created By</strong>
+                            </th>
+                            <th class="col-md-2">
+                                <strong>Created Date</strong>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let o of company.companyStatus">
+                            <td> {{o.status}}</td>
+                            <td> {{o.comment}}</td>
+                            <td> {{o.createdBy}}</td>
+                            <td> {{o.createdDate|date:'dd MMM yyyy HH:mm'}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </lib-form-panel>
+        </div>
+
+    </div>
+</form>

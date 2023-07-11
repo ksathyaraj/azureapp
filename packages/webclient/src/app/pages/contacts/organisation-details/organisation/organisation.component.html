@@ -1,0 +1,169 @@
+<lib-title title="resources.contacts-organisations-organisationdetails-pageheading-organisationdetail">
+</lib-title>
+<lib-page-tab-bar [tabData]="tabData"> </lib-page-tab-bar>
+<form class="form-horizontal" novalidate  #frm="ngForm" >
+     <lib-form-panel [smLabel]="'resources.contacts-organisations-organisationdetails-panelheading-details'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-organisationname'" [smLabelClass]="'col-md-4'" [smName]="'companyName'" [(smModel)]="organisation.companyName"  tabindex="1" [smRequired]="true" [smMaxlength]="100" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-organisationcode'" [smLabelClass]="'col-md-4'" [smName]="'organisationCode'" [smType]="'text'" [(smModel)]="organisation.organisationCode" tabindex="5" [smMaxlength]="10"  />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-tradingas'" [smLabelClass]="'col-md-4'" [smName]="'tradingAs'" [smType]="'text'" [(smModel)]="organisation.tradingAs" tabindex="2" [smRequired]="true" [smMaxlength]="50" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-telephone'" [smLabelClass]="'col-md-4 '" [smName]="'telephone'" [smType]="'text'" [(smModel)]="organisation.telephone" tabindex="6" [smMaxlength]="50" />
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-relationshiptype'" [smLabelClass]="'col-md-4 '" [smName]="'contactRelationshipType'" [(smModel)]="organisation.contactRelationshipType" [smRequired]="true" [smOptionDisplayField]="'value'" [smOptions]="contactRelationshipTypes" tabindex="3" [smOptionValueField]="'key'" [smPlaceholder]="'Please Select'" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-fax'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'fax'" [(smModel)]="organisation.fax" tabindex="7" [smMaxlength]="100" />
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-website'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'website'" [(smModel)]="organisation.website" tabindex="4" [smMaxlength]="200" />
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+     </lib-form-panel>
+
+
+        <lib-form-panel [smLabel]="'resources.contacts-organisations-organisationdetails-panelheading-addresses'">
+        <div class="row">
+            <div class="col-md-12">
+                <i class="fa fa-question-circle fa-lg pull-right" (click)="showInfo()" title="{{'resources.common-buttons-info-title' | translate }}"></i>
+            </div>
+        </div>
+            <div class="row">
+            <div class="col-md-6 text-center">
+                 <h5>
+                    <span translate="resources.contacts-organisations-organisationdetails-labelheading-physicaladdress"></span>
+                    </h5>
+                </div>
+            <div class="col-md-6 text-center">
+                 <h5>
+                    <span translate="resources.contacts-organisations-organisationdetails-labelheading-postaladdress"></span>
+                </h5>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4">
+                 <lib-checkbox-input
+                    [smShowPostInput]="true"
+                    [smLabelClass]="'col-md-10'"
+                    [(smModel)]="organisation.postalIsSameAsPhysicalAddress"
+                    (smModelChange)="postalIsSameAsPhysicalAddressChange()"
+                    [smLabel]="'resources.contacts-organisations-organisationdetails-label-sameasphysicaladdress'">
+                  >
+                 </lib-checkbox-input>
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-addressline1'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'addressline1'" [(smModel)]="organisation.physicalAddress.addressLine1" tabindex="7" [smRequired]="true" [smMaxlength]="150" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-addressline1'"  [smLabelClass]="'col-md-4 '" [smType]="'text'"  [smName]="'postAddressline1'" [(smModel)]="organisation.postalAddress && organisation.postalAddress.addressLine1" tabindex="14" [smMaxlength]="150" />
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-addressline2'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'addressline2'" [(smModel)]="organisation.physicalAddress.addressLine2" tabindex="8" [smRequired]="true" [smMaxlength]="150" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-addressline2'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'postAddressline2'"  [(smModel)]="organisation.postalAddress && organisation.postalAddress.addressLine2" tabindex="15" [smMaxlength]="150" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-cityortown'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'town'" [(smModel)]="organisation.physicalAddress.town" tabindex="9" [smRequired]="true" [smMaxlength]="150" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-cityortown'" [smLabelClass]="'col-md-4 '" [smType]="'text'"  [smName]="'postTown'" [(smModel)]="organisation.postalAddress && organisation.postalAddress.town" tabindex="16" [smMaxlength]="150" />
+            </div>
+        </div>
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-code'" [smLabelClass]="'col-md-4 '" [smType]="'text'" [smName]="'code'" [(smModel)]="organisation.physicalAddress.code" tabindex="10" [smRequired]="true" [smMaxlength]="150" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-code'" [smLabelClass]="'col-md-4 '"  [smType]="'text'" [smName]="'postCode'" [(smModel)]="organisation.postalAddress && organisation.postalAddress.code" tabindex="17" [smMaxlength]="150" />
+            </div>
+        </div>
+
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'Country'" [smLabelClass]="'col-md-4 '" [smName]="'countryId'" [(smModel)]="organisation.physicalAddress.countryId" [smRequired]="true"   [smOptionDisplayField]="'value'" (smModelChange)="countryChange(organisation.physicalAddress.countryId)"  [smOptions]="countries" tabindex="11" [smOptionValueField]="'key'" [smPlaceholder]="'Please Select'"/>
+            </div>
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'Country'" [smLabelClass]="'col-md-4 '" [smName]="'postCountryId'"  [(smModel)]="organisation.postalAddress && organisation.postalAddress.countryId"   [smOptionDisplayField]="'value'" (smModelChange)="countryChange(organisation.postalAddress.countryId)" [smOptions]="countries" tabindex="18" [smOptionValueField]="'key'" [smPlaceholder]="'Please Select'" />
+            </div>
+        </div>
+
+
+         <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smName]="'province'" [smLabel]="'Province'" [smLabelClass]="'col-md-4 '"  [(smModel)]="organisation.physicalAddress.provinceId" [smRequired]="true" [smOptionDisplayField]="'value'"   [smOptions]="provinces" tabindex="12" [smOptionValueField]="'key'" [smPlaceholder]="'Please Select'" />
+            </div>
+            <div class="col-md-6">
+                <lib-select-input [smName]="'postProvince'" [smLabel]="'Province'" [smLabelClass]="'col-md-4 '" [(smModel)]="organisation.postalAddress && organisation.postalAddress.provinceId"  [smOptionDisplayField]="'value'" [smOptions]="provinces" tabindex="19" [smOptionValueField]="'key'"  [smPlaceholder]="'Please Select'" />
+            </div>
+        </div>
+     </lib-form-panel>
+
+     <lib-form-panel [smLabel]="'resources.contacts-organisations-organisationdetails-panelheading-additionalinformation'">
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-vatnumber'" [smName]="'vatNumber'"  [smLabelClass]="'col-md-4 '"  [(smModel)]="organisation.vatNumber"  tabindex="20"  [smMaxlength]="50"/>
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-registrationnumber'" [smName]="'companyRegistrationNumber'" [smLabelClass]="'col-md-4 '" [smType]="'text'"  [(smModel)]="organisation.companyRegistrationNumber" tabindex="23" [smMaxlength]="50" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-businesstype'" [smLabelClass]="'col-md-4 '" [smName]="'businessType'" [(smModel)]="organisation.businessType" [smOptionDisplayField]="'value'"   [smOptions]="businessTypes" tabindex="21" [smOptionValueField]="'key'" />
+            </div>
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-status'" [smLabelClass]="'col-md-4 '" [smName]="'tradingStatusId'" [(smModel)]="organisation.tradingStatusId" [smOptionDisplayField]="'value'" [smOptions]="tradingStatusTypes" tabindex="24" [smOptionValueField]="'key'" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-oursuppliernumber'" [smLabelClass]="'col-md-4 '"  [smName]="'supplierNumber'" [(smModel)]="organisation.supplierNumber" tabindex="22"  [smMaxlength]="50"/>
+            </div>
+            <div class="col-md-6">
+                <lib-textarea-input [smLabel]="'resources.contacts-organisations-organisationdetails-label-notes'" [smLabelClass]="'col-md-4 '" [smName]="'notes'" [smType]="'text'" [smRows]="3"  [(smModel)]="organisation.notes" tabindex="25" [smMaxlength]="500" />
+            </div>
+        </div>
+     </lib-form-panel>
+
+      <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(organisation,frm)"  [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+
+</form>

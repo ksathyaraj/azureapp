@@ -1,0 +1,17 @@
+<lib-table 
+[tableColumns]="absaCompaniesColumns" 
+[api]="api" 
+[title]="title" 
+[refreshButton]="true"
+[exportButton]="false"
+[addNewButton]="false"
+[pdfButton]="false"
+[downloadButton]="true"
+[searchUIOptions]="searchUIOptions"
+[resourceMessages]="resourceMessages"
+(smHandleDownloadButtonClick)="downloadNewRegistrations()"
+(smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+[dateRangeDivClass]="'col-md-4'"
+[searchInputDivClass]="'col-md-4'"
+>
+</lib-table>

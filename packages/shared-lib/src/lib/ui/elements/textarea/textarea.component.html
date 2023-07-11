@@ -1,0 +1,22 @@
+<div class="form-group row">
+  <label class="control-label" [ngClass]="smLabelClass" *ngIf="smLabel">
+      <span [translate]="smLabel"></span><span *ngIf="smRequired">*</span>
+  </label>
+  <div [ngClass]="elementClass">
+      <textarea  
+              [name]="smName"
+              [placeholder]="smPlaceholder"
+              class="form-control" 
+              [(ngModel)]="smModel" 
+              (ngModelChange)="handleModelChange($event)" 
+              [disabled]="smDisabled"
+              [maxlength]="smMaxlength"
+              [tabindex]="smTabindex"
+              [rows]="smRows"
+              [ngClass]="{'is-invalid': ngForm.form.controls[smName]?.errors?.['required'] && ngForm.form.controls[smName].touched}"
+              [required]="smRequired"
+              [typeahead]="smValues"
+              [typeaheadOptionsLimit]="7"     
+              ></textarea>
+  </div>
+</div>

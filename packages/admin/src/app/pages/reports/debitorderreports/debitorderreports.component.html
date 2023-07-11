@@ -1,0 +1,5 @@
+<lib-table [api]="api" [title]="title" [smTitle3]="title2" [exportButton]="false" [addNewButton]="false"
+    [searchUIOptions]="searchUIOptions" [resourceMessages]="resourceMessages" [tableColumns]="debitOrderColumns"
+    [emailButton]="true" (smHandleEmailButtonClick)="emailDebitOrderReport()" [dropDownFilter]="dropDownFilter"
+    [showCount]="false" (smHandleDropdownClick)="titleChange($event)" [selectInputDivClass]="'col-md-4'">
+</lib-table>

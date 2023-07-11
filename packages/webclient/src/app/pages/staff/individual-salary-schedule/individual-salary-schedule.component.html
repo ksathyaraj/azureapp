@@ -1,0 +1,58 @@
+<lib-form-panel>
+  <form class="form-horizontal">
+    <div class="row">
+      <div class="col-md-4 marginTop2">
+        <h3>
+          <span
+            translate="resources.staff-individualsalaryschedule-tabheading-individualsalaryschedule"
+          ></span>
+        </h3>
+      </div>
+      <div class="col-md-8 pull-right marginTop2">
+        <lib-title-bar
+          [exportButton]="exportButton"
+          [pdfButton]="pdfButton"
+          [refreshButton]="refreshButton"
+          [helpLinkURL]="helpLinkUrl"
+          [addNewButton]="addNewButton"
+          [api]="api"
+          [resourceMessages] ="resourceMessages"
+        ></lib-title-bar>
+      </div>
+      <lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+    </div>
+
+    <lib-form-panel>
+      <div class="row">
+        <div class="col-md-6">
+          <lib-select-input
+            [smLabel]="'resources.staff-individualsalaryschedule-label-staffmember'"
+            [smLabelClass]="'col-md-3'"
+            [smName]="'selectedStaffId'"
+            [(smModel)]="staffId"
+            (smModelChange) ="getStaffId($event)"
+            [smRequired]="true"
+            [smOptionDisplayField]="'value'"
+            [smOptions]="staffMembers"
+            [smOptionValueField]="'key'"
+            [smPlaceholder]="'Please Select'"
+          ></lib-select-input>
+        </div>
+        <div class="col-md-6">
+          <lib-select-input
+            [smLabel]="'resources.staff-individualsalaryschedule-label-taxyear'"
+            [smLabelClass]="'col-md-3 control-label'"
+            [smName]="'selectedTaxYear'"
+            [(smModel)]="taxYear"
+            (smModelChange) ="getTaxYear($event)"
+            [smRequired]="true"
+            [smOptionDisplayField]="'value'"
+            [smOptions]="taxYears"
+            [smOptionValueField]="'key'"
+            [smPlaceholder]="'Please Select'"
+          ></lib-select-input>
+        </div>
+      </div>
+    </lib-form-panel>
+  </form>
+</lib-form-panel>
