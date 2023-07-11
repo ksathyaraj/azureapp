@@ -30,7 +30,7 @@ jobs:
           app_location: "/" # App source code path
           app_build_command: 'npx yarn nx run admin:build --configuration=development && npx yarn nx run webclient:build --configuration=development'
           api_location: "" # Api source code path - optional
-          output_location: "/dist/packages/admin && /dist/packages/webclient" # Built app content directory - optional
+          output_location: "/dist/packages/admin" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
