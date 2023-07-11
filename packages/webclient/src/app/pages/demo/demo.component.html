@@ -1,0 +1,161 @@
+
+<form #frm="ngForm">
+<br/>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link " id="home-tab" data-bs-toggle="tab" data-bs-target="#button-tab" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Button</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#datepicker-tab" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Datepicker</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#title-tab" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Title bar</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#text-tab" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Text bar</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#link-tab" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Link bar</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#search-tab" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Search bar</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#accordion-tab" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Accordion bar</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+
+    <!-- Button -->
+    <div class="tab-pane fade " id="button-tab" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <br>
+        <H5>Usage</H5>
+            &lt;lib-button [smClass]="'btn btn-primary'" [smLabel]="'Test'" (cmCLick)="notification('showInfo')"&gt;&lt;/lib-button&gt;
+        <br>
+        <br>
+        <H5>btn-primary</H5>
+        <lib-button [smClass]="'btn btn-primary'" [smLabel]="'Test'" (smCLick)="notification('showInfo')"></lib-button>
+        <br>
+        <br>
+        <H5>btn-secondary</H5>
+        <lib-button [smClass]="'btn btn-secondary'" [smLabel]="'Test'" (smCLick)="notification('success')"></lib-button>
+        <br>
+        <br>
+        <H5>btn-danger</H5>
+        <lib-button [smClass]="'btn btn-danger btn-sm'" [smLabel]="'Test'" (smCLick)="notification('error')"></lib-button>
+        <br>
+        <br>
+        <H5>btn-custom1</H5>
+        <lib-button [smClass]="'btn btn-custom1'" [smLabel]="'Test'" (smCLick)="notification('warning')"></lib-button>
+        <br>
+        <br>
+        <H5>btn-custom2</H5>
+        <lib-button [smClass]="'btn btn-custom2'" [smLabel]="'Test'"></lib-button>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+
+    <!-- Button -->
+    <div class="tab-pane fade show active" id="datepicker-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="1">
+        <br>
+        <H5>Date Picker</H5>
+        &lt;lib-date-picker control-name="toDate" [date]="toDate" (dateChange)="toDate=$event"&gt;&lt;/lib-date-picker&gt;
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <lib-date-picker/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Title bar -->
+    <div class="tab-pane fade" id="title-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="2">
+      <br>
+      <H5>Usage</H5>
+      &lt;lib-title-bar title="Organisation"&gt;&lt;/lib-title-bar&gt;
+      <div class="row">
+            <lib-title-bar
+            [title]="'Organisation Details'"
+          ></lib-title-bar>
+      </div>
+    </div>
+    <!-- Text bar -->
+    <div class="tab-pane fade" id="text-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="3">
+      <br>
+      <H5>Usage</H5>
+      &lt;lib-text-input type="text"&gt;&lt;/lib-text-input&gt;
+      <div class="row mt-4">
+          <div class="col-md-6">
+            {{dummyData}}
+          </div>
+      </div>
+    </div>
+
+    <!-- link bar -->
+    <div class="tab-pane fade" id="link-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="4">
+      <br>
+      <H5>Usage</H5>
+      &lt;lib-link linkName="Organisation"&gt;&lt;/lib-link&gt;
+      <div class="row mt-4">
+          <div class="col-md-6">
+            <lib-link
+            [url]="'https://support.smeasy.co.za/enZA/'"
+            [linkName]="'example'"
+          ></lib-link>
+          </div>
+      </div>
+    </div>
+    <!-- title bar -->
+    <div class="tab-pane fade" id="search-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="5">
+      <br>
+      <H5>Usage</H5>
+      &lt;lib-search-box searchUIOptions=""&gt;&lt;/lib-search-box&gt;
+      <div class="row">
+            <lib-search-box [searchUIOptions]="searchUIOptions"
+          ></lib-search-box>
+      </div>
+    </div>
+    <!-- Accordion -->
+    <div class="tab-pane fade" id="accordion-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="6">
+      <br>
+      <H5>Accordion</H5>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOne"
+            aria-controls="collapseOne"
+          >
+            <i class="fa fa-question-circle" aria-hidden="true"></i>
+            <span style="margin-left:10px" class="button-margin heading"
+              translate="Click to view help"
+            ></span>
+          </button>
+        </h2>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse"
+          aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body">
+            <div class="panel-footer">
+              <strong
+                ><span
+                  translate="This is a footer"
+                ></span
+              ></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </form>
+  

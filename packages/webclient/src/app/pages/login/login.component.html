@@ -1,0 +1,58 @@
+<div class="body-login">
+<section id="login-view" class="center-block login-view">
+
+    <div class="center-block container login-container" [style]="{width:'600px'}">
+        <div class="login-logo-container logo">
+            <!-- <img [src]="loginScreenMainLogoUrl" class="img-responsive loginLogo center-block" /> -->
+        </div>
+        <form (ngSubmit)="login(credentials, loginForm)" class="form-signin" #loginForm="ngForm" novalidate>
+            <div class="d-flex justify-content-center"  >
+                <div class="text-center">
+                    <h4 class="login-header" translate="resources.login-heading"></h4>
+                </div>
+            </div>
+            <br />
+            
+            <div class="col-md-10">
+                <div class="row">
+                    <lib-text-input [(smModel)]="credentials.companyname" [smLabel]="'resources.login-label-companyloginname'" [smLabelClass]="'col-md-5'" [smName]="'companyname'" [smType]="'text'" [smRequired]="true" />
+                </div>
+                <div class="row">
+                    <lib-text-input [(smModel)]="credentials.username" [smLabel]="'resources.login-label-username'" [smLabelClass]="'col-md-5'" [smName]="'username'" [smType]="'text'" [smRequired]="true" />
+                </div>
+                <div class="row">
+                    <lib-text-input [(smModel)]="credentials.password" [smLabel]="'resources.login-label-password'" [smLabelClass]="'col-md-5'" [smName]="'password'" [smType]="'password'" [smRequired]="true" />
+                </div>
+
+                <div class="row">
+                    <div class="form-group row">
+                        <div class="control-label col-md-5"></div>
+                        <div class="col-md-7">
+                            <lib-button [smLabel]="'Login'" [smType]="'submit'" [smClass]="'btn btn-sm btn-primary col-xs-3 btnPrimaryAction'" />
+                            <div class="supportforgottenpasswordbox" [style]="{marginRight: '-24px'}">
+                                <div>
+                                    <a href="forgotpassword" class="forgotpasswordlink" translate="resources.login-link-forgottenpassword"></a>
+                                </div>
+                                <div>
+                                    <a class="footersupportlink" href="{{supportVideoBaseUrl}}" target="_blank">
+                                        <span translate="resources.layout-settings-menu-support"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <p>&nbsp;</p>
+            </div>
+            <div class="row">
+                <div class="form-group clearfix">
+                    <div  data-[hidden]="!disclaimerText" class="col-md-12 login-small-text">{{disclaimerText}}</div>
+                </div>
+            </div>
+        </form>
+        <!-- <global-error-feedback></global-error-feedback> -->
+    </div>
+</section>
+</div>

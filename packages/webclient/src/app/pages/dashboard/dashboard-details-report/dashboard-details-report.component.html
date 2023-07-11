@@ -1,0 +1,60 @@
+<div [ngClass]="{'spin-me-round': showSpinner }">
+    <div class="card">
+        <div class="card-body">
+    <!-- <form-panel> -->
+        <div class="row">
+            <div class="col-md-4">
+                <!-- <p> -->
+                    <h5 class="text-center">Unallocated Transactions</h5>
+                <!-- </p> -->
+                <!-- <p> -->
+                    <h4 (click)="redirectToUnallocated()" *ngIf="data && data.hasData" class="text-center text-primary canvas-pointer">{{data.numberOfUnallocatedTransactions}}</h4>
+                    <h4 *ngIf="!data || !data.hasData" class="text-center text-primary">No data available</h4>
+                <!-- </p> -->
+            </div>
+            <div class="col-md-4">
+                <!-- <p> -->
+                    <h5 class="text-center">Last bank statement imported</h5>
+                <!-- </p> -->
+                <!-- <p> -->
+                    <!-- TODO - timeAlgo <h4 *ngIf="data.hasData" class="text-center text-primary">{{data.lastestBankStatementDate | timeAgo}}</h4> -->
+                    <h4 *ngIf="data && data.hasData" class="text-center text-primary">{{data.lastestBankStatementDate | intlRelativeTime}}</h4>
+                    <h4 *ngIf="!data || !data.hasData" class="text-center text-primary">No data available</h4>
+                <!-- </p> -->
+            </div>
+            <div class="col-md-4">
+                <!-- <p> -->
+                    <h5 class="text-center">3 month cashflow</h5>
+                <!-- </p> -->
+                <p class="text-center">
+                    <!-- <i (click)="redirectToCashFlow()" [style]="{'fontSize':'40px'}" [ngClass]="{
+                       'fa fa-circle-o-notch fa-spin fa-3x fa-fw': cashflowSpinner,
+                       'bi bi-hand-thumbs-up-fill text-success absa-green': (!cashflowSpinner && cashFlowData.cashFlowHealthIndicator.cashflowHealth && cashFlowData.cashFlowHealthIndicator.hasData),
+                       'bi bi-hand-thumbs-down-fill  fa-3x text-danger absa-red': (!cashflowSpinner && !cashFlowData.cashFlowHealthIndicator.cashflowHealth && cashFlowData.cashFlowHealthIndicator.hasData),
+                       'bi bi-question': (!cashflowSpinner && !cashFlowData.cashFlowHealthIndicator.hasData),
+                       'canvas-pointer' : true}">
+                    </i> -->
+
+                    <i (click)="redirectToCashFlow()" [ngClass]="cashflowSpinner ? 'fa fa-circle-o-notch fa-spin fa-3x fa-fw' :
+                        (!cashflowSpinner && cashFlowData.cashFlowHealthIndicator.cashflowHealth && cashFlowData.cashFlowHealthIndicator.hasData) ? 'fa fa-thumbs-up fa-3x text-success absa-green canvas-pointer':
+                        (!cashflowSpinner && !cashFlowData.cashFlowHealthIndicator.cashflowHealth && cashFlowData.cashFlowHealthIndicator.hasData) ? 'fa fa-thumbs-down fa-3x text-danger absa-red canvas-pointer':
+                        (!cashflowSpinner && !cashFlowData.cashFlowHealthIndicator.hasData)? 'fa fa-question fa-3x':''
+                        ">
+                    </i>
+
+                    <!-- <i (click)="redirectToCashFlow()" [ngClass]="{'fa fa-circle-o-notch fa-spin fa-3x fa-fw': cashflowSpinner,
+                       'fa fa-thumbs-up fa-3x text-success absa-green': (!cashflowSpinner && cashFlowData.cashFlowHealthIndicator.cashflowHealth && cashFlowData.cashFlowHealthIndicator.hasData),
+                       'fa fa-thumbs-down fa-3x text-danger absa-red': (!cashflowSpinner && !cashFlowData.cashFlowHealthIndicator.cashflowHealth && cashFlowData.cashFlowHealthIndicator.hasData),
+                       'fa fa-question fa-3x': (!cashflowSpinner && !cashFlowData.cashFlowHealthIndicator.hasData),
+                       'canvas-pointer' : true}">
+                    </i> -->
+
+                    <h6 *ngIf="cashFlowData.cashFlowHealthIndicator && cashFlowData.cashFlowHealthIndicator.hasData" class="text-center">{{cashFlowData.cashFlowHealthIndicator.message}}</h6>
+                    <h4 *ngIf="!cashFlowData.cashFlowHealthIndicator || !cashFlowData.cashFlowHealthIndicator.hasData" class="text-center text-primary">No data available</h4>
+                <!-- </p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </form-panel> -->
+</div>

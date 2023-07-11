@@ -1,0 +1,45 @@
+<lib-title-bar
+[title]="title" 
+[smTitle2]="title2"
+[refreshButton]="true"
+[downloadButton]="downloadButton"
+(handleRefreshButtonClick)="getData()"
+(handleDownloadButtonClick)="downloadVouchers()"
+[addNewButton]="false"
+/>
+<form #frmInvoicePayment="ngForm">
+    <lib-form-panel>
+        <div class="row">
+            <div class="col-md-4 ">
+                <lib-select-input [smName]="'selectedPaymentTypeItem'" [smOptions]="selectedPaymentOptions"
+                    [smOptionValueField]="'id'" [smOptionDisplayField]="'value'" [(smModel)]="selectedPaymentTypeItem"
+                    [smRequired]="true" />
+            </div>
+            <div class="col-md-4" *ngIf="selectedPaymentTypeItem === 0">
+                <lib-date-picker [smLabelClass]="'margin2label'" [smName]="'from'"  [smLabel]="'From'" [(smModel)]="from"
+                    [smRequired]="true" [smDisabled]="false" [smPlaceholder]="'DD MMM YYYY e.g. 01 Jan 2023'" />
+            </div>
+            <div class="col-md-4" *ngIf="selectedPaymentTypeItem === 0">
+                <lib-date-picker [smLabelClass]="'margin2label'" [smName]="'to'" [smLabel]="'To'" [(smModel)]="to" [smRequired]="true"
+                    [smDisabled]="false" [smPlaceholder]="'DD MMM YYYY e.g. 01 Jan 2023'" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <lib-button [smType]="'submit'" [smLabel]="'Save'" (smClick)="save(frmInvoicePayment)"
+                    [smClass]="'btn btn-success pull-right'" />
+            </div>
+        </div>
+    </lib-form-panel>
+</form>
+<lib-table 
+[tableColumns]="vouchersColumns" 
+[api]="api" 
+[showTitleBar]="false"
+[exportButton]="exportButton"
+[refreshButton]="false"
+[addNewButton]="false"
+(smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+>
+</lib-table>
+

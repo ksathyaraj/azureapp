@@ -1,0 +1,151 @@
+
+<section id="dashboard-view" *ngIf="!isAdminSectionEnable">
+    <nav class="custom-navbar navbar navbar-expand-lg navbar-dark bg-primary ">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="dropdown">
+              <a class="menu-new-items" type="button" [style]="{height:'37px'}" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                <b>+</b>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/finance/quotes/quotes/0']" href="#">
+                    <span class="fa fa-plus"></span> Quote</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/finance/invoicing/customerinvoices/0']" href="#">
+                    <span class="fa fa-plus"></span> Customer Invoice</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/finance/invoicing/supplierinvoices/0']" href="#">
+                    <span class="fa fa-plus"></span> Supplier Invoice</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/finance/businesscash/addbusinesscash']" href="#">
+                    <span class="fa fa-plus"></span> Business Cash Transaction</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/finance/ownersmoney']" href="#">
+                    <span class="fa fa-plus"></span> Owners Money Transaction</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/staff/staffdetails/0']" href="#">
+                    <span class="fa fa-plus"></span> Staff Member</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/staff/payslips/0']" href="#">
+                    <span class="fa fa-plus"></span> Payslip</a> 
+                </li>
+                <li [routerLinkActive]="['active']" class="">
+                  <a class="dropdown-item nav-dropdown-item" [routerLink]="['/contacts/organisations/0']" href="#">
+                    <span class="fa fa-plus"></span> Organisation Detail</a> 
+                </li>
+              </div>
+            </li>
+            <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+              <a class="nav-link" [routerLink]="['/dashboard']" href="#">Overview <span class="sr-only">(current)</span></a>
+            </li>
+            <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+              <a class="nav-link" [routerLink]="['/contacts']" href="#">Contacts</a>
+            </li>
+            <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+              <a class="nav-link" [routerLink]="['/staff']"href="#">Staff</a>
+            </li>
+            <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+              <a class="nav-link" [routerLink]="['/finance']"href="#">Finance</a>
+            </li>
+            <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+              <a class="nav-link" [routerLink]="['/reports']"href="#">Reports</a>
+            </li>
+            <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+              <a class="nav-link" [routerLink]="['/accountant']"href="#">Accountant</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav navbar-right">
+                <li class="hidden-xs hidden-sm hidden-md">
+                     <a [routerLink]="['/dashboard']" class="navbar-img" style="margin-right: 15px;">
+                        <img src="assets/images/home.png" width="25" class="img-responsive">
+                    </a>
+                </li>
+                <li class=" hidden-xs">
+                    <div class="backButton" style="position:relative;">
+                    <a class="w-100 d-inline-block" (click)="back()">
+                      <span style="vertical-align: super;">
+                        <i class="fa fa-caret-left" style="font-size:22px; margin-right:4px"></i>
+                      </span>
+                        <span style="vertical-align: top;" translate="resources.common-buttons-back"></span>
+                    </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+      </nav>
+</section>
+<section id="dashboard-view" *ngIf="isAdminSectionEnable">
+  <nav class="custom-navbar navbar navbar-expand-lg navbar-dark bg-primary ">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/dashboard']" href="#">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+          <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/companies']" href="#">Companies</a>
+          </li>
+          <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/licensees']"href="#">Voucher</a>
+          </li>
+          <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/auditing']"href="#">Auditing</a>
+          </li>
+          <li class="nav-item dropdown menustaticwidth" [routerLinkActive]="['active']">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Absa
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item nav-dropdown-item" [routerLink]="['/absabatchactivations']" href="#">Activations</a> 
+              </li>
+              <li>
+                <a class="dropdown-item nav-dropdown-item" [routerLink]="['/absaregistrationbatchsettings']" href="#">Registration Batch Settings</a> 
+              </li>
+              <li>
+                <a class="dropdown-item nav-dropdown-item" [routerLink]="['/absabatchreconreport']" href="#">Recon Report</a> 
+              </li>
+            </div>
+          </li>
+          <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/reports']"href="#">Reports</a>
+          </li>
+          <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/translations']"href="#">Translation</a>
+          </li>
+          <!-- <li [routerLinkActive]="['active']" class="nav-item menustaticwidth">
+            <a class="nav-link" [routerLink]="['/translations']"href="#">Provisioning</a>
+          </li> -->
+        </ul>
+        <ul class="navbar-nav navbar-right">
+              <li class="hidden-xs hidden-sm hidden-md admin-logo">
+                  <a [routerLink]="['/dashboard']" class="navbar-img">
+                      <img src="assets/images/logo_small.png" width="29" class="img-responsive">
+                  </a>
+              </li>
+              <li class="hidden-xs">
+                  <div class="backButton-admin">
+                  <a (click)="back()">
+                    <span style="vertical-align: super;">
+                      <i class="fa fa-caret-left" style="font-size:22px; margin-right:4px"></i>
+                    </span>
+                      <span style="vertical-align: top;">Back</span>
+                  </a>
+                  </div>
+              </li>
+          </ul>
+      </div>
+    </nav>
+</section>

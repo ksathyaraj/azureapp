@@ -1,0 +1,42 @@
+<div class="button-bar">
+  <lib-link
+    [linkName]="'Help Video'"
+    [translate]="'resources.common-buttons-helpvideo'"
+    [url]="supportVideoBaseUrl"
+  />
+</div>
+<lib-page-tab-bar [tabData]="tabData"> </lib-page-tab-bar>
+
+
+<form class="form-horizontal" #frmcompanyprofile="ngForm" novalidate>
+   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+   <lib-form-panel [smLabel]="'resources.settings-companyprofile-tabheading-taxinformation'">
+  <div class="row">
+     <div class="col-md-12">
+          <i
+            class="fa fa-question-circle fa-lg pull-right"
+            (click)="showInfo()"
+            title="{{ 'resources.common-buttons-info-title' | translate }}"
+          ></i>
+          </div>
+     <div class="col-md-6">
+          <lib-text-input [smLabel]="'resources.settings-companyprofile-label-vatnumber'" [smLabelClass]="'col-md-3'" [smName]="'vatNumber'" [smType]="'text'" [(smModel)]="taxInformation.vatNumber" (smModelChange)="vatNumberOnChange(frmcompanyprofile)" />
+        <lib-text-input [smLabel]="'resources.settings-companyprofile-label-vatrate'" [smLabelClass]="'col-md-3'" [smName]="'vatRate'" [smType]="'text'"  [smDisabled]="true" [smValue]="vatInfo.isVatRegistered ? defaultVatRate+'%' : 'Rate %' "/>
+     </div>
+     <div class="col-md-6">
+      <div class="col-md-8 control-label">
+          <span class="label label-warning" [hidden]="!vatButtonStatus" >{{vatStatusTooltip}}</span>
+        </div>
+     </div>
+  </div>
+   <div class="form-group">
+        <div class="col-sm-12 button-bar">
+            <lib-validation-message></lib-validation-message>
+            <lib-button [smTitle]="'resources.common-buttons-addnew'" [smType]="'submit'" (smClick)="navigateToVatStatusChange()" [smLabel]="vatInfo?.isVatRegistered ? deRegisterFromVat : registerForVat" [smClass]="vatInfo?.isVatRegistered ? 'btn btnSecondaryAction btn-warning' : 'btn btnSecondaryAction btn-secondary'" [smDisabled]="vatButtonStatus"/>
+
+            <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(frmcompanyprofile)"  [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+        </div>
+    </div>
+     </lib-form-panel>
+     </div>
+</form>

@@ -1,0 +1,73 @@
+<form #auditForm="ngForm">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">
+      <span class="nameSpace"
+        ><i class="fa fa-question-circle"></i> Command Audit Detail</span
+      >
+    </h3>
+    <lib-button
+      [smTitle]="'button'"
+      [smClass]="'btn btn-close pull-right'"
+      (smClick)="closeModal()"
+    />
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-2"><strong>Company</strong></div>
+      <div class="col-md-4">{{ audit.company }}</div>
+      <div class="col-md-2"><strong>Logged On User</strong></div>
+      <div class="col-md-4">{{ audit.loggedOnUser }}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2"><strong>Command Type</strong></div>
+      <div class="col-md-4">{{ audit.commandType }}</div>
+      <div class="col-md-2"><strong>Timestamp</strong></div>
+      <div class="col-md-4">{{ audit.timeStamp | date : "dd MMM yyyy" }}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <strong>Is Success</strong>
+      </div>
+      <div class="col-md-4">
+        <i *ngIf="audit.isSuccess" class="fa fa-check-square-o"></i>
+        <i *ngIf="!audit.isSuccess" class="fa fa-square-o"></i>
+      </div>
+      <div class="col-md-2">
+        <strong>Message Id</strong>
+      </div>
+      <div class="col-md-4">{{ audit.messageId }}</div>
+    </div>
+    <div class="row">
+      <br />
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <strong>Exception</strong>
+      </div>
+      <div class="col-md-10">
+        {{ audit.exceptionMessage }}
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-md-12">
+        <lib-textarea-input
+          [smRows]="15"
+          [(smModel)]="audit.commandData"
+          [smName]="'commandData'"
+        ></lib-textarea-input>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="button-bar button-bar-modal">
+      <lib-button
+        [smType]="'button'"
+        [smClass]="'btn btn-secondary'"
+        (smClick)="ok()"
+        [smIcon]="'fa fa-check'"
+        [smLabel]="'OK'"
+      ></lib-button>
+    </div>
+  </div>
+</form>

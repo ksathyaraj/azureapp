@@ -1,0 +1,31 @@
+<h4>
+  <span
+    translate="resources.settings-companyprofile-deregisterforvat-pageheading-deregisterforvat"
+  ></span>
+</h4>
+
+<form class="form-control">
+  <div class="row">
+    <div class="col-md-12">
+      <p 
+       [innerHTML]="paraContent"
+      ></p>
+    </div>
+  </div>
+  <br />
+</form>
+
+<div class="button-bar">
+  <lib-button
+    [smLabel]="'resources.modal-buttons-cancel'"
+    [smType]="'button'"
+    [smClass]="'btn btnSecondaryAction btn-secondary'"
+    (smClick)="cancelVat()"
+  />
+  <lib-button
+    [smLabel]="'resources.modal-buttons-wishtocontinue'"
+    [smType]="'button'"
+    [smClass]="'btn btn-danger btnPrimaryAction'"
+    (smClick)="accept()"
+  />
+</div>

@@ -1,0 +1,14 @@
+<lib-table 
+    [tableColumns]="creditColumns" 
+    [api]="api" 
+    [title]="title" 
+    [exportButton]="exportButton"
+    [helpLinkURL]="helpLinkURL"
+    [tabData]="tabData" 
+    [searchUIOptions]="searchUIOptions"
+    [resourceMessages]="resourceMessages"
+    (smHandleAddButtonClick)="handleAddButtonClick($event)"
+    (smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+    [dateRangeDivClass]="'col-md-4'"
+    [searchInputDivClass]="'col-md-4'"
+    ></lib-table>

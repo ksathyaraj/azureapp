@@ -1,0 +1,58 @@
+<form class="form-horizontal" novalidate (submit)="passBack(addNewFormDetails, addNewForm)" #addNewForm="ngForm">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">
+      <i class="fa fa-plus"></i>
+      <span class="nameSpace"
+        translate={{params.title}}></span>
+    </h3>
+    <lib-button [smTitle]="'button'" [smClass]="'btn btn-close pull-right'" (smClick)="closeModal()" />
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <lib-select-input [smLabelClass]="'col-md-3'" [smOptions]="ledgerAccounts" [smRequired]="true"
+          [smLabel]="'resources.finance-invoicing-supplierinvoices-interestitem-label-category'"
+          [smOptionDisplayField]="'displayName'" [smOptionValueField]="'id'"
+          [(smModel)]="addNewFormDetails.selectedLedgerAccount" (smModelChange)="ledgerAccountChange()"
+          [smPlaceholder]="'resources.common-dropdown-selectplaceholder'"
+          [smName]="'selectedLedgerAccount'"></lib-select-input>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <lib-textarea-input [smLabel]="'resources.finance-invoicing-supplierinvoices-interestitem-label-description'"
+          [smLabelClass]="'col-sm-4'" [smName]="'description'" [smType]="'text'"
+          [(smModel)]="addNewFormDetails.description" [smRequired]="true" [smMaxlength]="200" [smRows]="4" />
+      </div>
+    </div>
+    <div class="row" *ngIf="params.isVatRegistered ? isLedgerAccountVatable : false">
+      <div class="col-md-12">
+        <lib-text-input [smLabel]="'resources.finance-invoicing-supplierinvoices-discountitem-label-exclusive'"
+          [smLabelClass]="'col-sm-4 '" [smName]="'exclusiveAmount'" [smType]="'number'"
+          [(smModel)]="addNewFormDetails.exclusiveAmount" [smMaxlength]="50" [smDisabled]="true"/>
+      </div>
+    </div>
+    <div class="row" *ngIf="params.isVatRegistered ? isLedgerAccountVatable : false">
+      <div class="col-md-12">
+        <lib-text-input [smLabel]="'resources.finance-invoicing-supplierinvoices-discountitem-label-vat'"
+          [smRequired]="params.isVatRegistered" [smLabelClass]="'col-sm-4 '" [smName]="'vatAmount'" [smType]="'number'"
+          [(smModel)]="addNewFormDetails.vatAmount" (smModelChange)="vatAmountChange()" [smMaxlength]="50" />
+      </div>
+    </div>
+    <div class="row"> 
+      <div class="col-md-12"> 
+        <lib-text-input [smLabel]="(params.isVatRegistered ? isLedgerAccountVatable : false) ? inclusiveLabel : amountLabel"
+          [smRequired]="true" [smLabelClass]="'col-sm-4 '" [smName]="'inclusiveAmount'" [smType]="'decimal'" [smPullRight]="false"
+          [(smModel)]="addNewFormDetails.inclusiveAmount" (smModelChange)="calculateInclusiveAmount()" [smMaxlength]="50" />
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div class="button-bar">
+      <lib-button [smLabel]="'resources.modal-buttons-ok'" [smType]="'submit'" [smIcon]="'fa fa-plus'"
+        [smClass]="'btn btn-secondary'" />
+      <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" [smIcon]="'fa fa-minus'"
+        [smClass]="'btn btn-primary'" (smClick)="closeModal()" />
+    </div>
+  </div>
+</form>

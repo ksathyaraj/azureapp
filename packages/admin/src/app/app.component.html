@@ -1,0 +1,18 @@
+<div *ngIf="(showSpinner) || showMainSplashScreen" class="overlay d-flex flex-column align-items-center justify-content-center">
+  <p *ngIf="showMainSplashScreen" class="text-center" [style]='{fontSize:"32px",paddingLeft:"28px"}'>
+      Loading...
+  </p>    
+  <div class="d-flex justify-content-center"  >
+      <div class="sm-spinner text-center">
+          <span class="sr-only">Loading...</span>
+      </div>
+  </div>
+</div>
+<lib-header [isAdminSectionEnable]="true" [hidden]="showMainSplashScreen" *ngIf="url!=='/login' && url!=='/forgotpassword'"></lib-header>
+<div [hidden]="showMainSplashScreen" [ngClass]="(url!=='/login' && url!=='/forgotpassword')?'container': ''" [style]="{paddingTop:(url!=='/login' && url!=='/forgotpassword')?(!env.production?'110px':'85px'):'',paddingBottom:(url!=='/login' && url!=='/forgotpassword')?'65px':''}">
+  <lib-navigation-bar [isAdminSectionEnable]="true" *ngIf="url!=='/login' && url!=='/forgotpassword'"></lib-navigation-bar>
+  <router-outlet></router-outlet>
+</div>
+<lib-footer [isAdminSectionEnable]="true" [hidden]="showMainSplashScreen"></lib-footer>
+
+

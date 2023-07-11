@@ -1,0 +1,18 @@
+.active {
+  height: 41px;
+  color: var(--bs-primary) !important;
+}
+.nav-link {
+  height: 36px;
+  color: color-mix(in srgb, var(--bs-primary) 10%, white);
+  background-color: var(--bs-primary);
+}
+.nav-tabs {
+  border-bottom: 0;
+}
+.disable-link {
+  pointer-events: none;
+  color: #b2dbfb;
+  background-color: #2196f3 !important;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==);
+}

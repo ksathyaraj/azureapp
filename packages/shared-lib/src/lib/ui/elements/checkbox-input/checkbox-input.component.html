@@ -1,0 +1,14 @@
+<div class="form-group row">
+  <label class="control-label pt-0" [ngClass]="smLabelClass" *ngIf="smLabel && !smShowPostInput">
+    <span [translate]="smLabel"></span>
+    <span *ngIf="smRequired">*</span>
+  </label>
+  <div [ngClass]="elementClass">
+    <input [ngClass]="smInputClass" type="checkbox" [(ngModel)]="smModel" (change)="smChangeHandler()" [disabled]="smDisabled"
+      [hidden]="smHidden" [tabindex]="smTabindex" />
+  </div>
+  <label class="control-label pt-0 text-left" [ngClass]="smLabelClass" *ngIf="smLabel && smShowPostInput">
+    <span [translate]="smLabel"></span>
+    <span *ngIf="smRequired">*</span>
+  </label>
+</div>

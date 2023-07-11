@@ -1,0 +1,31 @@
+.red{
+    color: red !important;
+}
+.green{
+    color: green !important;
+}
+.btn-xs{
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.warning{
+    background-color: #ffe0b2;
+}
+.label-warning {
+    background-color: #ff9800;
+}
+.warning:hover {
+    background-color: #ffd699 !important;
+}
+.table-hover>tbody>tr:hover {
+    background-color: #f5f5f5;
+    --bs-table-hover-bg:none;
+    --bs-table-hover-color:none;
+}
+
+a{
+    color: #2196f3 !important;
+    cursor: pointer;
+}

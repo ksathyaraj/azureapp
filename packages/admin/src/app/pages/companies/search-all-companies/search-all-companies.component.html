@@ -1,0 +1,13 @@
+<lib-table
+  [api]="api"
+  [title]="title"
+  [exportButton]="true"
+  [addNewButton]="false"
+  [searchUIOptions]="searchUIOptions"
+  [resourceMessages]="resourceMessages"
+  [tableColumns]="searchAllCompaniesColumns" 
+  [dropDownFilter]="dropDownFilter"
+  (smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+  [selectInputDivClass]="'col-md-6'"
+  [searchInputDivClass]="'col-md-6'"
+></lib-table>

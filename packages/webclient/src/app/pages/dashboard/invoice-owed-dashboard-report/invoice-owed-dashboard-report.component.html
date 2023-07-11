@@ -1,0 +1,57 @@
+<div [ngClass]="{'spin-me-round': showSpinner }">
+    <!-- <dashboard-form-panel panel-heading="Invoices owed to you" refresh="vm.filter(true)"> -->
+    <div class="card">
+        <div class="card-header">
+            Invoices owed to you
+            <div class="pull-right">
+                <lib-button
+                    (smClick)="filter(true)" 
+                    [smClass]="'btn btn-primary btn-xs btnPrimaryAction'" 
+                    [smIcon]="'fa fa-refresh'">
+                </lib-button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div ng-if="vm.hasData" class="row">
+                <div class="col-md-5" style="padding-right: 0">
+                </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group pull-right margin0">
+                        <h3 (click)="redirectTo()"  class="text-primary canvas-pointer" style="margin-top: 0; margin-bottom: 1px;">{{totalOutstanding | number:'1.2'}}</h3>total outstanding
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!hasData" class="row">
+                <div class="col-md-9">
+                    <div class="form-group pull-right margin0">
+                        <h3 style="margin-top: 0; margin-bottom: 1px;">No data available</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <canvas class="chart-horizontal-bar canvas-pointer"
+                            chart-data="vm.data"
+                            chart-labels="vm.labels"
+                            chart-options="vm.options"
+                            chart-series="vm.series"
+                            chart-colors="vm.colours"
+                            ng-click="vm.redirectTo()">
+                    </canvas> -->
+                    <canvas baseChart
+                            [className]="'canvas-pointer'"
+                            [datasets]="data"
+                            [options]="options"
+                            [labels]="labels"
+                            [type]="'bar'"
+                            (click)="redirectTo()"
+                            >
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </dashboard-form-panel> -->
+</div>

@@ -1,0 +1,14 @@
+<lib-table
+  [tableColumns]="usageReportColumns"
+  [api]="api"
+  [title]="title"
+  [exportButton]="false"
+  [searchUIOptions]="searchUIOptions"
+  [addNewButton]="false"
+  [dropDownFilter]="dropDownFilter"
+  [usageReportButton]="true"
+  [detailReportButton]="true"
+  (smHandleTitleButtonAction)="handleTitleButtonAction($event)"
+  [selectInputDivClass]="'col-md-4'"
+  [dateRangeDivClass]="'col-md-4'"
+></lib-table>

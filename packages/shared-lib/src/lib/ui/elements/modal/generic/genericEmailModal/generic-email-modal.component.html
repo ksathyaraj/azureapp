@@ -1,0 +1,187 @@
+<div
+  *ngIf="isLoading"
+  class="overlay d-flex justify-content-center align-items-center"
+>
+  <div class="sm-spinner text-center">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="modal-header">
+  <h3 class="modal-title pull-left">
+    <i class="fa fa-envelope-o"></i>&nbsp;&nbsp;<span
+      translate="resources.reports-emailmodel-modelheading-email"
+    ></span
+    >&nbsp;&nbsp;{{ params.emailType }}
+  </h3>
+  <lib-button
+    [smTitle]="'button'"
+    [smClass]="'btn btn-close pull-right'"
+    (smClick)="closeModal()"
+  />
+</div>
+<form class="form-horizontal" #frm="ngForm" name="frm" novalidate>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="col-md-12">
+          <div class="row">
+            <lib-text-input
+              class="col-md-10"
+              [smLabel]="'To'"
+              [smType]="'text'"
+              [smLabelClass]="'col-sm-4 '"
+              [smName]="'toEmail'"
+              [(smModel)]="toAddress"
+              tabindex="1"
+              [smRequired]="true"
+              multiple-emails-validation
+            />
+            <div class="col-md-2">
+              <i
+                class="fa fa-question-circle fa-lg pop-me-over"
+                data-container="body"
+                data-placement="left"
+                data-toggle="popover"
+                title="You can enter additional email addresses seperated by a semicolon"
+              ></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <lib-text-input
+              class="col-md-10"
+              [smLabel]="'CC'"
+              [smType]="'text'"
+              [smLabelClass]="'col-sm-4 '"
+              [smName]="'ccEmail'"
+              [(smModel)]="ccAddress"
+              tabindex="1"
+              multiple-emails-validation
+            />
+            <div class="col-md-2">
+              <i
+                class="fa fa-question-circle fa-lg pop-me-over"
+                data-container="body"
+                data-placement="right"
+                data-toggle="popover"
+                title="You can enter additional email addresses seperated by a semicolon"
+              ></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <lib-text-input
+              class="col-md-10"
+              [smLabel]="'From'"
+              [smType]="'text'"
+              [smLabelClass]="'col-sm-4'"
+              [smName]="'fromEmail'"
+              [(smModel)]="fromAddress"
+              tabindex="1"
+              multiple-emails-validation
+            />
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <lib-text-input
+              class="col-md-10"
+              [smLabel]="'Subject'"
+              [smType]="'text'"
+              [smLabelClass]="'col-sm-4 '"
+              [smName]="'quoteSubject'"
+              [(smModel)]="subject"
+              tabindex="1"
+              multiple-emails-validation
+            />
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row">
+            <lib-textarea-input
+              class="col-md-10"
+              [smLabel]="'Body'"
+              [smLabelClass]="'col-sm-4'"
+              [smName]="'quoteBody'"
+              [smType]="'text'"
+              [(smModel)]="body"
+              tabindex="25"
+              [smRows]="5"
+              [smMaxlength]="500"
+            />
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row ms-5">
+            <lib-checkbox-input
+              class="col-md-9 ms-3"
+              [smLabel]="'resources.reports-emailmodel-label-sendmeacopy'"
+              [smLabelClass]="'col-md-10'"
+              [(smModel)]="isEmailCopyToBeSent"
+              [smShowPostInput]="true"
+            ></lib-checkbox-input>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row ms-5">
+            <div *ngIf="!password && isPayslip">
+              <span
+                class="col-md-10 ms-3"
+                translate="resources.reports-emailmodel-label-donothaveidnumber"
+              ></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="row ms-5" *ngIf="password && isPayslip">
+            <lib-checkbox-input
+              class="col-md-1 ms-3"
+              [(smModel)]="isPasswordProtected"
+              [smShowPostInput]="true"
+            ></lib-checkbox-input>
+            <label class="col-md-10 control-label pt-0 text-left">
+              <span
+                translate="resources.reports-emailmodel-label-protecttheemail"
+              ></span>
+              {{ password }} </label
+            ><br />
+          </div>
+        </div>
+        <div class="col-md-9 pull-left">
+          <div class="button-bar">
+            <lib-button
+              [smLabel]="'Send'"
+              [smType]="'submit'"
+              [smClass]="'btn btn-success btnPrimaryAction'"
+              (smClick)="passBack(frm)"
+              [smIcon]="'fa fa-envelope-o'"
+            />
+            <lib-button
+              [smLabel]="'Cancel'"
+              [smType]="'button'"
+              [smClass]="'btn btnSecondaryAction btn-primary'"
+              (smClick)="closeModal()"
+              [smIcon]="'fa fa-minus'"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5>{{ phrase }}</h5>
+        <div>
+          <lib-pdf-report [iframesrc]="params.pdfUrl"></lib-pdf-report>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="modal-footer">
+    <div class="button-bar"></div>
+  </div>
+</form>

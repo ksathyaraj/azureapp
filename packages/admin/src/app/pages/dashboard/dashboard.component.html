@@ -1,0 +1,150 @@
+<form #dashboardForm="ngForm" novalidate>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <lib-select-input
+          [smMultiSelectOption]="true"
+          [smLabel]="'Country'"
+          [smLabelClass]="'col-md-2'"
+          [smOptions]="countries"
+          [smOptionDisplayField]="'countryName'"
+          [smOptionValueField]="'id'"
+          [(smModel)]="selectedCountry"
+          (smModelChange)="countryChange(selectedCountry)"
+          [smPlaceholder]="'Please select one or many countries'"
+          [smName]="'country'"
+          [smImageDisplayField]="'countryImageUrl'"
+        ></lib-select-input>
+      </div>
+      <div class="col-md-2">
+        <lib-button
+          [smLabel]="'Refresh'"
+          [smType]="'button'"
+          [smTitle]="'Refresh'"
+          [smClass]="'btn btn-primary'"
+          (smClick)="refresh()"
+          [smIcon]="'fa fa-refresh'"
+        />
+      </div>
+      <div class="col-md-3">
+        <strong>BulkSMS Credits / Daily Quota</strong><br />
+        <h5>
+          {{ bulkSMSCredits }} | ({{ bulkSMSQuotaBalance }} /
+          {{ bulkSMSQuotaLimit }})
+        </h5>
+      </div>
+      <div class="col-md-3">
+        <strong
+          >Subscriptions with<br />
+          Pending Payment Status</strong
+        ><br />
+        <h3 class="pull-center">
+          <a href="reports/pendingpaymentssubscriptions">{{
+            pendingPaymentSubscriptionCount
+          }}</a>
+        </h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-sm-12">
+        <h3>Signup Details</h3>
+        <h5>
+          Number of successful signups by type over the last
+          <strong>4 months</strong>
+        </h5>
+        <table class="table table-hover table-condensed table-bordered">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Free Trial</th>
+              <th>Voucher</th>
+              <th>EFT</th>
+              <th>Debit Order</th>
+              <th>Credit Card</th>
+              <th>Absa Registrations</th>
+              <th>Provisioner Free Trial</th>
+              <th>Provisioner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of monthlyItems">
+              <td>{{ item.timeFrame }}</td>
+              <td>
+                {{ item.freeTrialCount !== 0 ? item.freeTrialCount : "" }}
+              </td>
+              <td>{{ item.voucherCount !== 0 ? item.voucherCount : "" }}</td>
+              <td>{{ item.eftCount !== 0 ? item.eftCount : "" }}</td>
+              <td>
+                {{ item.debitOrderCount !== 0 ? item.debitOrderCount : "" }}
+              </td>
+              <td>
+                {{ item.creditCardCount !== 0 ? item.creditCardCount : "" }}
+              </td>
+              <td>{{ item.absaCount !== 0 ? item.absaCount : "" }}</td>
+              <td>
+                {{
+                  item.provisionerFreeTrialCount !== 0
+                    ? item.provisionerFreeTrialCount
+                    : ""
+                }}
+              </td>
+              <td>
+                {{ item.provisionerCount !== 0 ? item.provisionerCount : "" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 col-sm-12">
+        <h5>
+          Number of successful signups by type over the last
+          <strong>30 days</strong>
+        </h5>
+        <table class="table table-hover table-condensed table-bordered mt-2">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Free Trial</th>
+              <th>Voucher</th>
+              <th>EFT</th>
+              <th>Debit Order</th>
+              <th>Credit Card</th>
+              <th>Absa Registrations</th>
+              <th>Provisioner Free Trial</th>
+              <th>Provisioner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of dailyItems">
+              <td>{{ item.timeFrame }}</td>
+              <td>
+                {{ item.freeTrialCount !== 0 ? item.freeTrialCount : "" }}
+              </td>
+              <td>{{ item.voucherCount !== 0 ? item.voucherCount : "" }}</td>
+              <td>{{ item.eftCount !== 0 ? item.eftCount : "" }}</td>
+              <td>
+                {{ item.debitOrderCount !== 0 ? item.debitOrderCount : "" }}
+              </td>
+              <td>
+                {{ item.creditCardCount !== 0 ? item.creditCardCount : "" }}
+              </td>
+              <td>{{ item.absaCount !== 0 ? item.absaCount : "" }}</td>
+              <td>
+                {{
+                  item.provisionerFreeTrialCount !== 0
+                    ? item.provisionerFreeTrialCount
+                    : ""
+                }}
+              </td>
+              <td>
+                {{ item.provisionerCount !== 0 ? item.provisionerCount : "" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

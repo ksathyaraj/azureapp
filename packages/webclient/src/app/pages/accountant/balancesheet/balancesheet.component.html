@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-6">
+        <lib-title title="resources.accountant-balancesheet-pageheading-balancesheet"></lib-title>
+    </div>
+    <div class="col-md-6 button-bar marginTop2" style=" display: flex; align-items: center; justify-content: flex-end;">
+        <lib-link [linkName]="'Help Video'" [url]="supportVideoBaseUrl" target="_blank"></lib-link>
+        <lib-button [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'" (smClick)="print(frm)"
+            [smIcon]="'fa fa-file-pdf-o'" [smClass]="'btn btn-pdf btnSecondaryAction'" />
+        <lib-button [smLabel]="'Export'" [smTitle]="'Export to CSV'" [smType]="'button'" (smClick)="exportData(frm)"
+            [smIcon]="'fa fa-file-excel-o'" [smClass]="'btn btn-secondary'" />
+    </div>
+</div>
+
+<form novalidate #frm="ngForm">
+    <lib-form-panel>
+        <div class="row">
+            <div class="col-md-5">
+                <lib-date-picker [smPlaceholder]="dateMessagePlaceHolder"
+                    [smLabel]="'resources.accountant-balancesheet-balancesheet-label-enddate'"
+                    [smLabelClass]="'col-md-3'" [smName]="'endDate'" [(smModel)]="periodEnd" 
+                    [smShowWeeks]="false" [smDisabled]="false" />
+            </div>
+            <div class="col-md-5">
+            </div>
+        </div>
+    </lib-form-panel>
+</form>

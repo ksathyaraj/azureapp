@@ -1,0 +1,29 @@
+<form (submit)="ok(addNewCustomerForm)" #addNewCustomerForm="ngForm" novalidate>
+    <div class="modal-header">
+        <h3 class="modal-title pull-left">
+            <i class="fa fa-plus"></i>
+            <span translate="resources.customer-addnewcustomermodal-heading-addnewcustomer"></span>
+        </h3>
+        <lib-button [smType]="'button'" (smClick)="cancel()" [smClass]="'btn-close pull-right'" ></lib-button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <lib-text-input class="col-md-6" [smLabel]="'resources.customer-addnewcustomermodal-label-organisationname'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'companyName'" [smType]="'text'" [(smModel)]="organisation.companyName" [smMaxlength]="100" [smRequired]="true" />
+            <lib-text-input class="col-md-6" [smLabel]="'resources.customer-addnewcustomermodal-label-organisationcode'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'organisationCode'" [smType]="'text'" [(smModel)]="organisation.organisationCode" [smMaxlength]="10" />
+            <lib-text-input class="col-md-6" [smLabel]="'resources.customer-addnewcustomermodal-label-tradingas'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'tradingAs'" [smType]="'text'" [(smModel)]="organisation.tradingAs" [smMaxlength]="100" [smRequired]="true" />
+        </div>
+        <div class="row">
+            <lib-text-input class="col-md-6" [smLabel]="'resources.customer-personalcontactsection-label-contactfirstname'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'firstname'" [smType]="'text'" [(smModel)]="organisation.firstName" [smMaxlength]="100" [smRequired]="true" />
+            <lib-text-input class="col-md-6" [smLabel]="'resources.customer-personalcontactsection-label-contactlastname'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'lastname'" [smType]="'text'" [(smModel)]="organisation.lastName" [smMaxlength]="100" [smRequired]="true" />
+            <lib-select-input class="col-md-6" [smPlaceholder]="'resources.common-select-placeholder-pleaseselect'" [smLabel]="'resources.customer-personalcontactsection-label-contacttype'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'individualContactType'" [(smModel)]="organisation.individualContactType" [smRequired]="true" [smOptionDisplayField]="'value'" [smOptions]="individualContactTypes" [smOptionValueField]="'key'" />
+            <lib-text-input class="col-md-6" [smLabel]="'resources.customer-personalcontactsection-label-contactemail'" [smLabelClass]="'col-md-12 d-flex'" [smName]="'emailAddress'" [smType]="'text'" [(smModel)]="organisation.emailAddress" [smMaxlength]="100" />
+        </div>
+
+        <div class="modal-footer">
+            <div class="button-bar button-bar-modal">
+                <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" (smClick)="cancel()" [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary'" />
+                <lib-button [smLabel]="'resources.modal-buttons-ok'" [smType]="'submit'" [smIcon]="'fa fa-check'" [smClass]="'btn btn-success'" />
+            </div>
+        </div>
+    </div>
+</form>

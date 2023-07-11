@@ -1,0 +1,11 @@
+<div class="card">
+  <div *ngIf="smHeading" [ngClass]='smHeadingFont?"card-header text-center":"card-header text-center panel-document-heading"' [ngStyle]="{'fontSize': smHeadingFont, 'color': smHeadingColor}">
+    {{smHeading | translate}}
+  </div>
+  <div *ngIf="smLabel" class="card-header" [ngStyle]="{'fontSize': smHeadingFont, 'color': smHeadingColor}">
+    {{smLabel | translate}}
+  </div>
+  <div *ngIf="!smHeading" class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

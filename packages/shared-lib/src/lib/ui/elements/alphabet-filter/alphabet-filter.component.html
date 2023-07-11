@@ -1,0 +1,9 @@
+<div class="container mt-2 col-md-12">
+  <div class="text-center">
+  <ul class="filter mb-1">
+    <li class="btn btn-light" (click)="activateLetter('#')" [ngClass]="{'btn-default':activeLetter==='#'}">#</li>
+    <li *ngFor="let letter of alphabet; let i = index" class="btn btn-light" (click)="activateLetter(letter)" [ngClass]="{'btn-default':letter===activeLetter}">{{letter}}</li>
+    <li class="btn btn-light" (click)="activateLetter('')" [ngClass]="{'btn-default':activeLetter===''}">All</li>
+  </ul>
+  </div>
+</div>

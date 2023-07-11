@@ -1,0 +1,13 @@
+<lib-table
+  *ngIf="dataLoaded"
+  [tableColumns]="supplierInvoiceColumns"
+  [api]="api"
+  [title]="title"
+  [searchUIOptions]="searchUIOptions"
+  [helpLinkURL]="helpLinkURL"
+  [resourceMessages]="resourceMessages"
+  (smHandleAddButtonClick)="handleAddButtonClick($event)"
+  (smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+  [dateRangeDivClass]="'col-md-4'"
+  [searchInputDivClass]="'col-md-4'"
+></lib-table>

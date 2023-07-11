@@ -1,0 +1,127 @@
+<lib-title-bar
+[title]="title" [exportButton]="false" [helpLinkURL]="helpLinkURL" (handleRefreshButtonClick)="getData(true)" [addNewButton]="false" ></lib-title-bar>
+<lib-search-box
+[searchUIOptions]="searchUIOptions" [dropDownFilter]="dropDownFilter"
+(searchByDropdown)="onDropdownChanged($event)"></lib-search-box>
+
+<lib-form-panel *ngIf="!selectedAccountId">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>
+                <span translate="resources.finance-bankaccounts-allocate-labelheading-nobankstatements"></span>&nbsp;
+                <a href="/finance/bankaccounts/import">
+                    <span translate="resources.finance-bankaccounts-allocate-labelheading-importbankstatement"></span>
+                </a>
+            </h4>
+        </div>
+    </div>
+</lib-form-panel>
+
+<table class="table table-hover table-condensed table-bordered mt-4" *ngIf="selectedAccountHasAutoFeeds()">
+    <thead>
+        <tr>
+            <th class="col-md-6">
+                <!-- <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-uploadname"></span> -->
+                Automated Bank Feeds
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-dateposted"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-startdate"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-enddate"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-nooftransactions"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-unallocated"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-allocated"></span>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let o of data">
+           <ng-container *ngIf="filterGridAuto(o)">
+            <td>
+                <a href="/finance/bankaccounts/allocate/{{o.id}}/{{o.accountId}}">{{o.name}}</a>
+            </td>
+            <td>{{o.datePosted|date:'dd MMM yyyy'}}</td>
+            <td>{{o.startDate|date:'dd MMM yyyy'}}</td>
+            <td>{{o.endDate|date:'dd MMM yyyy'}}</td>
+            <td>{{o.numberOfTransactions}}</td>
+            <td>{{o.unallocatedTransactions}}</td>
+            <td>{{o.allocatedTransactions}}</td>
+            <td>
+                <lib-button
+                [smTitle]="'resources.common-buttons-delete-title'"
+                [smType]="'button'"
+                [smClass]="'btn btn-danger btn-xs'"
+                [smIcon]="'fa fa-close'"
+                [smDisabled]="true"
+              />
+            </td>
+          </ng-container>   
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-hover table-condensed table-bordered  mt-4" *ngIf="selectedAccountHasManualFeeds()">
+    <thead>
+        <tr>
+            <th class="col-md-6">
+                <!-- <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-uploadname"></span> -->
+                Manual Statement Uploads
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-dateposted"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-startdate"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-enddate"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-nooftransactions"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-unallocated"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-allocated"></span>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let o of data">
+          <ng-container *ngIf="filterGridManual(o)">  
+            <td>
+                <a href="/finance/bankaccounts/allocate/{{o.id}}/{{o.accountId}}">{{o.name}}</a>
+            </td>
+            <td [ngClass]="'text-nowrap'">{{o.datePosted|date:'dd MMM yyyy'}}</td>
+            <td [ngClass]="'text-nowrap'">{{o.startDate|date:'dd MMM yyyy'}}</td>
+            <td [ngClass]="'text-nowrap'">{{o.endDate|date:'dd MMM yyyy'}}</td>
+            <td>{{o.numberOfTransactions}}</td>
+            <td>{{o.unallocatedTransactions}}</td>
+            <td>{{o.allocatedTransactions}}</td>
+            <td>
+                <lib-button
+                [smTitle]="'resources.common-buttons-delete-title'"
+                [smType]="'button'"
+                [smClass]="'btn btn-danger btn-xs'"
+                [smIcon]="'fa fa-close'"
+                (smClick)="deleteData(o)"
+                [smDisabled]="o.allocatedTransactions > 0"
+              />
+            </td>
+          </ng-container>  
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,419 @@
+<form class="form-horizontal" #takeOnBalanceForm="ngForm" novalidate>
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 clearfix">
+                    <lib-title [title]="'resources.accountant-setup-pageheading-setup-takeonbalances'"></lib-title>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-7">
+                </div>
+                <div class="col-md-5 text-end heading-button-bar"
+                    style=" display: flex; align-items: center; justify-content: flex-end;">
+                    <lib-link [linkName]="'Help Video'" [url]="supportVideoBaseUrl" target="_blank"></lib-link>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 form-group">
+            <strong translate="resources.accountant-setup-label-openingbalance"
+                style="display: flex; justify-content: start; margin-right: 20px;">
+            </strong>
+            <lib-date-picker [smLabelClass]="'col-md-0'" [smName]="'reportingDate'"
+                [(smModel)]="takeOnBalanceObject.reportingDate" [smRequired]="!takeOnBalanceObject.hasTakeOnBalances"
+                [smShowWeeks]="false" [smDisabled]="takeOnBalanceObject.hasTakeOnBalances" />
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel [smLabel]="'resources.accountant-setup-setup-takeonbalances-panelheading-noncurrentassets'"
+                [smHeadingFont]="'15px'">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-accountbalanceitem"></span>
+                            </th>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of takeOnBalanceObject.assetsGroup.nonCurrentAsset;index as index">
+                            <td class="col-md-10">{{item.displayName}}</td>
+                            <td class="text-right" [ngClass]="{
+                            'has-error': (takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.pristine)
+                        }">
+
+                                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                    [smName]="'nonCurrentAssetBalance' + index" [(smModel)]="item.balance"
+                                    (smBlur)="calculateAssetsGroupBalance(item)" [smType]="'number'"
+                                    [addDefaultDecimal]="true"
+                                    [smInputClass]="'form-control text-end'"></lib-text-input>
+
+                                <span class="help-block pull-right"
+                                    *ngIf="(takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentAssetBalance' + index]?.pristine)">
+                                    <span translate="resources.common-validation-numericfieldrequired"></span>
+                                </span>
+                                <label class="form-control text-right"
+                                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{item.balance|number:'1.2-2'}}</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lib-form-panel>
+
+            <lib-form-panel [smLabel]="'resources.accountant-setup-setup-takeonbalances-panelheading-currentassets'"
+                [smHeadingFont]="'15px'">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-accountbalanceitem"></span>
+                            </th>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of takeOnBalanceObject.assetsGroup.currentAsset; index as index">
+                            <td class="col-md-10" *ngIf="item.childrenSuspenseAccounts !== null">
+                                {{item.displayName}}
+                                <table class="table table-hover table-condensed table-bordered"
+                                    style="width: 70%; margin-left: 100px;">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span
+                                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-companyname"></span>
+                                            </th>
+                                            <th>
+                                                <span
+                                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let child of item.childrenSuspenseAccounts; index as index">
+                                            <td class="col-md-10">{{child.contact.companyName}}</td>
+                                            <td class="col-md-2" style="text-align: right" [ngClass]="{
+                                            'has-error': (takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.pristine) || 
+                                            (takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.pristine) || 
+                                            (takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.pristine)
+                                        }">
+                                                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                                    [smName]="'currentAssetChildBalance' + index"
+                                                    [(smModel)]="child.balance" (smBlur)="calculateDebtorsBalance(item)"
+                                                    [smType]="'number'" [addDefaultDecimal]="true"
+                                                    [smDisabled]="takeOnBalanceObject.hasTakeOnBalances"
+                                                    [smInputClass]="'form-control text-end'">
+                                                </lib-text-input>
+
+                                                <span class="help-block pull-right"
+                                                    *ngIf="takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetChildBalance' + index]?.pristine">
+                                                    <span
+                                                        translate="resources.common-validation-numericfieldrequired"></span>
+                                                </span>
+                                                <label class="form-control text-right"
+                                                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{child.balance|number:'1.2-2'}}</label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="col-md-10" *ngIf="item.childrenSuspenseAccounts === null">
+                                {{item.displayName}}
+                            </td>
+                            <td class="text-right" [ngClass]="{
+                            'has-error': (takeOnBalanceForm.controls['currentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['currentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['currentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetBalance' + index]?.pristine)
+                        }">
+
+                                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                    [smName]="'currentAssetBalance' + index" [(smModel)]="item.balance"
+                                    (smBlur)="calculateAssetsGroupBalance(item)" [smType]="'number'"
+                                    [addDefaultDecimal]="true"
+                                    [smDisabled]="takeOnBalanceObject.hasTakeOnBalances ? true : item.childrenSuspenseAccounts !== null"
+                                    [smInputClass]="'form-control text-end'">
+                                </lib-text-input>
+
+                                <span class="help-block pull-right"
+                                    *ngIf="takeOnBalanceForm.controls['currentAssetBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentAssetBalance' + index]?.pristine">
+                                    <span translate="resources.common-validation-numericfieldrequired"></span>
+                                </span>
+                                <label class="form-control text-right"
+                                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{item.balance|number:'1.2-2'}}</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-2">
+            <lib-form-panel>
+                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances" [smName]="'assetsGroupBalance'"
+                    [(smModel)]="takeOnBalanceObject.assetsGroupBalance" [smDisabled]="true" [smType]="'number'"
+                    [smMin]="0.00" [addDefaultDecimal]="true" [smInputClass]="'form-control text-end'">
+                </lib-text-input>
+
+                <label class="form-control text-right"
+                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{takeOnBalanceObject.assetsGroupBalance|number:'1.2-2'}}</label>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel [smLabel]="'resources.accountant-setup-setup-takeonbalances-panelheading-retainedearnings'"
+                [smHeadingFont]="'15px'">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-accountbalanceitem"></span>
+                            </th>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of takeOnBalanceObject.equityGroup.equity; index as index">
+                            <td class="col-md-10">
+                                {{item.displayName}}
+                            </td>
+                            <td class="text-right" [ngClass]="{
+                            'has-error': (takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.invalid && !takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.invalid && !takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.invalid && !takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.pristine)
+                        }">
+
+                                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                    [smName]="'retainedEarningsBalance' + index" [(smModel)]="item.balance"
+                                    (smBlur)="calculateEquityGroupBalance(item)" [smType]="'number'"
+                                    [addDefaultDecimal]="true" [smMin]="0.00"
+                                    [smDisabled]="takeOnBalanceObject.hasTakeOnBalances"
+                                    [smInputClass]="'form-control text-end'">
+                                </lib-text-input>
+
+                                <span class="help-block pull-right"
+                                    *ngIf="takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.invalid && !takeOnBalanceForm.controls['retainedEarningsBalance' + index]?.pristine">
+                                    <span translate="resources.common-validation-numericfieldrequired"></span>
+                                </span>
+                                <label class="form-control text-right"
+                                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{item.balance|number:'1.2-2'}}</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lib-form-panel>
+            <lib-form-panel
+                [smLabel]="'resources.accountant-setup-setup-takeonbalances-panelheading-noncurrentliabilities'"
+                [smHeadingFont]="'15px'">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-accountbalanceitem"></span>
+                            </th>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of takeOnBalanceObject.equityGroup.nonCurrentLiability;index as index">
+                            <td class="col-md-10">{{item.displayName}}</td>
+                            <td class="text-right" [ngClass]="{
+                            'has-error': (takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.pristine) || 
+                            (takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.pristine)
+                        }">
+
+                                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                    [smName]="'nonCurrentLiabilityBalance' + index" [(smModel)]="item.balance"
+                                    (smBlur)="calculateEquityGroupBalance(item)" [smType]="'number'"
+                                    [addDefaultDecimal]="true" [smMin]="0.00" [smInputClass]="'form-control text-end'">
+                                </lib-text-input>
+
+                                <span class="help-block pull-right"
+                                    *ngIf="takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.invalid && !takeOnBalanceForm.controls['nonCurrentLiabilityBalance' + index]?.pristine">
+                                    <span translate="resources.common-validation-numericfieldrequired"></span>
+                                </span>
+                                <label class="form-control text-right"
+                                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{item.balance|number:'1.2-2'}}</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </lib-form-panel>
+            <lib-form-panel
+                [smLabel]="'resources.accountant-setup-setup-takeonbalances-panelheading-currentliabilities'"
+                [smHeadingFont]="'15px'">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-accountbalanceitem"></span>
+                            </th>
+                            <th>
+                                <span
+                                    translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container
+                            *ngFor="let item of  takeOnBalanceObject.equityGroup.currentLiability; index as index">
+                            <tr
+                                *ngIf="item.displayName.indexOf('VAT') === -1 || (item.displayName.indexOf('VAT') > -1 && takeOnBalanceObject.isVatable)">
+                                <td class="col-md-10" *ngIf="item.childrenSuspenseAccounts !== null">
+                                    {{item.displayName}}
+                                    <table class="table table-hover table-condensed table-bordered"
+                                        style="width: 70%; margin-left: 100px;">
+                                        <thead>
+                                            <tr>
+                                                <th *ngIf="item.displayName.indexOf('VAT') > -1">
+                                                    <span
+                                                        translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-vatdirection"></span>
+                                                </th>
+                                                <th *ngIf="item.displayName.indexOf('VAT') === -1">
+                                                    <span
+                                                        translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-companyname"></span>
+                                                </th>
+                                                <th>
+                                                    <span
+                                                        translate="resources.accountant-setup-setup-takeonbalances-tablecolumnheading-amount"></span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let child of item.childrenSuspenseAccounts; index as index">
+                                                <td class="col-md-10" *ngIf="child.displayName.indexOf('VAT') === -1">
+                                                    {{child.contact.companyName}}</td>
+                                                <td class="col-md-10"
+                                                    *ngIf="child.displayName.indexOf('VAT') > -1 && child.isSubAccountCreditedLedger">
+                                                    <span translate="resources.account-setup-label-vatout"></span>
+                                                    <span
+                                                        translate="resources.account-setup-label-vatcompanyhascharged"></span>
+                                                </td>
+                                                <td class="col-md-10"
+                                                    *ngIf="child.displayName.indexOf('VAT') > -1 && !child.isSubAccountCreditedLedger">
+                                                    <span translate="resources.account-setup-label-vatin"></span>
+                                                    <span
+                                                        translate="resources.account-setup-label-vatcompanyhaspaid"></span>
+                                                </td>
+
+                                                <td class="col-md-2" style="text-align: right" [ngClass]="{
+                                                'has-error': (takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine) || 
+                                                (takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine) || 
+                                                (takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine)
+                                            }">
+
+                                                    <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                                        [smName]="'currentLiabilityChildBalance' + index"
+                                                        [(smModel)]="child.balance"
+                                                        (smBlur)="child.displayName.indexOf('VAT') === -1 ? calculateCreditorsBalance(item) : calculateVatBalance(item)"
+                                                        [smType]="'number'" [addDefaultDecimal]="true" [smMin]="0.00"
+                                                        [smInputClass]="'form-control text-end'">
+                                                    </lib-text-input>
+
+                                                    <span class="help-block pull-right"
+                                                        *ngIf="takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine">
+                                                        <span
+                                                            translate="resources.common-validation-numericfieldrequired"></span>
+                                                    </span>
+                                                    <label class="form-control text-right"
+                                                        *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{child.balance|number:'1.2-2'}}</label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td class="col-md-10" *ngIf="!item.childrenSuspenseAccounts === null">
+                                    {{item.displayName}}
+                                </td>
+                                <td class="text-right" [ngClass]="{
+                                'has-error': (takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine) || 
+                                (takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine) || 
+                                (takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine)
+                            }">
+
+                                    <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances"
+                                        [smName]="'currentLiabilityChildBalance' + index" [(smModel)]="item.balance"
+                                        (smBlur)="calculateEquityGroupBalance(item)"
+                                        [smDisabled]="item.childrenSuspenseAccounts !== null" [smType]="'number'"
+                                        [addDefaultDecimal]="true" [smMin]="0.00"
+                                        [smInputClass]="'form-control text-end'">
+                                    </lib-text-input>
+
+                                    <span class="help-block pull-right"
+                                        *ngIf="takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.invalid && !takeOnBalanceForm.controls['currentLiabilityChildBalance' + index]?.pristine">
+                                        <span translate="resources.common-validation-numericfieldrequired"></span>
+                                    </span>
+                                    <label class="form-control text-right"
+                                        *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{item.balance|number:'1.2-2'}}</label>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                    </tbody>
+                </table>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-2">
+            <lib-form-panel>
+                <lib-text-input *ngIf="!takeOnBalanceObject.hasTakeOnBalances" [smName]="'equityGroupBalance'"
+                    [(smModel)]="takeOnBalanceObject.equityGroupBalance" [smDisabled]="true" [smType]="'number'"
+                    [addDefaultDecimal]="true" [smMin]="0.00" [smInputClass]="'form-control text-end'">
+                </lib-text-input>
+
+                <label class="form-control text-right"
+                    *ngIf="takeOnBalanceObject.hasTakeOnBalances">{{takeOnBalanceObject.equityGroupBalance|number:'1.2-2'}}</label>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <div class="button-bar"
+                [ngClass]="{ 'has-error' : takeOnBalanceForm.invalid && !takeOnBalanceForm.pristine }">
+
+                <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'"
+                    (smClick)="save(takeOnBalanceObject,takeOnBalanceForm)"
+                    [smDisabled]="takeOnBalanceObject.hasTakeOnBalances ? true : takeOnBalanceForm.invalid"
+                    [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+            </div>
+        </div>
+    </div>
+</form>

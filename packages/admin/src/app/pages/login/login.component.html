@@ -1,0 +1,41 @@
+<div class="body-login">
+  <div class="login-logo-container logo">
+  </div>
+  <div class="col-md-12">
+    <h4 class="col-md-offset-4 management">MANAGEMENT PORTAL</h4>
+  </div>
+  <section id="login-view" class="center-block login-view">
+      <div class="center-block container login-container" [style]="{width:'600px'}">
+          <form (ngSubmit)="login(credentials, loginForm)" class="form-signin" #loginForm="ngForm" novalidate>
+              <div class="d-flex justify-content-center">
+                  <div class="text-center">
+                      <h4 class="login-header">Please Login</h4>
+                  </div>
+              </div>
+              <br />
+              <div class="col-md-10">
+                  <div class="row">
+                    <lib-text-input [(smModel)]="credentials.username" [smLabel]="'Username'" [smLabelClass]="'col-md-5'" [smName]="'username'" [smType]="'text'" [smRequired]="true" />
+                  </div>
+                  <div class="row">
+                    <lib-text-input [(smModel)]="credentials.password" [smLabel]="'Password'" [smLabelClass]="'col-md-5'" [smName]="'password'" [smType]="'password'" [smRequired]="true" />
+                  </div>
+  
+                  <div class="row">
+                      <div class="form-group row">
+                          <div class="control-label col-md-5"></div>
+                          <div class="col-md-7">
+                              <lib-button [smLabel]="'Login'" [smType]="'submit'" [smClass]="'btn btn-sm btn-primary col-xs-3 btnPrimaryAction'" />
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <p>&nbsp;</p>
+              </div>
+          </form>
+          <!-- <global-error-feedback></global-error-feedback> -->
+      </div>
+  </section>
+  </div>
+  

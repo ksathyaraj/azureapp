@@ -1,0 +1,152 @@
+<div class="modal-header">
+  <h3 class="modal-title pull-left">
+    <i class="fa fa-envelope-o"></i>
+    <span
+      class="nameSpace"
+      translate="resources.reports-emailconfirmationmodal-modelheading-emailconfirmation"
+    ></span>
+  </h3>
+  <lib-button
+    [smTitle]="'button'"
+    [smClass]="'btn btn-close pull-right'"
+    (smClick)="closeModal()"
+  />
+</div>
+<div class="modal-body">
+  <div>
+    <span
+      translate="resources.reports-emailconfirmationmodal-label-emailconfirmation"
+    ></span>
+  </div>
+  <br />
+  <div *ngIf="unSavedEmailAddress && unSavedEmailAddress.length > 0">
+    <div>
+      <span
+        translate="resources.reports-emailconfirmationmodal-label-wouldyouliketoadd"
+      ></span>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                <span
+                  translate="resources.reports-emailconfirmationmodal-tablecolumnheading-email"
+                ></span>
+              </th>
+              <th>
+                <span
+                  translate="resources.reports-emailconfirmationmodal-tablecolumnheading-firstname"
+                ></span>
+              </th>
+              <th>
+                <span
+                  translate="resources.reports-emailconfirmationmodal-tablecolumnheading-lastname"
+                ></span>
+              </th>
+              <th>
+                <span
+                  translate="resources.reports-emailconfirmationmodal-tablecolumnheading-contacttype"
+                ></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let contact of individuals">
+            <tr ngForm="#contact.ngfrm">
+              <td>
+                <div class="col-md-12">
+                  <lib-checkbox-input
+                    [smLabelClass]="'col-md-10'"
+                    [(smModel)]="contact.isNewContact"
+                    [smLabel]="contact.emailAddress"
+                    [smShowPostInput]="true"
+                    (smModelChange)="selectionChanged()"
+                  ></lib-checkbox-input>
+                </div>
+              </td>
+              <td>
+                <div class="form-group pull-left" show-errors>
+                  <div>
+                    <lib-text-input
+                      [smRequired]="contact.isNewContact"
+                      [smType]="'text'"
+                      [(smModel)]="contact.firstName"
+                      [smName]="'firstName'"
+                      (smBlur)="onInputContact(contact)"
+                    ></lib-text-input>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="form-group pull-left" show-errors>
+                  <div>
+                    <lib-text-input
+                      [smRequired]="contact.isNewContact"
+                      [smType]="'text'"
+                      [(smModel)]="contact.lastName"
+                      [smName]="'lastName'"
+                      (smBlur)="onInputContact(contact)"
+                    ></lib-text-input>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="form-group pull-left" show-errors>
+                  <div>
+                    <lib-select-input
+                      [smLabelClass]="'col-md-1'"
+                      [smOptions]="individualContactType"
+                      [smRequired]="contact.isNewContact"
+                      [smOptionDisplayField]="'value'"
+                      [smOptionValueField]="'key'"
+                      [(smModel)]="contact.individualContactType"
+                      (smModelChange)="onInputContact(contact)"
+                      [smPlaceholder]="
+                        'resources.common-dropdown-selectplaceholder'
+                      "
+                      [smName]="'individualContactType'"
+                    ></lib-select-input>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br />
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="button-bar">
+    <lib-button
+      *ngIf="unSavedEmailAddress && unSavedEmailAddress.length > 0"
+      [smLabel]="
+        'resources.reports-emailconfirmationmodal-button-addtocontacts'
+      "
+      [smType]="'button'"
+      [smClass]="'btn btn-secondary'"
+      [smIcon]="'fa fa-plus'"
+      (smClick)="passBack()"
+      [smDisabled]="disableAddContacts"
+    />
+    <lib-button
+      *ngIf="unSavedEmailAddress && unSavedEmailAddress.length > 0"
+      [smLabel]="'resources.modal-buttons-close'"
+      [smType]="'button'"
+      [smClass]="'btn btn-primary'"
+      [smIcon]="'fa fa-minus'"
+      (smClick)="closeModal()"
+    />
+    <lib-button
+      *ngIf="!unSavedEmailAddress || unSavedEmailAddress.length === 0"
+      [smLabel]="'resources.modal-buttons-ok'"
+      [smType]="'button'"
+      [smClass]="'btn btn-secondary'"
+      [smIcon]="'fa fa-check'"
+      (smClick)="closeModal()"
+    />
+  </div>
+</div>

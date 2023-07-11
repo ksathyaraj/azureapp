@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left">
+        <i class="fa fa-exclamation-triangle"></i> 
+         <span class="nameSpace">{{startingDetail}}</span>
+    </h3>
+</div>
+<form class="form-horizontal"  #frm="ngForm" novalidate>
+    <div class="modal-body">
+        <div class="row">
+            <div class="form-group col-md-12">
+                <div class="col-md-12">
+                    <p>{{phrase1}}</p>
+                    <p>{{phrase2}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class ="col-md-12">
+                <lib-text-input
+                [smType]="'text'"
+                [smLabel]="prefixName"
+                [smLabelClass]="'help-block col-md-4'"
+                [(smModel)]="prefix"
+                [smRequired]="true"
+                [smName]="'prefix'"
+                />
+               </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <div class ="col-md-12">
+                <lib-text-input
+                [smType]="'text'"
+                [smLabel]="startNumberName"
+                [smLabelClass]="'help-block col-md-4'"
+                [(smModel)]="startingNumber"
+                [smRequired]="true"
+                [smName]="'startingNumber'"
+                />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar">
+    <lib-button
+      [smLabel]="'resources.modal-buttons-continue'"
+      [smType]="'submit'"
+      [smClass]="'btn btnSecondaryAction btn-success'"
+      (smClick)="passBack(frm)"
+    />
+        </div>
+    </div>
+</form>

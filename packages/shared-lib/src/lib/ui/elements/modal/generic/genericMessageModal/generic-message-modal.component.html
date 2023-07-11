@@ -1,0 +1,27 @@
+
+<div class="modal-header">
+    <h3 class="modal-title pull-left">
+    <i class="fa fa-question-circle"></i> 
+    <span class="nameSpace">{{modalInstance.title}}
+      </span>
+    </h3>
+    <lib-button
+    [smTitle]="'button'"
+    [smClass]="'btn btn-close pull-right'"
+    (smClick)="closeModal()"
+  />
+</div>
+<div class="modal-body">
+  <p [innerHTML]="modalInstance.message"></p> 
+</div>
+<div class="modal-footer">
+    <div class="button-bar ">
+      <lib-button
+      [smLabel]="(modalInstance.lang === 'default')?'Ok':okText"
+      [smType]="'button'"
+      [smClass]="'btn btnSecondaryAction btn-success'"
+      (smClick)="passBack()"
+      [smIcon]="'fa fa-check'"
+    />
+    </div>
+</div>

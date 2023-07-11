@@ -1,0 +1,45 @@
+<div [ngClass]="{'spin-me-round': showSpinner }">
+    <!-- <dashboard-form-panel panel-heading="Cashflow" style="height: 398px" refresh="vm.refresh()"> -->
+        <div class="card">
+            <div class="card-header">
+                Cashflow
+                <div class="pull-right">
+                    <lib-button
+                        (smClick)="refresh()" 
+                        [smClass]="'btn btn-primary btn-xs btnPrimaryAction'" 
+                        [smIcon]="'fa fa-refresh'">
+                    </lib-button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div *ngIf="!hasData" class="row">
+                    <div class="col-md-9">
+                        <div class="form-group pull-right margin0">
+                            <h3 style="margin-top: 0; margin-bottom: 1px;">No data available</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <canvas id="bar" class="chart chart-bar canvas-pointer"
+                                chart-data="vm.data"
+                                chart-labels="vm.labels"
+                                chart-series="vm.series"
+                                chart-colors="vm.colours"
+                                chart-options="vm.options"
+                                ng-click="vm.redirectTo()"></canvas> -->
+                        <canvas baseChart
+                                [className]="'canvas-pointer'"
+                                [datasets]="data"
+                                [options]="options"
+                                [labels]="labels"
+                                [type]="'bar'"
+                                (click)="redirectTo()"
+                                >
+                          </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </dashboard-form-panel> -->
+</div>

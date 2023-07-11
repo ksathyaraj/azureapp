@@ -1,0 +1,23 @@
+<lib-title [title]="'resources.finance-invoicing-pricelist-pageheading-pricelistitem'"></lib-title>
+<lib-form-panel [smLabel]="'resources.finance-invoicing-pricelistitem-panelheading-details'">
+    <form class="form-horizontal col-md-8"  #pricelistItemForm="ngForm" (submit)="save(pricelistitem,pricelistItemForm)" novalidate >
+        <lib-text-input [smElementClass]="'col-md-3'" [smLabel]="'resources.finance-invoicing-pricelist-label-productcode'" [smLabelClass]="'col-md-3 control-label'" [smName]="'code'" [smType]="'text'" [(smModel)]="pricelistitem.code" [smMaxlength]="150" [smRequired]="true" />
+        <lib-text-input [smElementClass]="'col-md-6'" [smLabel]="'resources.finance-invoicing-pricelist-label-product'" [smLabelClass]="'col-md-3 control-label'" [smName]="'name'" [smType]="'text'" [(smModel)]="pricelistitem.name" [smMaxlength]="150" [smRequired]="true" />
+        <div class="row">
+            <label class="col-md-3 control-label">
+                <span translate="resources.finance-invoicing-pricelist-label-description"></span>
+            </label>
+            <div class="col-md-6 pricelist-description-padding" style="padding:5px 10px 10px 14px">
+                <div [hidden]="(pricelistitem.name === undefined || pricelistitem.description=== undefined )">{{pricelistitem.name + ' - ' + pricelistitem.description}}</div>
+            </div>
+        </div>
+        <lib-textarea-input [smLabel]="' '" [smLabelClass]="'col-md-3 control-label'" [smName]="'description'" [(smModel)]="pricelistitem.description" [smMaxlength]="1000" [smRows]="4" [smRequired]="true" />
+        <lib-text-input [smLabel]="'resources.finance-invoicing-pricelist-label-listprice'" [smElementClass]="'col-md-3'" [smLabelClass]="'col-md-3 control-label'" [smName]="'exclusiveAmount'" [smType]="'decimal'" [(smModel)]="pricelistitem.exclusiveAmount" />
+        <div class="form-group">
+            <div class="col-md-12 button-bar">
+                <lib-validation-message></lib-validation-message>
+                <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smDisabled]="saveButton" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+            </div>
+        </div>
+    </form>
+</lib-form-panel>

@@ -1,0 +1,2 @@
+<a *ngIf="url" href={{url}} class={{linkClass}} translate={{translate}} target={{target}} (click)="handleLink($event)">{{linkName}}</a>
+<a *ngIf="!url" class={{linkClass}} translate={{translate}} target={{target}} (click)="handleLink($event)">{{linkName}}</a>

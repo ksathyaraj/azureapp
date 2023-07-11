@@ -1,0 +1,251 @@
+<div>
+  <div class="row">
+    <lib-title-bar *ngIf="showTitleBar"
+      [title]="title"
+      [smTitle2]="smTitle2"
+      [count]="showCount ? recordCount : ''"
+      [exportButton]="exportButton"
+      [pdfButton]="pdfButton"
+      [refreshButton]="refreshButton"
+      [requestGLButton]="requestGLButton"
+      [emailButton]="emailButton"
+      [usageReportButton]="usageReportButton"
+      [detailReportButton]="detailReportButton"
+      [tabData]="tabData"
+      [api]="api"
+      [helpLinkURL]="helpLinkURL"
+      [resourceMessages]="resourceMessages"
+      (handleAddButtonClick)="handleAddButtonClick($event)"
+      (handleRefreshButtonClick)="handleRefreshButtonClick()"
+      (handleDownloadButtonClick)="handleDownloadButtonClick($event)"
+      (smHandleEmailButtonClick)="handleEmailButtonClick($event)"
+      (smHandleTitleButtonAction)="handleTitleButtonAction($event)"
+      [addNewButton]="addNewButton"
+      [downloadButton]="downloadButton"
+      [requestReportButton]="requestReportButton"
+      [blockquote]="blockquote"
+    ></lib-title-bar>
+  </div>
+  <div class="table-page">
+    <div class="row">
+      <lib-search-box *ngIf="isSearchOptionAvailable"
+        (handleSearch)="handleSearch($event)"
+        (letterToSearch)="onLetterSearch($event)"
+        [searchUIOptions]="searchUIOptions"
+        (searchByDateRange)="searchByDateRange($event)"
+        (searchByDropdown)="searchByDropdown($event)"
+        (searchBySingDate)="searchBySingDate($event)"
+        (searchByMultiSelect)="searchByMultiSelect($event)"
+        [dropDownFilter]="dropDownFilter"
+        [dateFilter]="dateFilter"
+        [emptyDefaultDates]="emptyDefaultDates"
+        [searchInputDivClass]="searchInputDivClass"
+        [dateRangeDivClass]="dateRangeDivClass"
+        [selectInputDivClass]="selectInputDivClass"
+        [multiSelectDivClass]="multiSelectDivClass"
+        [singleDateFilterDivClass]="singleDateFilterDivClass"
+        [smPlaceHolder]="resourceMessages.tableSearchPlaceHolder !== undefined ? resourceMessages.tableSearchPlaceHolder : ''"
+      ></lib-search-box>
+    </div>
+    <lib-title *ngIf="smTitle3" [title]="smTitle3"></lib-title>
+    <div *ngIf="tableData.length > 0; else noTableDataBlock">
+      <table class="table table-hover table-condensed table-bordered mt-2">
+        <thead>
+          <tr>
+            <th *ngFor="let tableColumn of tableColumns; let colIndex = index">
+              <a class="header-link" *ngIf="(tableColumn.columnOptionalCondition ? tableColumn.columnOptionalCondition : true) && !tableColumn.hideSorting" (click)="dataOperations.sortPredicate = tableColumn.columnDef; dataOperations.sortOrder = !dataOperations.sortOrder; handleSort()">
+                <span class="head" translate={{tableColumn.header}}></span>
+                <span
+                  *ngIf="tableColumn.header !== '' && dataOperations.sortPredicate === tableColumn.columnDef && dataOperations.sortOrder"
+                  class="fa fa-caret-down"
+                ></span>
+                <span
+                  *ngIf="tableColumn.header !== '' && dataOperations.sortPredicate === tableColumn.columnDef && !dataOperations.sortOrder"
+                  class="fa fa-caret-up"
+                ></span>
+              </a>
+              <span translate={{tableColumn.header}} *ngIf="tableColumn.hideSorting"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let dataValue of tableData">
+            <ng-container *ngFor="let tableColumn of tableColumns;let colIndex=index;">
+            <td [ngStyle]="{width: tableColumn.colWidth !== undefined && tableColumn.colWidth !== '' ? tableColumn.colWidth : ''}">
+             <ng-container *ngIf="tableColumn.columnType === 0; else noLinkBlock">
+              <lib-link [ngClass]="{'pull-right': tableColumn.pullRight}"
+                [linkName]="dataValue[tableColumn.columnDef]"
+                (smHandleLink)="handleUpdateButtonClick($event, dataValue.id, dataValue)"
+              ></lib-link>
+              <ng-container *ngIf="tableColumn.columnDef2 !== undefined"> <br/> {{dataValue[tableColumn.columnDef2]}}</ng-container>
+            </ng-container>
+              <ng-template #noLinkBlock>
+                <img *ngIf="tableColumn.columnType === 8" class="img-responsive mx-auto d-block center-block flag" [title]="tableColumn.columnDefTitle?dataValue[tableColumn.columnDefTitle]:''" [src]="dataValue[tableColumn.columnDef]">              
+                <span [ngClass]="{'pull-right': tableColumn.pullRight}" *ngIf="tableColumn.columnType === undefined && (tableColumn.columnOptionalCondition ? tableColumn.columnOptionalCondition(dataValue) : true)">
+                  <ng-container>{{tableColumn.showDecimalFilter ? (dataValue[tableColumn.columnDef] | number:'1.2-2') : tableColumn.showDateFilter ? (dataValue[tableColumn.columnDef] | date:'dd MMM yyyy') : tableColumn.showDateTimeFilter ? (dataValue[tableColumn.columnDef] | date:'dd MMM yyyy h:mm:ss') : dataValue[tableColumn.columnDef] }}</ng-container>
+                  <ng-container *ngIf="tableColumn.columnDef2 !== undefined"><br/> {{dataValue[tableColumn.columnDef2]}}</ng-container>
+                </span>
+              </ng-template>
+              <lib-button
+                [smTitle]="(tableColumn.checkboxTitle !== undefined ? (dataValue.isFinalised!==undefined && tableColumn.transparentBtn===undefined && dataValue.isFinalised ? resourceMessages.alreadyFinalised : tableColumn.checkboxTitle) : '')!"
+                [smType]="'button'"
+                *ngIf="tableColumn.columnCheckbox === 5"
+                [smClass]="'btn btn-primary btn-xs btnLineItemAction' + (tableColumn.transparentBtn ? ' btn-transparent' : '')"
+                [smIcon]="tableColumn.checkboxClassField(dataValue)"
+                (smClick)="tableColumn.transparentBtn? handleCheckBoxClick(): handleCheckboxUpdate(dataValue)"
+                [smDisabled]="tableColumn.optionalCheckboxCondition ? tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) : false"
+                [smHidden]="tableColumn.optionalCheckboxHiddenCondition ? tableColumn.optionalCheckboxHiddenCondition(dataValue,originalDataSet) : false"
+              />
+              <lib-button
+                [smTitle]="resourceMessages.finalise !== undefined ? resourceMessages.finalise : 'resources.finance-quotes-quotes-button-convertthisquotetoaninvoice'"
+                [smType]="'button'"
+                *ngIf="tableColumn.columnInvoice === 4"
+                [smClass]="'btn btn-warning btn-xs btnLineItemAction'"
+                [smIcon]="'fa fa-share'"
+                (smClick)="sendInvoice(dataValue.id)"
+              />
+              <lib-button
+                [smTitle]="(resourceMessages.pdf !== undefined ? (dataValue.isFinalised?resourceMessages.pdf:resourceMessages.pdfToBeFinalised) : 'resources.finance-quotes-quotes-button-pdfthisquote')!"
+                [smType]="'button'"
+                *ngIf="tableColumn.columnPDF === 2"
+                [smClass]="'btn btn-pdf btn-xs btnLineItemAction'"
+                [smIcon]="'fa fa-file-pdf-o'"
+                [smDisabled]="tableColumn.optionalPDFCondition ? tableColumn.optionalPDFCondition(dataValue,originalDataSet) : false"
+                (smClick)="sendPDF(dataValue)"
+              />
+              <lib-button
+                [smTitle]="(resourceMessages.email !== undefined ? (dataValue.isFinalised?resourceMessages.email:resourceMessages.canOnlyEmailFinalisedInvoice): 'resources.finance-quotes-quotes-button-emailthisquote')!"
+                [smType]="'button'"
+                *ngIf="tableColumn.columnEmail === 3"
+                [smClass]="'btn btn-email btn-xs btnLineItemAction'"
+                [smIcon]="'fa fa-envelope-o'"
+                [smDisabled]="tableColumn.optionalEmailCondition ? tableColumn.optionalEmailCondition(dataValue,originalDataSet) : false"
+                (smClick)="sendEmail(dataValue.id)"
+              />
+              <lib-checkbox-input
+                *ngIf="tableColumn.columnCheckbox === 7"
+                [smModel]="tableColumn.checkboxModelValue ? tableColumn.checkboxModelValue(dataValue) : false"
+                (smModelChange)="handleDefaultCheckboxUpdate(dataValue)"
+                [smDisabled]="tableColumn.optionalCheckboxCondition ? tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) : false"
+                [smHidden]="tableColumn.optionalCheckboxHiddenCondition ? tableColumn.optionalCheckboxHiddenCondition(dataValue,originalDataSet) : false"
+              ></lib-checkbox-input>
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnDownload === 9"
+                [smClass]="'btn btn-email btn-xs'"
+                [smIcon]="'fa fa-download'"
+                (smClick)="handleDownloadTableData(dataValue)"
+              />
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnModal === 10"
+                [smClass]="'btn btn-xs modal-icon'"
+                [smIcon]="'fa fa-question-circle'"
+                (smClick)="handleTableModal(dataValue)"
+              />
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnType === 11"
+                [smClass]="tableColumn.optionalCheckboxCondition ? (tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) === 'a') ? 'btn btn-primary' : (tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) === 'b') ? 'label-warning' : 'promote' : ''"
+                [smIcon]="tableColumn.optionalCheckboxCondition ? (tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) === 'a') ? 'fa fa-arrow-circle-up' : '' : ''"
+                [smLabel]="tableColumn.optionalCheckboxCondition ? (tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) === 'a') ? 'promote' : (tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) === 'b') ? 'Promotion in Progress...' : 'Company Registration Complete' : ''"
+                (smClick)="handleTableModal(dataValue)"
+                [smDisabled]="tableColumn.optionalCheckboxCondition ? (tableColumn.optionalCheckboxCondition(dataValue,originalDataSet) === 'a') ? false : true: true"
+              />
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnType === 12"
+                [smClass]="tableColumn.ngClassCondition ? (tableColumn.ngClassCondition(dataValue)) : '' "
+                [smValue]="dataValue[tableColumn.columnDef]"
+              />
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnType === 13 && tableColumn.ngClassCondition ? (tableColumn.ngClassCondition(dataValue,13)) : '' "
+                [smClass]="'btn btn-xs btn-primary'"
+                (smClick)="handleTableModal(dataValue, tableColumn.columnType)"
+                [smTitle]="tableColumn.checkboxTitle !== undefined ? tableColumn.checkboxTitle : ''"
+                [smIcon]="'fa fa-level-up'"
+              />
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnType === 14 && tableColumn.ngClassCondition ? (tableColumn.ngClassCondition(dataValue,14)) : '' "
+                [smClass]="'btn btn-xs btn-success'"
+                (smClick)="handleTableModal(dataValue, tableColumn.columnType)"
+                [smTitle]="tableColumn.checkboxTitle !== undefined ? tableColumn.checkboxTitle : ''"
+                [smIcon]="'fa fa-level-up'"
+              />
+              <lib-button
+                [smType]="'button'"
+                *ngIf="tableColumn.columnType === 15 && tableColumn.ngClassCondition ? (tableColumn.ngClassCondition(dataValue,15)) : '' "
+                [smClass]="'btn btn-xs btn-danger'"
+                (smClick)="handleTableModal(dataValue, tableColumn.columnType)"
+                [smTitle]="tableColumn.checkboxTitle !== undefined ? tableColumn.checkboxTitle : ''"
+                [smIcon]="'fa fa-level-down'"
+              />
+              <lib-button
+                [smTitle]="(dataValue.isFinalised!==undefined && dataValue.isFinalised===true?resourceMessages.denyDeleteFinalised:'resources.common-buttons-delete-title')!"
+                [smType]="'button'"
+                *ngIf="tableColumn.columnType === 1"
+                [smClass]="'btn btn-danger btn-xs'"
+                [smIcon]="'fa fa-close'"
+                (smClick)="deleteData(dataValue)"
+                [smHidden]="tableColumn.optionalDeleteHidden ? tableColumn.optionalDeleteHidden(dataValue,originalDataSet) : false"
+                [smDisabled]="tableColumn.optionalDeleteDisabled ? tableColumn.optionalDeleteDisabled(dataValue,originalDataSet) : false"
+              />
+            </td>
+          </ng-container>
+          </tr>
+          <tr *ngIf="additionalGetPageResponse">
+            <td [attr.colspan]="colIndex === 0 && totalColumn[0].colspan ? totalColumn[0].colspan : 0" *ngFor="let dataValue of totalColumn;let colIndex = index">
+              <strong>
+                <span [ngClass]="{'pull-right' : dataValue.colspan}" *ngIf="dataValue.header" translate={{dataValue.header}}></span>
+                <span [ngClass]="{'pull-right': dataValue.pullRight}">{{dataValue.showDecimalFilter ? (originalDataSet[dataValue.columnDef] | number:'1.2-2') : originalDataSet[dataValue.columnDef]}}</span>
+              </strong>  
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="showPagination" >
+        <p class="pull-right">
+          Page {{ dataOperations.paging.currentPage }} of
+          <span *ngIf="pagination">{{ pagination.pageCount }}</span>
+        </p>
+        <ngb-pagination
+          class="pagination"
+          [pageSize]="dataOperations.paging.pageSize"
+          [collectionSize]="filteredDataCount"
+          [page]="dataOperations.paging.currentPage"
+          [maxSize]="dataOperations.paging.maxPagesToShow"
+          [ellipses]="true"
+          [rotate]="true"
+          (pageChange)="handlePageChange($event)"
+          #pagination
+        >
+          <ng-template
+            ngbPaginationPrevious
+            translate="resources.common-previous-label"
+            >Previous</ng-template
+          >
+          <ng-template ngbPaginationNext translate="resources.common-next-label"
+            >Next</ng-template
+          >
+        </ngb-pagination>
+      </div>
+    </div>
+    <ng-template #noTableDataBlock>
+      <div class="card mt-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h4>
+                <span translate={{resourceMessages.noTableDataMessage}}></span>
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

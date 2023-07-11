@@ -1,0 +1,82 @@
+<h3>Active Companies (subscriptions)</h3>
+<form novalidate #frm="ngForm">
+<lib-form-panel>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-date-picker [smLabelClass]="'col-md-3 text-start'" [smName]="'from'" (smModelChange) ="startingDate($event)" [smDisabled]="false" [smLabel]="'Starting From'" [smPlaceholder]="'DD MM YYY Eg: 01 Jan 2015'"/>        
+        </div>
+        <div class="col-md-6">
+            <lib-button  [smLabel]="'Refresh'" [smType]="'button'" [smClass]="'btn btn-primary pull-right'" [smIcon]="'fa fa-refresh'" (smClick)="refresh()"/>
+        </div>
+    </div>
+</lib-form-panel>
+</form>
+<table class="table table-hover table-condensed table-bordered">
+     <thead>
+        <tr>
+        <th>Country</th>
+        <th>Free Trials</th>
+        <th>Debit Order</th>
+        <th>EFT</th>
+        <th>Credit Card</th>
+        <th>Voucher</th>
+        <th>MTN</th>
+        <th>PesaPal 1 month</th>
+        <th>PesaPal 1 year</th>
+        <th>Provisioner</th>
+        <th>Test Accounts</th>
+        <th>Total</th>
+        </tr>
+     </thead>
+     <tbody>
+         <tr *ngFor="let o of summaryData">
+            <td>{{o.countryName}}</td>
+        <td><a  (click)="getDetailData(o.countryId, o.freeTrialId, from, true)">{{o.freeTrialValue === 0 ? '' : o.freeTrialValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.debitOrderId, from, true)">{{o.debitOrderValue === 0 ? '' : o.debitOrderValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.eftId, from, true)">{{o.eftValue === 0 ? '' : o.eftValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.creditCardId, from, true)">{{o.creditCardValue === 0 ? '' : o.creditCardValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.voucherId, from, true)">{{o.voucherValue === 0 ? '' : o.voucherValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.mtnId, from, true)">{{o.mtnValue === 0 ? '' : o.mtnValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.pesaPal1MonthId, from, true)">{{o.pesaPal1MonthValue === 0 ? '' : o.pesaPal1MonthValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.pesaPal1YearId, from, true)">{{o.pesaPal1YearValue === 0 ? '' : o.pesaPal1YearValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.provisionerId, from, true)">{{o.provisionerValue === 0 ? '' : o.provisionerValue}}</a></td>
+        <td><a  (click)="getDetailData(o.countryId, o.testAccountId, from, true)">{{o.testAccountValue === 0 ? '' : o.testAccountValue}}</a></td>
+        <th>{{o.total === 0 ? '' : o.total}}</th>
+         </tr>
+     </tbody>
+    <tfoot>
+    <tr>
+        <th></th>
+        <th>{{totals?.freeTrialTotal === 0 ? '' : totals?.freeTrialTotal}}</th>
+        <th>{{totals?.debitOrderTotal === 0 ? '' : totals?.debitOrderTotal}}</th>
+        <th>{{totals?.eftTotal === 0 ? '' : totals?.eftValue}}</th>
+        <th>{{totals?.creditCardTotal === 0 ? '' : totals?.creditCardTotal}}</th>
+        <th>{{totals?.voucherTotal === 0 ? '' : totals?.voucherTotal}}</th>
+        <th>{{totals?.mtnTotal === 0 ? '' : totals?.mtnTotal}}</th>
+        <th>{{totals?.pesaPal1MonthTotal === 0 ? '' : totals?.pesaPal1MonthTotal}}</th>
+        <th>{{totals?.pesaPal1YearTotal === 0 ? '' : totals?.pesaPal1YearTotal}}</th>
+        <th>{{totals?.provisionerTotal === 0 ? '' : totals?.provisionerTotal}}</th>
+        <th>{{totals?.testAccountTotal === 0 ? '' : totals?.testAccountTotal}}</th>
+        <th>{{totals?.total === 0 ? '' : totals?.total}}</th>
+    </tr>
+    </tfoot>
+</table>
+
+
+<div>
+    
+     <lib-table *ngIf="isLoading"
+        [tableColumns]="detailColumns" 
+        [api]="api" 
+        [title]="title"
+        [refreshButton]="false"
+        [exportButton]="true"
+        [addNewButton]="false"
+        [pdfButton]="false"
+        [resourceMessages]="resourceMessages"
+        [searchUIOptions]="searchUIOptions"
+        [additionalGetPageResponse]="additionalGetPageResponse"
+        >
+    </lib-table>
+
+</div>

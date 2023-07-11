@@ -1,0 +1,42 @@
+.form-group {
+  margin-bottom: 5px;
+}
+.helpBlock{
+  color: red;
+}
+.p-0 {
+  padding: 0 !important;
+  text-align: right;
+  font-size: 12px!important
+}
+
+// .labelName{
+//   color: #666666;  
+//   text-align: right;
+//   margin-bottom: 0;
+//   padding-top: 7px;
+//   padding-right: 20px;
+// }
+// .inputBox{
+//   // height :30px;
+//   border: 1px solid gray;
+//   background-color: #F7F7F7;
+//   border-radius: 4px;
+//     &:focus{
+//       box-shadow: inset 0 -2px 0 #2196f3;
+//     // border-color: #66afe9;
+//     // border-bottom: 4px solid #66afe9;
+//     // box-shadow: none;
+//     } }
+
+/* Chrome, Safari, Edge, Opera */
+.inputClass::-webkit-outer-spin-button,
+.inputClass::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.inputClass[type=number] {
+  -moz-appearance: textfield;
+}

@@ -1,0 +1,36 @@
+.login-view{
+  background-color: var(--login-bg);
+  padding-bottom: 65px;
+}
+
+.body-login {
+  background-color: var(--login-bg);
+  height: 100vh;
+  padding-top: 80px;
+}
+
+.login-container {
+  background-color: white;
+  width: 600px;
+  border-radius: 5px;
+  padding: 30px 1px 0;
+}
+
+.logo {
+  background-image: var(--login-logo);
+  background-repeat: no-repeat;
+  height: 100px;
+  background-size: contain;
+  background-position: center;
+  margin-bottom: 30px;
+}
+
+.management {
+  color: white;
+  text-align:center;
+  font-weight: 400;
+}
+
+.login-header { 
+  font-weight: 400;
+}

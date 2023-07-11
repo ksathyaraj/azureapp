@@ -1,0 +1,15 @@
+.btn-default {
+    color: #666666;
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.btn-default:hover {
+    background-color: #f0f0f0;
+    border-color: #cfcfcf;
+}
+
+.btn-group input[type="radio"]:checked+.btn-default {
+    background-color: #e6e6e6;
+    border-color: #cfcfcf;
+}

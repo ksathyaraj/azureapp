@@ -1,0 +1,15 @@
+<lib-table 
+[tableColumns]="licenseesColumns" 
+[api]="api" 
+[title]="title" 
+[refreshButton]="refreshButton"
+[exportButton]="exportButton"
+[addNewButton]="addNewButton"
+[pdfButton]="pdfButton"
+[searchUIOptions]="searchUIOptions"
+(smHandleUpdateButtonClick)="handleUpdateButtonClick($event)"
+(smHandleAddButtonClick)="addNewLicensees()"
+[resourceMessages]="resourceMessages"
+>
+</lib-table>
+

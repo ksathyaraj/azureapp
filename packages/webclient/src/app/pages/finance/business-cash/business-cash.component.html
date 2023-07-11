@@ -1,0 +1,155 @@
+<div class=" d-flex mt-4 heading">
+    <div class="title">
+        <lib-title title="resources.finance-businesscash-pageheading-businesscash"></lib-title>
+    </div>
+    <div class="d-flex buttons">
+        <lib-link [linkName]="'Help Video'" [url]="supportVideoBaseUrl" target="_blank"></lib-link>
+        <lib-button [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'"
+            [smClass]="'btn btn-pdf btnSecondaryAction'" [smIcon]="'fa fa-file-pdf-o'"
+            (smClick)="print(selectedMonth)" />
+        <lib-button [smLabel]="'resources.common-buttons-addnew'" [smType]="'button'" [smClass]="'btn btn-secondary'"
+            [smIcon]="'fa fa-plus'" (smClick)="handleAddButtonClick($event)" />
+    </div>
+</div>
+<lib-form-panel>
+    <form class="form-horizontal">
+        <div class="row col-md-6">
+            <lib-select-input [smLabel]="'resources.finance-businesscash-month'" [smLabelClass]="'col-md-4'"
+                [smName]="'selectedMonth'" [(smModel)]="selectedMonth"
+                (smModelChange)="selectedMonthChanged(selectedMonth)"
+                [smOptionDisplayField]="'formattedMonthWithEntries'" [smOptionValueField]="'monthDate'"
+                [smOptions]="months" />
+        </div>
+    </form>
+</lib-form-panel>
+<lib-form-panel *ngIf="!selectedMonth">
+    <div class="row">
+        <div class="col-md-12">
+            <h4>
+                <span translate="resources.finance-businesscash-warningmessage"></span>
+            </h4>
+        </div>
+    </div>
+</lib-form-panel>
+<div class="row mt-4" *ngIf="selectedMonth">
+    <div class="form-group d-flex">
+        <div class="col-md-10">
+            <b class="float-right">
+                <span translate="resources.finance-businesscash-label-balancebroughtforward"></span>
+            </b>
+        </div>
+        <div class="col-md-2"> <b class="float-right"> {{data.openingBalance|number:'1.2'}}</b>
+        </div>
+    </div>
+</div>
+<table class="table table-hover table-condensed table-bordered" *ngIf="selectedMonth">
+    <thead>
+        <tr>
+            <th class="col-md-1">
+                <span translate="resources.finance-businesscash-tablecolumnheading-date"></span>
+            </th>
+            <th class="col-md-3">
+                <span translate="resources.finance-businesscash-tablecolumnheading-category"></span>
+            </th>
+            <th class="col-md-3">
+                <span translate="resources.finance-businesscash-tablecolumnheading-reference"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-businesscash-tablecolumnheading-amtin"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-businesscash-tablecolumnheading-amtout"></span>
+            </th>
+            <th class="col-md-1" *ngIf="showVat">
+                <span translate="resources.finance-businesscash-tablecolumnheading-vat"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-businesscash-tablecolumnheading-total"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-businesscash-tablecolumnheading-balance"></span>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let o of data.businessCashItems">
+        <tr>
+            <td>{{o.dateTime|date:'dd MMM yyyy'}}</td>
+            <td [ngClass]="{'table-warning': o.isSplit}">{{o.category}}</td>
+            <td>{{o.sourceDocumentReference}}</td>
+            <td class="text-end">{{o.amountIn|number:'1.2'}}</td>
+            <td class="text-end">{{o.amountOut|number:'1.2'}}</td>
+            <td class="text-end" *ngIf="showVat">{{o.vatPortion|number:'1.2'}}</td>
+            <td class="text-end">{{o.amountTotal|number:'1.2'}}</td>
+            <td class="text-end">{{o.balance|number:'1.2'}}</td>
+            <td>
+                <lib-button [smType]="'button'" (smClick)="delete(o)" [smIcon]="'fa fa-close'"
+                    [smClass]="'btn btn-danger btn-xs btnLineItemAction'" />
+            </td>
+        </tr>
+        <tr *ngIf="o.isSplit" [ngClass]="{'table-warning': o.isSplit}">
+            <td colspan=" 9">
+                <div class="form-group d-flex">
+                    <div class="col-md-1">
+                        <b>
+                            <span translate="resources.finance-businesscash-label-description"></span>
+                        </b>
+                    </div>
+                    <div class="col-md-2" style="text-align: left;">{{o.comments}}</div>
+                    <div class="col-md-2">
+                        <b>
+                            <span translate="resources.finance-businesscash-label-staffmember"></span>
+                        </b>
+                    </div>
+                    <div class="col-md-2" style="text-align: left;">{{o.staffMember}}</div>
+                </div>
+                <table class="table table-hover table-condensed table-bordered split"
+                    style="width: 90%; margin-left: 50px;">
+                    <thead>
+                        <tr>
+                            <th class="col-md-3">
+                                <span translate="resources.finance-businesscash-tablecolumnheading-reference"></span>
+                            </th>
+                            <th class="col-md-3">
+                                <span translate="resources.finance-businesscash-tablecolumnheading-category"></span>
+                            </th>
+                            <th class="col-md-1" nowrap>
+                                <span translate="resources.finance-businesscash-tablecolumnheading-amtin"></span>
+                            </th>
+                            <th class="col-md-1" nowrap>
+                                <span translate="resources.finance-businesscash-tablecolumnheading-amtout"></span>
+                            </th>
+                            <th class="col-md-1" *ngIf="showVat">
+                                <span translate="resources.finance-businesscash-tablecolumnheading-vat"></span>
+                            </th>
+                            <th class="col-md-3">
+                                <span translate="resources.finance-businesscash-tablecolumnheading-total"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- there is no orderby in new angular, removing for now -->
+                        <tr *ngFor="let item of o.businessCashItemAllocations">
+                            <td>{{item.description}}</td>
+                            <td>{{item.category}}</td>
+                            <td style="text-align: right">{{item.amountIn|number:'1.2'}}</td>
+                            <td style="text-align: right">{{item.amountOut|number:'1.2'}}</td>
+                            <td style="text-align: right" *ngIf="showVat">{{item.vatPortion|number:'1.2'}}</td>
+                            <td style="text-align: right">{{item.amountTotal|number:'1.2'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="row" *ngIf="selectedMonth">
+    <div class="form-group d-flex">
+        <div class="col-md-10">
+            <b class="float-right">
+                <span translate="resources.finance-businesscash-label-balancecarriedforward"></span>
+            </b>
+        </div>
+        <div class="col-md-2"> <b class="float-right"> {{data.closingBalance|number:'1.2'}}</b></div>
+    </div>
+</div>

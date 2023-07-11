@@ -1,0 +1,100 @@
+<lib-title-bar
+[title]="title" 
+[helpLinkURL]="helpLinkUrl" 
+[tabData]="tabData"
+[refreshButton]="false"
+[addNewButton]="false">
+</lib-title-bar>
+
+
+<form
+  #frm="ngForm"
+  autocomplete="off"
+  class="form-horizontal"
+  novalidate
+  (submit)="save(frm)"
+>
+  <lib-form-panel>
+    <div class="row">
+      <div class="col-md-8">
+        <lib-text-input
+          [smLabel]="'resources.settings-users-label-fullname'"
+          [smLabelClass]="'col-md-3'"
+          [smName]="'nameField'"
+          [smType]="'text'"
+          [(smModel)]="user.name"
+          [smRequired]="true"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <lib-text-input
+          [smLabel]="'resources.settings-users-label-email'"
+          [smLabelClass]="'col-md-3'"
+          [smName]="'email'"
+          [smType]="'email'"
+          [(smModel)]="user.email"
+          [smRequired]="true"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <lib-text-input
+          [smLabel]="'Mobile Number'"
+          [smLabelClass]="'col-md-3'"
+          [smName]="'mobileNumber'"
+          [smType]="'text'"
+          [(smModel)]="user.mobileNumber"
+          [smRequired]="true"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <lib-text-input
+          [smLabel]="'resources.settings-users-label-username'"
+          [smLabelClass]="'col-md-3'"
+          [smName]="'userName'"
+          [smType]="'text'"
+          [(smModel)]="user.userName"
+          [smRequired]="true"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <lib-text-input
+          [smLabel]="'resources.settings-users-label-password'"
+          [smLabelClass]="'col-md-3'"
+          [smName]="'password'"
+          [smType]="'password'"
+          [(smModel)]="user.password"
+          [smRequired]="user.password?true:false"
+        />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <lib-text-input
+          [smLabel]="'resources.settings-users-label-confirmpassword'"
+          [smLabelClass]="'col-md-3'"
+          [smName]="'confirmPassword'"
+          [smType]="'password'"
+          [(smModel)]="user.confirmPassword"
+          [smRequired]="user.confirmPassword?true:false"
+        />
+      </div>
+    </div>
+  </lib-form-panel>
+  <div class="button-bar mb-5 save">
+    <lib-validation-message></lib-validation-message>
+    <lib-button
+      [smLabel]="'resources.common-buttons-save'"
+      [smType]="'submit'"
+      [smIcon]="'fa fa-save'"
+      [smClass]="'btn btn-primary btnPrimaryAction'"
+    />
+  </div>
+</form>

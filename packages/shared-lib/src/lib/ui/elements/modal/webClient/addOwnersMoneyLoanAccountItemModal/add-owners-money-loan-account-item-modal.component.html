@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left">
+        <i class="fa fa-plus"></i>
+        <span class="nameSpace" translate="resources.finance-ownersmoney-addnew-pageheading-ownersmoneyitem"></span>
+    </h3>
+
+    <lib-button [smType]="'button'" (smClick)="closeModal()" [smClass]="'btn btn-close pull-right'" />
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" #frm="ngForm" novalidate>
+        <lib-form-panel>
+            <div class="row">
+                <lib-date-picker [smPlaceholder]="datePlaceHolder"
+                    [smLabel]="'resources.finance-ownersmoney-label-date'" [smLabelClass]="'col-md-3'"
+                    [smName]="'createdDate'" [(smModel)]="item.createdDate" (smModelChange)="dateChanged()"
+                    [smRequired]="true" [smDisabled]="false" [smShowWeeks]=false />
+            </div>
+            <div class="row">
+                <lib-select-input [smPlaceholder]="'resources.common-dropdown-selectplaceholder'"
+                    [smLabel]="'resources.finance-ownersmoney-label-category'" [smLabelClass]="'col-md-3'"
+                    [smName]="'selectedLedgerAccount'" [(smModel)]="item.selectedLedgerAccount"
+                    (smModelChange)="ledgerAccountChange(item.selectedLedgerAccount)" [smRequired]="true"
+                    [smOptionDisplayField]="'displayName'" [smOptions]="ledgerAccounts" />
+            </div>
+            <div class="row" *ngIf="item.selectedLedgerAccount?.isYouPaidASupplierDefaultLedger">
+                <lib-select-input [smPlaceholder]="'resources.common-dropdown-selectplaceholder'"
+                    [smLabel]="'resources.finance-ownersmoney-label-supplier'" [smLabelClass]="'col-md-3'"
+                    [smName]="'selectedSupplier'" [(smModel)]="item.selectedSupplier"
+                    (smModelChange)="supplierChange(item.selectedSupplier)" [smOptions]="suppliers"
+                    [smRequired]="item.selectedLedgerAccount?.isYouPaidASupplierDefaultLedger"
+                    [smOptionDisplayField]="'value'" [smOptionValueField]="'key'" />
+            </div>
+            <div class="row" *ngIf="item.selectedSupplier != ''">
+                <lib-select-input [smPlaceholder]="'resources.common-dropdown-selectplaceholder'"
+                    [smLabel]="'resources.finance-ownersmoney-label-invoice'" [smLabelClass]="'col-md-3'"
+                    [smName]="'selectedInvoice'" [(smModel)]="item.selectedInvoice"
+                    [smRequired]="item.selectedLedgerAccount?.isYouPaidASupplierDefaultLedger"
+                    [smOptions]="supplierInvoices" [smOptionDisplayField]="'value'" [smOptionValueField]="'key'" />
+            </div>
+            <div class="row">
+                <lib-textarea-input [smLabel]="'resources.finance-ownersmoney-label-description'"
+                    [smLabelClass]="'col-md-3'" [smName]="'description'" [(smModel)]="item.description"
+                    [smMaxlength]="100" [smRows]="2" [smRequired]="true" />
+            </div>
+            <div class="row">
+                <lib-text-input [smLabel]="'resources.finance-ownersmoney-label-reference'" [smLabelClass]="'col-md-3'"
+                    [smName]="'reference'" [(smModel)]="item.reference" [smMaxlength]="100" [smRows]="2"
+                    [smRequired]="true" />
+            </div>
+            <div class="row" *ngIf="params.showVat ? isLedgerAccountVatable : false">
+                <lib-text-input [smLabel]="'resources.finance-ownersmoney-label-exclusive'" [smLabelClass]="'col-md-3'"
+                    [smName]="'exclusiveAmount'" [smType]="'number'" [(smModel)]="item.exclusiveAmount"
+                    [smMaxlength]="50" [smDisabled]="true" />
+            </div>
+
+            <div class="row" *ngIf="params.showVat ? isLedgerAccountVatable : false">
+                <lib-text-input [smLabel]="'resources.finance-ownersmoney-label-vat'" [smLabelClass]="'col-md-3'"
+                    [smName]="'vat'" [smType]="'number'" [(smModel)]="item.vatAmount" [smMaxlength]="50"
+                    (smModelChange)="calculateExclusiveAmount()"
+                    [smRequired]="params.showVat ? isLedgerAccountVatable : false" />
+            </div>
+
+            <div class="row">
+                <lib-text-input [smLabel]="(params.showVat ? isLedgerAccountVatable : false) ? Inclusive : Amount"
+                    [smLabelClass]="'col-md-3'" [smName]="'inclusiveAmmount'" [smType]="'decimal'" [smMaxlength]="50"
+                    [(smModel)]="item.inclusiveAmmount" (smModelChange)="calculateExclusiveAndVatAmounts()"
+                    [smInputClass]="'form-control text-start'" [smRequired]="false" />
+            </div>
+            <div class="button-bar">
+                <lib-button [smLabel]="'resources.modal-buttons-ok'" [smType]="'submit'" (smClick)="passBack(frm)"
+                    [smIcon]="'fa fa-check'" [smClass]="'btn btn-secondary'" />
+                <lib-button [smLabel]="'resources.modal-buttons-cancel'" [smType]="'button'" (smClick)="closeModal()"
+                    [smIcon]="'fa fa-minus'" [smClass]="'btn btn-primary'" />
+            </div>
+        </lib-form-panel>
+    </form>
+</div>
+<div class="modal-footer">
+</div>

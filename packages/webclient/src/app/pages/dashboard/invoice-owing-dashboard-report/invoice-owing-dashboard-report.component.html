@@ -1,0 +1,44 @@
+<div [ngClass]="{'spin-me-round': showSpinner }">
+    <!-- <dashboard-form-panel panel-heading="Bills you need to pay" refresh="vm.filter(true)"> -->
+        <div class="card">
+            <div class="card-header">
+                Bills you need to pay
+                <div class="pull-right">
+                    <lib-button
+                        (smClick)="filter(true)" 
+                        [smClass]="'btn btn-primary btn-xs btnPrimaryAction'" 
+                        [smIcon]="'fa fa-refresh'">
+                    </lib-button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div *ngIf="!hasData" class="row">
+                    <div class="col-md-7">
+                        <div class="form-group pull-right margin0">
+                            <h3 style="margin-top: 0; margin-bottom: 1px;">No data available</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <!-- TODO - number 2 -->
+                        <div (click)="redirectTo()" [ngClass]="{'grayScaleProgressbar': showGray,'progressbar': !showGray, 'canvas-pointer' : true}" data-toggle="tooltip" data-placement="right" title="{{'Outstanding: ' + (data.outstanding) + ' Overdue: ' + (data.overdue)}}">
+                            <div [ngClass]="{'grayScaleProgressbarInner': showGray, 'progressbarInner': !showGray }" [style]="{'width': data.percentage}"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group pull-right margin0">
+                            <h3 (click)="redirectTo()" class="text-primary canvas-pointer" style="margin-top: 0; margin-bottom: 1px;">{{data.outstanding | number:'1.2'}}</h3>total outstanding
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <i [ngClass]="{'fa fa-circle': showGray,'fa fa-circle bills-overdue absa-red': !showGray }"></i> Overdue ({{data.overdue | number:'1.2'}})
+                    </div>
+                    <div class="col-md-4" style="text-align: right;">
+                        <i [ngClass]="{'fa fa-circle': showGray,'fa fa-circle bills-outstanding absa-amber': !showGray }" ></i> Outstanding ({{data.outstanding | number:'1.2'}})
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </dashboard-form-panel> -->
+</div>

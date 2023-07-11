@@ -1,0 +1,26 @@
+<div class="form-group row">
+  <label *ngIf="smLabel" class="control-label" [ngClass]="smLabelClass">
+      <span [translate]="smLabel"></span><span *ngIf="smRequired">*</span>
+  </label>
+  <div [ngClass]="elementClass">
+      <input  [type]="(smType==='decimal')?'text':smType" 
+              [style]="(smType==='decimal')? smPullRight ? 'text-align:right' : '' :''"
+              [name]="smName"
+              [placeholder]="smPlaceholder | translate"
+              class={{smInputClass}} 
+              [(ngModel)]="smValue" 
+              [ngClass]="{'is-invalid': ngForm.form.controls[smName]?.errors?.['required']  && ngForm.form.controls[smName].touched||isMaxCheckError , 
+              'inputClass' : !isSpinRequired}"
+              (ngModelChange)="handleModelChange($event)" 
+              [disabled]="smDisabled"
+              [maxlength]="smMaxlength"
+              [required]="smRequired"
+              min={{smMin}}
+              max={{smMax}}
+              [tabindex]="smTabindex"
+              (blur)="handleBlur()"
+              (focus)="handleFocus()"
+              (keypress)="decimalOnly($event)"
+              />
+  </div>
+</div>

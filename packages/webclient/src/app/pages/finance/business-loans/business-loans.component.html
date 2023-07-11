@@ -1,0 +1,131 @@
+<div class="row clearfix">
+    <div class="col-md-8">
+        <lib-title [title]="'resources.finance-businessloans-pageheading-businessloans'"></lib-title>
+    </div>
+
+    <div class="col-md-4 text-right heading-button-bar"
+        style=" display: flex; align-items: center; justify-content: flex-end;">
+        <lib-link [linkName]="'Help Video'" [url]="supportVideoBaseUrl" target="_blank">
+        </lib-link>
+        <lib-button [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'"
+            (smClick)="print(selectedMember, selectedMonth)" [smDisabled]="!selectedMonth" [smIcon]="'fa fa-file-pdf-o'"
+            [smClass]="'btn btn-pdf btnSecondaryAction'" />
+        <lib-button [smLabel]="'resources.common-buttons-addnew'" [smType]="'button'" (smClick)="addLoanAccountItem(0)"
+            [smDisabled]="!selectedMember" [smIcon]="'fa fa-plus'" [smClass]="'btn btn-secondary'" />
+    </div>
+</div>
+
+<lib-form-panel>
+    <form class="form-horizontal">
+        <div class="row">
+            <lib-select-input class="col-md-5" [smLabel]="'resources.finance-businessloans-label-loanaccount'"
+                [smLabelClass]="'col-md-4'" [(smModel)]="selectedMember" [smName]="'selectedMember'"
+                (smModelChange)="selectedMemberChanged(selectedMember)" [smOptionDisplayField]="'displayName'"
+                [smOptions]="members" />
+
+            <div class="col-md-4">
+                <lib-button [smTitle]="'resources.finance-businessloans-button-editloanaccount' | translate"
+                    (smClick)="editLoanAccount()" [smDisabled]="!selectedMember || selectedMember?.monthItems"
+                    [smIcon]="'fa fa-pencil'" [smClass]="'btn btn-secondary'" />
+                <lib-button [smTitle]="'resources.finance-businessloans-button-addloanaccount' | translate"
+                    (smClick)="addLoanAccount()" [smIcon]="'fa fa-plus'"
+                    [smClass]="'btn btn-secondary'" />
+            </div>
+        </div>
+        <div class="row">
+            <lib-select-input class="col-md-5" [smLabel]="'resources.finance-businessloans-label-month'"
+                [smLabelClass]="'col-md-4'" [(smModel)]="selectedMonth" [smName]="'selectedMonth'"
+                (smModelChange)="selectedMonthChanged(selectedMember, selectedMonth)"
+                [smOptionDisplayField]="'formattedMonthWithEntries'" [smOptions]="selectedMember?.monthItems" />
+        </div>
+    </form>
+</lib-form-panel>
+<div style="margin: 23px;"></div>
+<lib-form-panel *ngIf="!selectedMember && !selectedMonth">
+    <div class="row">
+        <div class="col-md-11.2">
+            <h4>
+                <span translate="resources.finance-businessloans-warningmessage"></span>
+            </h4>
+        </div>
+    </div>
+</lib-form-panel>
+
+<table class="table table-hover table-condensed table-bordered" *ngIf="selectedMember && selectedMonth">
+    <thead>
+        <tr>
+            <th class="col-md-1">
+                <span translate="resources.finance-businessloans-tablecolumnheading-date"></span>
+            </th>
+            <th class="col-md-1.2-2">
+                <span translate="resources.finance-businessloans-tablecolumnheading-category"></span>
+            </th>
+            <th class="col-md-3">
+                <span translate="resources.finance-businessloans-tablecolumnheading-description"></span>
+            </th>
+            <th class="col-md-3">
+                <span translate="resources.finance-businessloans-tablecolumnheading-reference"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-businessloans-tablecolumnheading-businessowes"></span>
+                {{selectedMember.displayName}}
+            </th>
+            <th class="col-md-1">
+                {{selectedMember.displayName}}
+                <span translate="resources.finance-businessloans-tablecolumnheading-owesbusiness"></span>
+            </th>
+            <th class="col-md-1">
+                <span translate="resources.finance-businessloans-tablecolumnheading-balance"></span>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <b><span translate="resources.finance-businessloans-labelheading-balancebroughtforward"></span></b>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <b class="pull-right">{{data.openingBalance|number:'1.2-2'}}</b>
+            </td>
+            <td></td>
+        </tr>
+        <tr *ngFor="let o of data.items">
+            <td>
+                <a (click)="addLoanAccountItem(o)">{{o.dateTime|date:'dd MMM yyyy'}}
+                </a>
+            </td>
+            <td>{{o.category}}</td>
+            <td>{{o.description}}</td>
+            <td>{{o.reference}}</td>
+            <td class="text-right">{{o.businessOwes|number:'1.2-2'}}</td>
+            <td class="text-right">{{o.businessOwed|number:'1.2-2'}}</td>
+            <td class="text-right">{{o.balance|number:'1.2-2'}}</td>
+            <td style="text-align: center">
+                <lib-button [smTitle]="'resources.common-buttons-delete-title' | translate" [smType]="'button'"
+                    [smClass]="'btn btn-danger btn-xs btnLineItemAction'" (smClick)="deleteLoanAccountItem(o);"
+                    [smIcon]="'fa fa-close'">
+                </lib-button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <b>
+                    <span translate="resources.finance-businessloans-labelheading-balancecarriedforward"></span>
+                </b>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b class="pull-right">{{data.closingBalance|number:'1.2-2'}}</b></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

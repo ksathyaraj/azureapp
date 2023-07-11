@@ -1,0 +1,85 @@
+<form #searchForm="ngForm" novalidate>
+  <div class="card mt-2">
+    <div class="card-body">
+      <div class="row">
+        <div [ngClass]="singleDateFilterDivClass" *ngIf="searchUIOptions.singleDateFilter">
+          <lib-date-picker
+            [smLabelClass]="dateFilter.smLabelclass ? dateFilter.smLabelclass : 'col-md-4'"
+            [smLabel]="dateFilter.smLabel"
+            [smPlaceholder]="dateFilter.smPlaceholder"
+            [smName]="'singleDateFilterSearch'"
+            [(smModel)]="singleDateFilterSearch"
+            (smModelChange)="onSearchBySingleDate()"
+          ></lib-date-picker>
+        </div>
+        <div [ngClass]="multiSelectDivClass" *ngIf="searchUIOptions.multiSelectFilter">
+          <lib-select-input
+            [smMultiSelectOption]="true"
+            [smLabel]="dropDownFilter.smLabel"
+            [smLabelClass]="dropDownFilter.smLabelClass"
+            [smOptions]="dropDownFilter.smOptions"
+            [smOptionDisplayField]="dropDownFilter.smOptionDisplayField"
+            [smOptionValueField]="dropDownFilter.smOptionValueField"
+            [(smModel)]="dropDownFilter.selectedSearchFilterDropdown"
+            (smModelChange)="onMultiSelect($event)"
+            [smPlaceholder]="dropDownFilter.smPlaceholder"
+            [smName]="'multiSelectDropdown'"
+            [smImageDisplayField]="dropDownFilter.smImageDisplayField"
+          ></lib-select-input>
+        </div>
+        <div [ngClass]="dateRangeDivClass" *ngIf="searchUIOptions.dateRange">
+          <lib-date-picker
+            [smLabelClass]="'col-md-2'"
+            [smLabel]="fromDateLabel"
+            [smName]="'fromDateForSearch'"
+            [(smModel)]="fromDate"
+            (smModelChange)="onSearchByDateRange()"
+            [smPlaceholder]="datePlaceholder"
+          ></lib-date-picker>
+        </div>
+        <div [ngClass]="dateRangeDivClass" *ngIf="searchUIOptions.dateRange">
+          <lib-date-picker
+            [smLabelClass]="'col-md-2'"
+            [smLabel]="toDateLabel"
+            [smName]="'toDateForSearch'"
+            [(smModel)]="toDate"
+            (smModelChange)="onSearchByDateRange()"
+            [smPlaceholder]="datePlaceholder"
+          ></lib-date-picker>
+        </div>
+        <div [ngClass]="selectInputDivClass" *ngIf="searchUIOptions.dropdown">
+          <lib-select-input
+            [smLabelClass]="dropDownFilter.smLabelClass"
+            [smOptions]="dropDownFilter.smOptions"
+            [smRequired]="dropDownFilter.smRequired"
+            [smLabel]="dropDownFilter.smLabel"
+            [smOptionDisplayField]="dropDownFilter.smOptionDisplayField"
+            [smOptionValueField]="dropDownFilter.smOptionValueField"
+            [(smModel)]="dropDownFilter.selectedSearchFilterDropdown"
+            (smModelChange)="onDropDownSelect()"
+            [smPlaceholder]="dropDownFilter.smPlaceholder"
+            [smName]="'searchFilterDropdown'"
+          ></lib-select-input>
+        </div>
+        <div
+          [ngClass]="searchInputDivClass"
+          *ngIf="searchUIOptions.searchInput"
+        >
+          <div class="form-group right-inner-addon margin0">
+            <span><i class="fa fa-search"></i></span>
+            <input
+              class="form-control"
+              (keyup)="onSearch($event)"
+              type="search"
+              placeholder="{{smPlaceHolder | translate}}"
+            />
+          </div>
+        </div>
+      </div>
+      <lib-alphabet-filter
+        (letterToSearch)="onLetterSearch($event)"
+        *ngIf="searchUIOptions.alphabetFilter"
+      ></lib-alphabet-filter>
+    </div>
+  </div>
+</form>

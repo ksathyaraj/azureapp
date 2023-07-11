@@ -1,0 +1,30 @@
+<div class="form-group">
+  <label class="control-label" [ngClass]="smLabelClass" *ngIf="smLabel">
+    <span [translate]="smLabel"></span>
+  </label>
+  <div class="row">
+    <input *ngIf="fileInputRequired"
+      [(ngModel)]="uploaderFileName"
+      class="col-md-6 imageUploadBorder fileUploadHeight30"
+    />
+    <div class="col-md-5">
+      <label class="file-upload">
+        <input
+          id="organisationuploader"
+          type="{{ type }}"
+          (change)="handleButtonClick($event)"
+          accept="accept"
+        />
+        <span>{{browseText}}</span>
+      </label>
+      <div class="progress" *ngIf="showProgressbar && progress > 0">
+        <div
+          class="progress-bar"
+          role="progressbar"
+          [ngStyle]="{ width: progress + '%' }"
+          style="width: 0%"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

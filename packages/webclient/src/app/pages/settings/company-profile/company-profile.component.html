@@ -1,0 +1,230 @@
+<div class="button-bar">
+  <lib-link
+    [linkName]="'Help Video'"
+    [translate]="'resources.common-buttons-helpvideo'"
+    [url]="supportVideoBaseUrl"
+  />
+</div>
+<lib-page-tab-bar [tabData]="tabData"> </lib-page-tab-bar>
+<form
+  class="form-horizontal"
+  #frmcompanyprofile="ngForm"
+  (submit)="save(frmcompanyprofile)"
+  novalidate
+>
+  <div
+    class="panel-group"
+    id="accordion"
+    role="tablist"
+    aria-multiselectable="true"
+  >
+    <lib-form-panel
+      [smLabel]="
+        'resources.settings-companyprofile-panelheading-companyprofile'
+      "
+    >
+      <div class="col-md-12">
+        <i
+          class="fa fa-question-circle fa-lg pull-right"
+          (click)="showInfo()"
+          title="{{ 'resources.common-buttons-info-title' | translate }}"
+        ></i>
+      </div>
+
+      <div class="col-md-7">
+        <div class="form-group row">
+          <label class="col-md-3 control-label">
+            <span
+              [translate]="'resources.settings-companyprofile-label-country'"
+            ></span>
+          </label>
+
+          <div class="col-md-8">
+            <label class="control-label">
+              <h4 style="margin-top: 0">
+                <span class="pull-left">
+                  <img
+                    class="img-responsive center-block flag"
+                    title="{{ companySettings.countryName }}"
+                    src="{{ companySettings.countryImageUrl }}"
+                  /> </span
+                ><span class="pull-left"
+                  >&nbsp;&nbsp; {{ companySettings.countryName }}</span
+                >
+              </h4>
+            </label>
+          </div>
+        </div>
+        <lib-select-input
+          [smLabel]="'resources.settings-companyprofile-label-companytype'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'organisationType'"
+          [(smModel)]="selectedBusinessType"
+          (smModelChange)="companyTypeChange()"
+          [smRequired]="true"
+          [smOptionDisplayField]="'value'"
+          [smOptions]="businessTypes"
+          [smOptionValueField]="'key'"
+          [smPlaceholder]="'Please Select'"
+        />
+
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-registeredname'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'registeredName'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.registeredName"
+          [smRequired]="true"
+        />
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-tradingname'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'tradingName'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.tradingName"
+          [smRequired]="true"
+        />
+        <lib-date-picker
+          [smLabel]="'resources.settings-companyprofile-label-registereddate'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'registeredDate'"
+          [(smModel)]="companySettings.registeredDate"
+          [smPlaceholder]="'DD/MM/YY e.g.24/05/2023'"
+        />
+
+        <lib-text-input
+          *ngIf="companyTypeDisplayModel.isVisable"
+          [smLabel]="companyTypeDisplayModel.ownerTextLabel"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smElementClass]="'col-md-9'"
+          [smName]="'membersNames'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.membersNames"
+        />
+        <lib-text-input
+          *ngIf="companyTypeDisplayModel.isVisable"
+          [smLabel]="companyTypeDisplayModel.ckTextLabel"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smElementClass]="'col-md-9'"
+          [smName]="'ckNumber'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.ckNumber"
+        />
+
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-incometaxnumber'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'incomeTaxNumber'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.incomeTaxNumber"
+        />
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-uifnumber'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'uifNumber'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.uifNumber"
+        />
+
+        <div class="form-group row">
+          <label class="col-md-3 control-label">
+            <span
+              [translate]="'resources.settings-companyprofile-label-companylogo'"
+            ></span>
+          </label>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6 imageUploadBorder">
+                <img
+                  name="logo"
+                  class="companyLogo heightwidth100"
+                  [src]="'data:image/png;base64,' + companyProfileImage"
+                />
+              </div>
+
+              <div class="col-md-5">
+                <lib-file-input
+                  [accept]="'|jpg|png|jpeg|bmp|gif|'"
+                  (handleFileSelected)="onFileSelected($event)"
+                  [type]="'file'"
+                  [uploaderFileName]="uploaderFileName"
+                  [fileInputRequired]="false"
+                >
+                </lib-file-input>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <lib-textarea-input
+          [smLabel]="'resources.settings-companyprofile-label-companyaddress'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'physicalAddress'"
+          [(smModel)]="companySettings.physicalAddress"
+          [smRows]="4"
+          [smRequired]="true"
+        />
+        <lib-textarea-input
+          [smLabel]="'resources.settings-companyprofile-label-postaladdress'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'postalAddress'"
+          [(smModel)]="companySettings.postalAddress"
+          [smRows]="4"
+          [smRequired]="true"
+        />
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-officephone'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'officePhone'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.officePhone"
+        />
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-officefax'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'officeFax'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.officeFax"
+        />
+        <lib-text-input
+          [smLabel]="'resources.settings-companyprofile-label-urlwebsite'"
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'websiteUrl'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.websiteUrl"
+        />
+        <lib-text-input
+          [smLabel]="
+            'resources.settings-companyprofile-label-primarycontactemail'
+          "
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'primaryContactEmail'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.primaryContactEmail"
+          [smDisabled]="true"
+          [smRequired]="true"
+        />
+        <lib-text-input
+          [smLabel]="
+            'resources.settings-companyprofile-label-primarycontactcellphone'
+          "
+          [smLabelClass]="'col-md-3 control-label'"
+          [smName]="'primaryContactMobile'"
+          [smType]="'text'"
+          [(smModel)]="companySettings.primaryContactMobile"
+        />
+        <div class="form-group mb-5">
+          <div class="save">
+            <lib-validation-message></lib-validation-message>
+            <lib-button
+              [smLabel]="'resources.common-buttons-save'"
+              [smType]="'submit'"
+              [smIcon]="'fa fa-save'"
+              [smClass]="'btn btn-primary pull-right btnPrimaryAction'"
+            />
+          </div>
+        </div>
+      </div>
+    </lib-form-panel>
+  </div>
+</form>

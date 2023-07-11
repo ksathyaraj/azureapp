@@ -1,0 +1,35 @@
+#reportIframe{
+    width: 500px;
+    height: 400px;
+}
+@media (min-width: 992px){
+    #reportIframe{
+        width: 800px;
+    }
+}
+
+.container{
+    padding: 0px;
+    background-color: white;
+    z-index: 2;
+}
+
+.sm-spinner{
+    border: 12px solid rgba(30,150,240,.2);
+    border-right-color: #2196F3;
+    position: relative;
+    margin: auto;
+    height: 100px;
+    width: 100px;
+    animation: rotate 1s infinite linear;
+    border-radius: 50%;
+}
+
+@keyframes rotate {
+    0% {
+    transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

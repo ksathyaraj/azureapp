@@ -1,0 +1,41 @@
+a.nav-button {
+    text-decoration: none;
+    color: var(--smeazy-nav-grid-color);
+}
+
+a.nav-button h4, a.nav-button .h4, div.nav-button a h4, div.nav-button a .h4 {
+    color: var(--smeazy-nav-grid-color);
+    font-weight: 300;
+}
+
+a.nav-button p, a.nav-button p, div.nav-button p, div.nav-button a p {
+    color: var(--smeazy-nav-grid-color);
+    font-weight: 300;
+}
+
+.nav-grid-item {
+    background-color: var(--smeazy-nav-grid-bg);
+    padding-top: 8px;
+    margin-bottom: 24px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: var(--smeazy-nav-grid-box-shadow);
+}
+
+.nav-grid-empty-item {
+    /* background-color: var(--bs-primary); */
+    padding-top: 8px;
+    margin-bottom: 24px;
+    border: none;
+    border-radius: 3px;
+    box-shadow: var(--smeazy-nav-grid-box-shadow);
+}
+
+.nav-grid-item:hover {
+    color:#323232;
+}
+
+.nav-grid-item:hover > h4,  .nav-grid-item:hover > p {
+    color:inherit;
+}
+

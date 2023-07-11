@@ -1,0 +1,14 @@
+<lib-table
+  [api]="api"
+  [title]="title"
+  [smTitle3]="title2"
+  [emailButton]="true"
+  (smHandleEmailButtonClick)="emailElectronicFundsTransferReport()"
+  [addNewButton]="false"
+  [searchUIOptions]="searchUIOptions"
+  [resourceMessages]="resourceMessages"
+  [tableColumns]="EFTReportColumns" 
+  [dropDownFilter]="dropDownFilter"
+  [selectInputDivClass]="'col-md-4'"
+  (smHandleDropdownClick)="titleChange($event)"
+></lib-table>

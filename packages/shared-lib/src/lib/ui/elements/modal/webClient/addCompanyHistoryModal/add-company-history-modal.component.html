@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title pull-left"><i class="fa fa-plus"></i> Add Company History - {{params.company.sanitizedName}}</h3>
+    <lib-button
+            [smType]="'button'"
+            [smClass]="'btn-close pull-right'"
+            (smClick)="cancel()"
+        ></lib-button>
+</div>
+<form class="form-horizontal" #frm="ngForm" novalidate>
+    <div class="modal-body">
+        <div class="row">
+            <lib-textarea-input [smLabelClass]="'col-md-3'" [smName]="'reason'" [(smModel)]="comments" [smMaxlength]="255" [smRows]="4" [smRequired]="true" />
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="button-bar button-bar-modal">
+            <lib-button [smLabel]="'Cancel'" [smIcon]="'fa fa-minus'" [smType]="'button'" [smClass]="'btn btn-primary'" (click)="cancel()"></lib-button>
+            <lib-button [smLabel]="'Add'" [smIcon]="'fa fa-plus'" [smType]="'submit'" [smClass]="'btn btn-success'" (click)="ok(frm)"></lib-button>
+        </div>
+    </div>
+</form>

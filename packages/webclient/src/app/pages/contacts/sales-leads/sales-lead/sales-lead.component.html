@@ -1,0 +1,50 @@
+<lib-title title="resources.contacts-salesleads-salesleaddetail-pageheading-salesleaddetail"></lib-title>
+<form class="form-horizontal" (submit)="save(salesLead, frm)" #frm="ngForm"  novalidate>
+    <lib-form-panel [smLabel]="'resources.contacts-organisationcontacts-panelheading-detail'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-company'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'company'" [smType]="'text'" [(smModel)]="salesLead.company" [smMaxlength]="100" [smTabindex]="1" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-email'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'email'" [smType]="'email'" [(smModel)]="salesLead.email" [smMaxlength]="100" [smTabindex]="7" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <lib-select-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-possiblerelationship'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'contactRelationshipType'" [(smModel)]="salesLead.contactRelationshipType" [smTabindex]="2" [smRequired]="true" [smOptionDisplayField]="'value'" [smOptions]="contactRelationshipTypes" [smOptionValueField]="'key'" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-cellphone'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'cellphone'" [smType]="'text'" [(smModel)]="salesLead.cellphone" [smMaxlength]="100" [smTabindex]="8" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-position'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'position'" [smType]="'text'" [(smModel)]="salesLead.position" [smMaxlength]="50" [smTabindex]="3" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-workcontact'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'workContactNumber'" [smType]="'text'" [(smModel)]="salesLead.workContactNumber" [smMaxlength]="100" [smTabindex]="9" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-title'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'title'" [smType]="'text'" [(smModel)]="salesLead.title" [smMaxlength]="50" [smTabindex]="4" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-alternatecontact'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'alternateContactNumber'" [smType]="'text'" [(smModel)]="salesLead.alternateContactNumber" [smMaxlength]="100" [smTabindex]="10" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-firstname'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'firstname'" [smType]="'text'" [(smModel)]="salesLead.firstName" [smMaxlength]="100" [smTabindex]="5" [smRequired]="true" />
+                <lib-text-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-lastname'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'lastname'" [smType]="'text'" [(smModel)]="salesLead.lastName" [smMaxlength]="100" [smTabindex]="6" [smRequired]="true" />
+            </div>
+            <div class="col-md-6">
+                <lib-textarea-input [smLabel]="'resources.contacts-salesleads-salesleaddetail-label-notes'" [smLabelClass]="'col-sm-4 control-label'" [smName]="'notes'" [(smModel)]="salesLead.notes" [smMaxlength]="500" [smTabindex]="11" [smRows]="3" />
+            </div>
+        </div>
+    </lib-form-panel>
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" [smTabindex]="12" [smDisabled]="saveButton" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

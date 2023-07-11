@@ -1,0 +1,45 @@
+.imgpad{
+    padding: 10px 0;
+    height:150px;
+    width:100%;
+}
+
+.save{
+    position:absolute;
+    right:10px;
+}
+
+.form-group{
+    margin-bottom: 5px;
+}
+
+.control-label {
+    text-align: right;
+    margin-bottom: 0px;
+    padding-top: 7px;
+    color: rgb(102, 102, 102);
+}
+.img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flag {
+    height: 25px;
+    border-radius: 4px;
+}
+.imageUploadBorder{
+    border: 1px solid gray;
+    background-color: #F7F7F7;
+    border-radius: 4px;
+    box-shadow: none;
+    margin-left: 15px;
+    padding: 3px;
+}

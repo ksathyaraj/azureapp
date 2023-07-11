@@ -1,0 +1,58 @@
+<lib-title-bar [title]="'resources.accountant-generalledger-pageheading-generalledger'" [exportButton]="true" [api]="api"
+[refreshButton]="false"  [requestGLButton]="true" (handleRequestGLButtonClick)="request()" [pdfButton]="false"
+ (handleRefreshButtonClick)="refreshRequests()"  [addNewButton]="false" [helpLinkURL]="supportVideoBaseUrl" />
+
+<form novalidate  #frm="ngForm" >
+    <lib-form-panel>
+        <div class="row">
+            <div class="col-md-5">
+                <lib-date-picker [smName]="'fromDate'" [(smModel)]="fromDate" [smShowWeeks]="false" [smLabelClass]="'col-md-4 text-start'" (smModelChange) ="fromDateRange($event)"
+                 [smPlaceholder]="'resources.calendar-placeholder'" [smLabel]="'resources.accountant-generalledger-generalledger-label-startdate'"  />
+            </div>
+            <div class="col-md-5">
+                <lib-date-picker [smName]="'toDate'" [(smModel)]="toDate" [smShowWeeks]="false" [smLabelClass]="'col-md-4 text-start'" (smModelChange) ="toDateRange($event)"
+                [smPlaceholder]="'resources.calendar-placeholder'" [smLabel]="'resources.accountant-generalledger-generalledger-label-enddate'" />
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-10">
+                <div class="form-group">
+                    <lib-select-input [smMultiSelectOption]="true" [(smModel)]="selectedLedgerAccounts" [smLabel]="'resources.accountant-generalledger-generalledger-label-ledgeraccount'"
+                    [smLabelClass]="'text-start col-md-2'" (smModelChange)="ledgerAccountsChange()"
+                    [smOptions]="ledgerAccounts" [smOptionDisplayField]="'displayName'" [smName]="'generalLedgerMultiSelect'" />
+                    <div class="col-md-2 d-inline-block">&nbsp;</div>
+                    <span class="d-inline-block ps-1"
+                            translate="resources.accountant-generalledger-generalledger-label-showallaccounts"></span>
+                </div>
+            </div>
+        </div>
+    </lib-form-panel>
+</form>
+<lib-title-bar [title]="'Report Requests Today'" [exportButton]="false" 
+(handleRefreshButtonClick)="refreshRequests()" [pdfButton]="false" [addNewButton]="false" />
+<p *ngIf="!requests || requests.length === 0">No Requests made today.</p>
+<table class="table table-hover table-condensed table-bordered" *ngIf="requests.length > 0">
+    <thead>
+        <tr>
+            <th class="col-md-2">When</th>
+            <th class="col-md-2">Status</th>
+            <th class="col-md-1">Download</th>
+            <th class="col-md-7">Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let o of requests">
+            <td>{{o.requestedSAST|date:'hh:mm:ss'}}</td>
+            <td>{{o.status}}</td>
+            <td nowrap class="text-center">
+                <lib-button *ngIf="o.downloadLink" [smIcon]="'fa fa-cloud-download'" 
+                (smClick)="downloadReport(o.downloadLink)" [smClass]="'btn btn-primary btn-sm'" 
+                [smTitle]="'Download link for General Ledger Report'" />
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

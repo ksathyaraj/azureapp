@@ -1,0 +1,163 @@
+<div class="row" *ngIf="customerInvoice.isFinalised">
+    <div class="col-md-12 button-bar">
+        <lib-button [smLabel]="'resources.common-buttons-pdf'" [smType]="'button'" (smClick)="print(customerInvoiceId, customerInvoice.formattedInvoiceNumber)" [smDisabled]="customerInvoiceId === 0" [smIcon]="'fa fa-file-pdf-o'" [smClass]="'btn btn-pdf'" />
+        <lib-button [smLabel]="'resources.common-buttons-email'" [smType]="'button'" (smClick)="emailInvoice(customerInvoiceId)" [smDisabled]="customerInvoiceId === 0" [smIcon]="'fa fa-envelope-o'" [smClass]="'btn btn-email'" />
+    </div>
+</div>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-4">
+        <img class="document-logo heightwidth100" [src]="'data:image/png;base64,'+companyProfileImage">
+    </div>
+    <div class="col-md-8 pull-right">
+        <label class="text-right col-md-12 document-header-info">{{companyProfile.companyDisplayName}}</label>
+        <label class="text-right col-md-12 document-header-info"
+            [innerHtml]="companyProfile.htmlFormattedDisplayAddress"></label>
+    </div>
+</div>
+<div class="row">
+    <label class="control-label col-md-6 pull-left" style="text-align: left;" [hidden]="!showVat">
+        <strong>
+            <span translate="resources.finance-invoicing-customerinvoices-label-vatno"></span> {{companyProfile.vatNumber}}
+        </strong>
+    </label>
+    <label class="control-label col-md-6 pull-right" style="text-align: right;">
+        <strong>{{companyProfile.companyDisplayRegistrationNumber}}</strong>
+    </label>
+</div>
+<lib-form-panel [smHeading]="showVat?'resources.finance-invoicing-customerinvoices-panelheading-taxinvoice':'resources.finance-invoicing-customerinvoices-panelheading-invoice'" />
+<form class="form-horizontal"  #customerInvoiceForm="ngForm"  novalidate>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <!-- <lib-select-input [smLabel]="'resources.finance-quotes-quotes-label-selectcustomer'" [smLabelClass]="'col-md-4'" [smName]="'contact'" [(smModel)]="customerInvoice.contact" (smModelChange)="customerChange(quoteForm)" [smRequired]="true" [smOptionDisplayField]="'companyName'" [smOptions]="customers" [smPlaceholder]="'Select Customer'"/> -->
+                <lib-select-input [smDisabled]="disabled" [smLabel]="'resources.finance-invoicing-customerinvoices-label-selectcustomer'"[smLabelClass]="'col-md-4'" [smName]="'contact'" [(smModel)]="customerInvoice.contact" (smModelChange)="customerChange(customerInvoiceForm)" [smRequired]="true" [smOptionDisplayField]="'companyName'" [smOptions]="customers" [smPlaceholder]="'Select Customer'"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-postaladdress'" [smElementClass]="'pull-left'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice.contact?.invoiceAddress?.htmlFormattedFullAddress"/>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-text-input [smLabel]="'resources.finance-invoicing-customerinvoices-label-invoiceno'" [smLabelClass]="'col-md-3'" [smName]="'formattedInvoiceNumber'" [smType]="'text'" [(smModel)]="customerInvoice.formattedInvoiceNumber" [smDisabled]="true" [smPlaceholder]="'Automatically generated when you finalise invoice'"/>
+                <lib-date-picker [smLabel]="'resources.finance-invoicing-customerinvoices-label-invoicedate'" [smLabelClass]="'col-md-3'" [smName]="'createdDate'" [(smModel)]="customerInvoice.createdDate" (smModelChange)="createdDateChanged()" [smRequired]="true" [smDisabled]="disabled"/>
+                <lib-text-input [smLabel]="'resources.finance-invoicing-customerinvoices-label-orderno'" [smLabelClass]="'col-md-3'" [smName]="'orderNumber'" [smType]="'text'" [(smModel)]="customerInvoice.orderNumber" [smMaxlength]="200" [smDisabled]="disabled" />
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-vatno'" [smLabelClass]="'col-md-3'" [smModel]="customerInvoice?.contact?.vatNumber"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-supplierno'" [smLabelClass]="'col-md-3'" [smModel]="customerInvoice?.contact?.supplierNumber"/>
+                <lib-select-input [smLabel]="'resources.finance-invoicing-customerinvoices-label-project'" [smLabelClass]="'col-md-3'" [smName]="'projectId'" [(smModel)]="customerInvoice.projectId" [smOptionDisplayField]="'projectName'" [smOptions]="customerInvoice.contact.invoiceableProjects" [smOptionValueField]="'id'" [smPlaceholder]="'Select Project'" [smDisabled]="disabled"/>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel>
+                <div class="row">
+                    <div class="col-md-4">
+                        <lib-select-input [smLabel]="'resources.finance-invoicing-customerinvoices-label-attention'" [smLabelClass]="'col-md-4'" [smName]="'individualContact'" [(smModel)]="customerInvoice.contact.individualContact" (smModelChange)="contactChange(customerInvoiceForm)" [smRequired]="true" [smOptionDisplayField]="'fullName'" [smOptions]="customerInvoice.contact.invoiceableIndividualContacts" [smDisabled]="disabled"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-telephone'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.contact?.individualContact?.cellphone"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-email'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="customerInvoice?.contact?.individualContact?.emailAddress"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-editable-table [items]="customerInvoice.invoiceOutItems"
+                            [vatInfo]="vatInfo"
+                            [vatDate]="customerInvoice.createdDate"
+                            [productList]="productlist"
+                            (itemDeleted)="onItemDeleted($event)"
+                            (itemSaved)="onItemSaved($event)"
+                            [hideInterestItemBtn]="false"
+                            [disabled]="customerInvoice.isFinalised"
+                            (itemOnCreation)="handleItemCreation($event)">
+                            
+            </lib-editable-table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9"></div>
+        <div class="col-md-3">
+            <lib-form-panel [smLabel]="'resources.finance-invoicing-customerinvoices-panelheading-summary'">
+                <div class="row">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-invoicing-customerinvoices-label-subtotal'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="customerInvoice?.subTotal"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-invoicing-customerinvoices-label-discount'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="customerInvoice?.totalDiscount"/>
+                    </div>
+                </div>
+                <div class="row" [hidden]="!showVat">
+                    <div class="col-md-12">
+                        <lib-static-text [smType]="'amount'" [smElementClass]="'pull-right'" [smLabel]="'resources.finance-invoicing-customerinvoices-label-vat'" [smLabelClass]="'col-md-5'" [smStrong]="true" [smModel]="customerInvoice?.totalVat"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+
+            <div class="form-panel-footer">
+                <span class="pull-left">
+                    <strong>
+                        <span translate="resources.finance-invoicing-customerinvoices-salesitem-panelfooter-total"></span>
+                    </strong>
+                </span>
+                <span class=" pull-right">
+                    <strong>{{customerInvoice.total|number:'1.2-2'}}</strong>
+                </span>
+                <span class="clearfix"></span>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-select-input [smLabel]="'resources.finance-invoicing-customerinvoices-label-selectbankingaccount'" [smLabelClass]="'col-md-4'" [smName]="'bankingDetail'" [(smModel)]="customerInvoice.bankingDetail" [smRequired]="true" [smOptionDisplayField]="'displayAccountName'" [smOptions]="bankingDetails" [smDisabled]="disabled?disabled:false" />
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-bank'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.bankName"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-accname'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.accountName"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-accno'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.accountNo"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-acctype'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.accountType"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-branch'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.branch"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-code'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.branchCode"/>
+                <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-swiftcode'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="customerInvoice?.bankingDetail?.swiftCode"/>
+            </lib-form-panel>
+        </div>
+        <div class="col-md-6">
+            <lib-form-panel>
+                <lib-textarea-input [smLabel]="'resources.finance-invoicing-customerinvoices-label-comments'" [smLabelClass]="'control-label'" [smName]="'comments'" [(smModel)]="customerInvoice.comments" [smMaxlength]="2000" [smRows]="10" [smDisabled]="disabled" />
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <lib-form-panel>
+                
+                <div class="row">
+                    <div class="col-md-5">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-email'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="companyProfile?.primaryContactEmail"/>
+                    </div>
+                    <div class="col-md-3">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-tel'" [smLabelClass]="'col-md-3'" [smStrong]="true" [smModel]="companyProfile?.officePhone"/>
+                    </div>
+                    <div class="col-md-4">
+                        <lib-static-text [smLabel]="'resources.finance-invoicing-customerinvoices-label-website'" [smLabelClass]="'col-md-4'" [smStrong]="true" [smModel]="companyProfile?.websiteUrl"/>
+                    </div>
+                </div>
+            </lib-form-panel>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12 button-bar">
+            <lib-validation-message></lib-validation-message>
+            <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(customerInvoice,customerInvoiceForm)" [smDisabled]="enableSaveButton || isDisabled() || disabled" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary pull-right btnPrimaryAction'" />
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</form>

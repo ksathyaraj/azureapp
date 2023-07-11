@@ -1,0 +1,60 @@
+<div>
+  <div *ngIf="tabData && tabData.length > 0 && !blockquote; else noTabBlock">
+    <lib-title [count]="count" [title]="title"></lib-title>
+    <div class="row">
+      <div class="col-md-6">
+        <lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+      </div>
+      <div class="col-md-6">
+        <lib-button-bar
+          [exportButton]="exportButton"
+          [pdfButton]="pdfButton"
+          (handleButtonClick)="handleButtonAction($event)"
+          [helpLinkURL]="helpLinkURL"
+          [refreshButton]="refreshButton"
+          [addNewButton]="addNewButton"
+          [requestGLButton]="requestGLButton"
+          [downloadButton]="downloadButton"
+          [requestReportButton]="requestReportButton"
+          [emailButton]="emailButton"
+          [usageReportButton]="usageReportButton"
+          [detailReportButton]="detailReportButton"
+        ></lib-button-bar>
+      </div>
+    </div>
+  </div>
+  <ng-template #noTabBlock>
+    <div class="row">
+      <div class="col-md-6">
+        <lib-title [count]="count" [title]="title"></lib-title>
+      </div>
+      <div class="col-md-6 mt-4">
+        <lib-button-bar
+          [exportButton]="exportButton"
+          [pdfButton]="pdfButton"
+          [refreshButton]="refreshButton"
+          [addNewButton]="addNewButton"
+          (handleButtonClick)="handleButtonAction($event)"
+          [helpLinkURL]="helpLinkURL"
+          [requestGLButton]="requestGLButton"
+          [downloadButton]="downloadButton"
+          [requestReportButton]="requestReportButton"
+          [emailButton]="emailButton"
+          [usageReportButton]="usageReportButton"
+          [detailReportButton]="detailReportButton"
+        ></lib-button-bar>
+      </div>
+      <div class="col-md-12">
+        <lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+      </div>
+    </div>
+    <div class="row" *ngIf="blockquote">
+      <blockquote class="blockquote">
+        <p><span [translate]="blockquote"></span></p>
+      </blockquote>
+    </div>
+  </ng-template>
+  <div *ngIf="smTitle2 !== '' && smTitle2 !== undefined">
+    <lib-title [title]="smTitle2"></lib-title>
+  </div>
+</div>

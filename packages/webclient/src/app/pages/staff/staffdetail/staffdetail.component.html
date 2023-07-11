@@ -1,0 +1,116 @@
+<lib-title [title]="'resources.staff-staffdetails-staffrecorddetail-pageheading-staffrecorddetail'"></lib-title>
+<lib-page-tab-bar [tabData]="tabData"></lib-page-tab-bar>
+<form class="form-horizontal" novalidate #frm="ngForm">
+    <lib-form-panel [smLabel]=" 'resources.staff-staffdetails-staffrecorddetail-panelheading-detail' ">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-firstname'"
+                    [smLabelClass]="'col-md-4'" [smName]="'firstName'" [smType]="'text'" [(smModel)]="staff.firstName"
+                    [smMaxlength]="50" [smRequired]="true" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-lastname'"
+                    [smLabelClass]="'col-md-4'" [smName]="'lastName'" [smType]="'text'" [(smModel)]="staff.lastName"
+                    [smMaxlength]="50" [smRequired]="true" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-knownas'"
+                    [smLabelClass]="'col-md-4'" [smName]="'knownAs'" [smType]="'text'" [(smModel)]="staff.knownAs"
+                    [smMaxlength]="100" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-idnumber'"
+                    [smLabelClass]="'col-md-4'" [smName]="'idNumber'" [smType]="'text'" [(smModel)]="staff.idNumber"
+                    [smMaxlength]="20" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-email'"
+                    [smLabelClass]="'col-md-4'" [smName]="'emailAddress'" [smType]="'text'"
+                    [(smModel)]="staff.emailAddress" [smMaxlength]="50" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-telephone'"
+                    [smLabelClass]="'col-md-4'" [smName]="'telephone'" [smType]="'text'" [(smModel)]="staff.telephone"
+                    [smMaxlength]="50" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-cellphone'"
+                    [smLabelClass]="'col-md-4'" [smName]="'cellphone'" [smType]="'text'" [(smModel)]="staff.cellphone"
+                    [smMaxlength]="50" />
+                <lib-date-picker [smPlaceholder]="datePlaceHolder" [smShowWeeks]="false"
+                    [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-startdate'"
+                    [smLabelClass]="'col-md-4'" [smName]="'fromDate'" [(smModel)]="staff.employmentStartDate" />
+
+                <lib-select-input [smPlaceholder]="'resources.common-select-placeholder-pleaseselect' | translate"
+                    [smLabelClass]="'col-md-4'" [smLabel]="'Employment Status'" [smName]="'employmentStatus'"
+                    [(smModel)]="staff.employmentStatus" [smOptionDisplayField]="'value'" [smOptions]="employmentStatus"
+                    [smOptionValueField]="'key'" [smRequired]="true" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-numberofdependants'"
+                    [smLabelClass]="'col-md-4'" [smName]="'numberOfDependants'" [smType]="'text'"
+                    [(smModel)]="staff.numberOfDependants" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-taxnumber'"
+                    [smLabelClass]="'col-md-4'" [smName]="'taxNumber'" [smType]="'text'" [(smModel)]="staff.taxNumber"
+                    [smMaxlength]="50" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-occupation'"
+                    [smLabelClass]="'col-md-4'" [smName]="'occupation'" [smType]="'text'" [(smModel)]="staff.occupation"
+                    [smMaxlength]="100" />
+
+            </div>
+            <div class="col-md-6">
+                <lib-textarea-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-homeaddress'"
+                    [smLabelClass]="'col-md-4'" [smName]="'homeAddress'" [(smModel)]="staff.homeAddress"
+                    [smMaxlength]="200" [smRows]="4" />
+                <lib-textarea-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-postaladdress'"
+                    [smLabelClass]="'col-md-4'" [smName]="'postalAddress'" [(smModel)]="staff.postalAddress"
+                    [smMaxlength]="200" [smRows]="4" />
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-annualleavedays'"
+                    [smLabelClass]="'col-md-4'" [smName]="'annualLeaveDays'" [smType]="'text'"
+                    [(smModel)]="staff.annualLeaveDays" />
+                <lib-date-picker [smPlaceholder]="datePlaceHolder" *ngIf="staff.employmentStatus === 2"
+                    [smLabelClass]="'col-md-4'" [smName]="'terminationDate'" [smLabel]="'Termination Date'"
+                    [smShowWeeks]="false" [(smModel)]="staff.terminationDate" />
+
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-employeenumber'"
+                    [smLabelClass]="'col-md-4'" [smName]="'employeeNumber'" [smType]="'text'"
+                    [(smModel)]="staff.employeeNumber" [smMaxlength]="50" />
+                <lib-select-input [smPlaceholder]="'resources.common-select-placeholder-pleaseselect' | translate"
+                    [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-paypackagetype'"
+                    [smLabelClass]="'col-md-4'" [smName]="'payPackageType'" [(smModel)]="staff.payPackageType"
+                    [smOptionDisplayField]="'value'" [smOptions]="payPackageTypes" [smOptionValueField]="'key'"
+                    [smRequired]="true" />
+                <lib-select-input [smPlaceholder]="'resources.common-select-placeholder-pleaseselect' | translate"
+                    [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-stafftype'"
+                    [smLabelClass]="'col-md-4'" [smName]="'staffType'" [(smModel)]="staff.staffType"
+                    [smOptionDisplayField]="'value'" [smOptions]="staffTypes" [smOptionValueField]="'key'"
+                    [smRequired]="true" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <lib-textarea-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-notes'"
+                    [smLabelClass]="'col-md-2'" [smName]="'notes'" [(smModel)]="staff.notes" [smRows]="4" />
+            </div>
+        </div>
+    </lib-form-panel>
+
+    <lib-form-panel [smLabel]="'resources.staff-staffdetails-staffrecorddetail-panelheading-nextofkindetails'">
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-name'"
+                    [smLabelClass]="'col-md-4'" [smName]="'nextOfKinFullName'" [smType]="'text'"
+                    [(smModel)]="staff.nextOfKinFullName" [smMaxlength]="100" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-relationship'"
+                    [smLabelClass]="'col-md-4'" [smName]="'nextOfKinRelationship'" [smType]="'text'"
+                    [(smModel)]="staff.nextOfKinRelationship" [smMaxlength]="50" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-telephone'"
+                    [smLabelClass]="'col-md-4'" [smName]="'nextOfKinTelephone'" [smType]="'text'"
+                    [(smModel)]="staff.nextOfKinTelephone" [smMaxlength]="50" />
+            </div>
+            <div class="col-md-6">
+                <lib-text-input [smLabel]="'resources.staff-staffdetails-staffrecorddetail-label-cellphone'"
+                    [smLabelClass]="'col-md-4'" [smName]="'nextOfKinCellphone'" [smType]="'text'"
+                    [(smModel)]="staff.nextOfKinCellphone" [smMaxlength]="50" />
+            </div>
+        </div>
+    </lib-form-panel>
+
+    <div class="button-bar">
+        <lib-validation-message></lib-validation-message>
+        <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(staff, frm)"
+            [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+    </div>
+</form>

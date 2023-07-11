@@ -1,0 +1,33 @@
+.ml-4 {
+  margin-left: 4px;
+}
+
+.table {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.red {
+  color: red;
+}
+
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+a:not([href]):not([class]){
+  color: #2196f3;
+  cursor: pointer;
+
+}
+
+a:not([href]):not([class]):hover {
+  color: #2196f3;
+  text-decoration: underline;
+  cursor: pointer;
+}

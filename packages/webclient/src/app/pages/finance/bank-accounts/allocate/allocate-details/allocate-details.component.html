@@ -1,0 +1,355 @@
+<form class="form-horizontal" novalidate  #frm="ngForm" >
+    <div id="mainScreen" [hidden]="showSplitScreen">
+        <lib-title [title]="'resources.finance-bankaccounts-allocate-pageheading-allocatebankstatementitems'"></lib-title>
+        <h5>
+            {{recordCountDescription()}}
+            <span translate="resources.finance-bankaccounts-allocate-label-transactions"></span>
+        </h5>
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    <span translate="resources.finance-bankaccounts-allocate-label-pleasenote"></span>
+                    <span class="red">&nbsp;
+                        <b>
+                            <span translate="resources.finance-bankaccounts-allocate-label-red"></span>
+                        </b>
+                    </span>&nbsp;
+                    <span translate="resources.finance-bankaccounts-allocate-label-meansmoneyout"></span>
+                    <span class="green">&nbsp;
+                        <b>
+                            <span translate="resources.finance-bankaccounts-allocate-label-green"></span>
+                        </b>
+                    </span>&nbsp;
+                    <span translate="resources.finance-bankaccounts-allocate-label-meansmoneyinto"></span>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <span [hidden]="!duplicatesArePresent()">
+                    <span class="custom-checkbox">
+                        <lib-checkbox-input [(smModel)]="hidePotentialDuplicates" />
+                    </span>
+                <span translate="resources.finance-bankaccounts-allocate-label-hidepotential"></span> {{duplicatesCountText()}}.
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    <span [hidden]="!duplicatesArePresent()">
+                        <span translate="resources.finance-bankaccounts-allocate-label-potential-duplicates"></span>
+                        &nbsp;<span class="label label-warning">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp; <a (click)="showDuplicateHelp()"><i class="fa fa-question-circle"></i></a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="button-bar">
+            <lib-validation-message></lib-validation-message>
+            <lib-button [smLabel]="'resources.common-buttons-undo'" (smClick)="undo()" [smDisabled]="!itemsEditted" [smIcon]="'fa fa-undo'" [smClass]="'btn btn-warning btnSecondaryAction'" />
+            <lib-button [smLabel]="'resources.common-buttons-save'" [smType]="'submit'" (smClick)="save(frm)" [smDisabled]="!itemsEditted" [smIcon]="'fa fa-save'" [smClass]="'btn btn-primary btnPrimaryAction'" />
+        </div>
+        <p>&nbsp;</p>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-date"></span>
+                            </th>
+                            <th class="col-md-2">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-yourreference"></span>
+                            </th>
+                            <th class="col-md-3">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-bankdescription"></span>
+                            </th>
+                            <th class="col-md-4">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-selectoption"></span>
+                            </th>
+                            <th [hidden]="!showVat" class="col-md-1">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                            </th>
+                            <th [hidden]="!showVat" class="col-md-1">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-vat"></span>
+                            </th>
+                            <th class="col-md-1">
+                                <span [hidden]="showVat">
+                                    <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                                </span>
+                                <span [hidden]="!showVat">
+                                    <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-total"></span>
+                                </span>
+                            </th>
+                            <th>
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-split"></span>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let o of data; index as index">
+                      <ng-container *ngIf="!(hidePotentialDuplicates && o.isDuplicate)" >
+                        <tr [ngClass]="{'warning': o.isDuplicate}">
+                            <td nowrap>{{o.datePosted|date:'dd MMM yyyy'}}</td>
+                            <td>
+                                <lib-text-input (smModelChange)="change(o)" [smName]="'reference'+index" [smModel]="o.reference" [smMaxlength]="64"  />
+                            </td>
+                            <td>{{o.description}}</td>
+                            <lib-select-input [smSelectWithSearchOption]="true" [smInputClass]="'form-select vat-select'" [(smModel)]="o.selectedLedgerAccount" (smModelChange)="ledgerAccountChange(o, $event, o.datePosted,frm)" *ngIf="!o.isSplit"
+                            [smPlaceholder]="accountDropdownPlaceholder" [smOptions]="filteredledgerAccounts(o.ledgerActionType)"
+                            [smOptionDisplayField]="'customDisplayName'"  [className]="'d-block'" [smName]="'selectedLedgerAccount'+index"  />
+                            <td id="preVatAmountAllocation" [hidden]="!showVat" class="text-end" [ngClass]="{green:o.ledgerActionType === ledgerActionType.credit, red: o.ledgerActionType === ledgerActionType.debit}">{{o.preVatAmount|number:'1.2-2'}}</td>
+                            <td [hidden]="!showVat" class="text-end" >
+                                <lib-text-input [smDisabled]="!(o.selectedLedgerAccount && o.selectedLedgerAccount.isVatable && isVatRegistered)" [smName]="'vatInput'+index" [smInputClass]="(o.ledgerActionType === ledgerActionType.credit)?'text-success w-100 pe-1 form-control-sm':'text-danger w-100 pe-1 form-control-sm'"  (smModelChange)="vatAmountChange(o,$event)" [smType]="'decimal'" [(smModel)]="o.vat"/>
+                            </td>
+                            <td id="amountAllocation" class="text-end" [ngClass]="{green:o.ledgerActionType === ledgerActionType.credit, red: o.ledgerActionType === ledgerActionType.debit}">{{o.amount|number:'1.2-2'}}</td>
+                            <td>
+                                <lib-checkbox-input [(smModel)]="o.isSplit" (smModelChange)="isSplitChange(o)"/>
+                            </td>
+                            <td>
+                                <lib-button
+                                    [smType]="'button'"
+                                    [smTitle]="'Delete Duplicate Item'"
+                                    *ngIf="o.isDuplicate"
+                                    (smClick)="deleteDuplicate(o)"
+                                    [smClass]="'btn btn-danger btn-xs m-0'"
+                                    [smIcon]="'fa fa-close'"
+                                />
+                                <lib-button
+                                    [smType]="'button'"
+                                    [smTitle]="'Delete Item'"
+                                    *ngIf="!o.isDuplicate"
+                                    (smClick)="deleteUnallocatedItem(o)"
+                                    [smClass]="'btn btn-danger btn-xs m-0'"
+                                    [smIcon]="'fa fa-close'"
+                                />
+                            </td>
+                        </tr>
+                        <tr *ngIf="o.isSplit" [ngClass]="{warning: o.isSplit}">
+                            <td colspan=" 9">
+                                <table class="table table-hover table-condensed table-bordered" style="width: 90%; margin-left: 50px;">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-3">
+                                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-reference"></span>
+                                            </th>
+                                            <th class="col-md-3">
+                                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-category"></span>
+                                            </th>
+                                            <th class="col-md-1">
+                                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                                            </th>
+                                            <th [hidden]="!showVat" class="col-md-1">
+                                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-vat"></span>
+                                            </th>
+                                            <th class="col-md-3">
+                                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-total"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of o.allocations">
+                                            <td>{{item.reference}}</td>
+                                            <td>{{item.selectedLedgerAccount?.customDisplayName}}</td>
+                                            <td style="text-align: right">{{item.preVatAmount|number:'1.2-2'}}</td>
+                                            <td [hidden]="!showVat" style="text-align: right">{{item.vat|number:'1.2-2'}}</td>
+                                            <td style="text-align: right">{{item.amount|number:'1.2-2'}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </ng-container>  
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" *ngIf="itemsEditted">
+                <div [className]="'card '">
+                    <div class="card-header bg-warning text-white">
+                        <!-- <lib-title [title]="'resources.bsallocate-datachanged-heading'"/> -->
+                        <h5 [className]="'card-title'" [translate]="'resources.bsallocate-datachanged-heading'"></h5>
+                    </div>
+                    <div class="card-body" [innerHTML]="allocateDataChanged"></div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="!itemsEditted">
+                <div *ngIf="data.length > 0">
+                    <ngb-pagination [boundaryLinks]="true"
+                                (pageChange)="getTransactions($event)"
+                                [collectionSize]="filteredCount"
+                                [pageSize]="dataOperations.paging.pageSize"
+                                [(page)]="dataOperations.paging.currentPage"
+                                [maxSize]="dataOperations.paging.maxPagesToShow"
+                                [className]="'pagination-small'">
+                                <ng-template
+                                ngbPaginationPrevious
+                                translate="resources.common-previous-label"
+                                >Previous</ng-template
+                              >
+                              <ng-template ngbPaginationNext translate="resources.common-next-label"
+                                >Next</ng-template
+                              >
+                    </ngb-pagination>
+                    <p class="marginTop2 pull-right">{{ simpleListScreenViewModelService.currentPageDescription()}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="splitScreen" [hidden]="!showSplitScreen">
+        <lib-title [title]="'resources.finance-bankaccounts-allocate-pageheading-bankstatementitemsplit'" />
+        <div class="row">
+            <div class="col-md-8">
+                <p>
+                    <span translate="resources.finance-bankaccounts-allocate-label-pleasenote"></span> &nbsp;<span class="red">
+                        <b>
+                            <span translate="resources.finance-bankaccounts-allocate-label-red"></span>
+                        </b>
+                    </span>&nbsp;
+                    <span translate="resources.finance-bankaccounts-allocate-label-meansmoneyout"></span>&nbsp;
+                    <span class="green">
+                        <b>
+                            <span translate="resources.finance-bankaccounts-allocate-label-green"></span>
+                        </b>
+                    </span>&nbsp;
+                    <span translate="resources.finance-bankaccounts-allocate-label-meansmoneyinto"></span>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <lib-button [smLabel]="'resources.common-buttons-ok'" [smType]="'button'" (smClick)="saveSplit(frm)" [smDisabled]="!isAllocatedAmountSameAsTotal() || (frm.invalid!==null && frm.invalid)" [smIcon]="'fa fa-check'" [smClass]="'btn btn-primary pull-right'" />
+                <lib-button [smLabel]="'resources.common-buttons-undo'" [smType]="'button'" (smClick)="splitCancel()" [smIcon]="'fa fa-undo'" [smClass]="'btn btn-warning btnSecondaryAction pull-right'" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-date"></span>
+                            </th>
+                            <th class="col-md-2">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-yourreference"></span>
+                            </th>
+                            <th class="col-md-3">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-bankdescription"></span>
+                            </th>
+                            <th [hidden]="!showVat" class="col-md-1">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                            </th>
+                            <th [hidden]="!showVat" class="col-md-1">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-vat"></span>
+                            </th>
+                            <th class="col-md-1">
+                                <span [hidden]="showVat">
+                                    <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                                </span>
+                                <span [hidden]="!showVat">
+                                    <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-total"></span>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: lightgray">
+                            <td>{{selectedDisplayBankStatementItem.datePosted|date:'dd MMM yyyy'}}</td>
+                            <td>{{selectedDisplayBankStatementItem.reference}}</td>
+                            <td>{{selectedDisplayBankStatementItem.description}}</td>
+                            <td [hidden]="!showVat" class="text-end" [ngClass]="{green:selectedDisplayBankStatementItem.ledgerActionType === ledgerActionType.credit, red: selectedDisplayBankStatementItem.ledgerActionType === ledgerActionType.debit}">{{selectedDisplayBankStatementItem.preVatAmount|number:'1.2-2'}}</td>
+                            <td [hidden]="!showVat" class="text-end" [ngClass]="{green:selectedDisplayBankStatementItem.ledgerActionType === ledgerActionType.credit, red: selectedDisplayBankStatementItem.ledgerActionType === ledgerActionType.debit}">
+                                {{selectedDisplayBankStatementItem.vat|number:'1.2-2'}}
+                            </td>
+                            <td class="text-end" [ngClass]="{green:selectedDisplayBankStatementItem.ledgerActionType === ledgerActionType.credit, red: selectedDisplayBankStatementItem.ledgerActionType === ledgerActionType.debit}">{{selectedDisplayBankStatementItem.amount|number:'1.2-2'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h4><span translate="resources.finance-bankaccounts-allocatedetails-heading-allocatedetails"></span></h4>
+        <div class="row">
+            <div class="col-md-8">
+                <p class="red" [hidden]="!!isAllocatedAmountLessThanOrEqualToTotal()">
+                    <span translate="resources.finance-bankaccounts-allocate-warningmessage"></span>
+                </p>
+                <p class="red" [hidden]="!isAllocatedAmountLessThanTotal()">
+                    <span translate="resources.finance-bankaccounts-allocate-message"></span>
+                </p>
+                <p class="red" [hidden]="!showErrorLabel">
+                    <span translate="resources.finance-bankaccounts-allocate-message-allocationamountiszero"></span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover table-condensed table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-yourreference"></span>
+                            </th>
+                            <th class="col-md-4">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-selectoption"></span>
+                            </th>
+                            <th [hidden]="!showVat" class="col-md-2">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                            </th>
+                            <th [hidden]="!showVat" class="col-md-2">
+                                <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-vat"></span>
+                            </th>
+                            <th class="col-md-2">
+                                <span [hidden]="showVat">
+                                    <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-amount"></span>
+                                </span>
+                                <span [hidden]="!showVat">
+                                    <span translate="resources.finance-bankaccounts-allocate-tablecolumnheading-total"></span>
+                                </span>
+                            </th>
+                            <th>
+                                <lib-button [smClass]="'btn btn-success btn-xs'" (click)="addSplitRow()" [smIcon]="'fa fa-plus'"/>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let allocation of selectedBankStatementItem.allocations;index as index">
+                            <td class="form-group">
+                                <lib-text-input [smName]="'splitreference'+index" [(smModel)]="allocation.reference" [smMaxlength]="67" />
+                            </td>
+                            <td [ngClass]="{ 'has-error' : frm.form.controls['ledgerAccount'+index]?frm.form.controls['ledgerAccount'+index].invalid:true}">
+                                <div [name]="'ledgerAccount'+index" [(ngModel)]="allocation.selectedLedgerAccount" class="form-control" *ngIf="false" required>
+                                </div>
+                                <lib-select-input [smSelectWithSearchOption]="true" [smInputClass]="'form-select vat-select'" [(smModel)]="allocation.selectedLedgerAccount" (smModelChange)="ledgerAccountChange(allocation,allocation.selectedLedgerAccount, selectedBankStatementItem.datePosted,frm)"
+                                [smPlaceholder]="accountDropdownPlaceholder+'...'" [smOptions]="filteredledgerAccounts(selectedBankStatementItem.ledgerActionType)" [smName]="'ledgerAccount'+index" [className]="'d-block'"
+                                [smOptionDisplayField]="'customDisplayName'" />
+                                
+                            </td>
+                            <td [hidden]="!showVat" class="text-end">
+                                {{allocation.preVatAmount|number:'1.2-2'}}
+                            </td>
+                            <td [hidden]="!showVat" class="text-end form-group d-flex" [ngClass]="{ 'has-error' : frm.form.controls['vat'+index]?frm.form.controls['vat'+index].invalid:true}">
+                                <lib-text-input [smName]="'vat'+index" [smDisabled]="allocation.selectedledgeraccount === ''?true:!(allocation.selectedLedgerAccount?.isVatable && isVatRegistered)"
+                                 [className]="'  w-100 pe-1 form-control-sm'" (smModelChange)="vatAmountChange(allocation,$event)" [smType]="'decimal'"
+                                [(smModel)]="allocation.vat" [smRequired]="allocation.selectedLedgerAccount?.isVatable" [smInputClass]="' w-100 pe-1 form-control-sm'" />
+                            </td>
+                            <td class="text-end form-group" [ngClass]="{ 'has-error' : frm.form.controls['amount'+index]?frm.form.controls['amount'+index].invalid:true}">
+                                <lib-text-input [smName]="'amount'+index" [smDisabled]="allocation.selectedLedgerAccount === ''" [smType]="'decimal'"
+                                [className]="'form-control-sm text-end bankstatement-vat-padding d-flex'" [(smModel)]="allocation.amount" [smInputClass]="' w-100 pe-1 form-control-sm'"
+                                (smModelChange)="amountChange(allocation, allocation.selectedLedgerAccount)" [smRequired]="true" />
+                            </td>
+                            <td>
+                                <lib-button *ngIf="selectedBankStatementItem.allocations.length > 2"
+                                [smTitle]="'resources.finance-bankaccounts-allocate-button-removethisitem'" [smType]="'button'" (smClick)="removeSplitItem(allocation,index)" [smIcon]="'fa fa-close'" [smClass]="'btn btn-danger btn-xs'" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <lib-button [smLabel]="'resources.common-buttons-ok'" [smType]="'button'" (smClick)="saveSplit(frm)" [smDisabled]="!isAllocatedAmountSameAsTotal() || (frm.invalid!==null && frm.invalid)" [smIcon]="'fa fa-check'" [smClass]="'btn btn-primary pull-right'" />
+                <lib-button [smLabel]="'resources.common-buttons-undo'" [smType]="'button'" (smClick)="splitCancel()" [smIcon]="'fa fa-undo'" [smClass]="'btn btn-warning btnSecondaryAction pull-right'" />
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,229 @@
+<div>
+  <div class="row">
+    <lib-title-bar
+      [title]="'resources.reports-vat-pageheading-vatreport'"
+      [exportButton]="true"
+      [api]="api"
+      (handleRefreshButtonClick)="handleRefreshButtonClick()"
+      [addNewButton]="false"
+      [pdfButton]="true"
+      [helpLinkURL]="helpLinkURL"
+    ></lib-title-bar>
+  </div>
+  <div class="table-page">
+    <div class="row">
+      <lib-search-box
+        [searchUIOptions]="searchUIOptions"
+        (searchByDateRange)="searchByDateRange($event)"
+        [emptyDefaultDates]="true"
+      ></lib-search-box>
+    </div>
+    <lib-form-panel
+      [smHeadingFont]="'15px'"
+      [smHeadingColor]="'rgb(33, 33, 33)'"
+      smHeading="resources.reports-vat-sectionheading-vatoutput"
+    ></lib-form-panel>
+    <table class="table table-hover table-condensed table-bordered">
+      <thead>
+        <tr>
+          <th>
+            <span
+              translate="resources.reports-vat-vatoutput-tablecolumnheading-date"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatoutput-tablecolumnheading-invoicenumber"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatoutput-tablecolumnheading-companyname"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatoutput-tablecolumnheading-exclamount"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatoutput-tablecolumnheading-vatamount"
+            ></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of vatReport.vatOutItems">
+          <td>{{ item.date | date : "dd MMM yyyy" }}</td>
+          <td>{{ item.invoiceNumber }}</td>
+          <td>{{ item.companyName }}</td>
+          <td class="text-right">{{ item.exclAmount | number : "1.2-2" }}</td>
+          <td class="text-right">{{ item.vatAmount | number : "1.2-2" }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label col-md-6"
+                    ><span class="pull-left card-data"
+                      translate="resources.reports-vat-label-totaloutputvat"
+                    ></span
+                  ></label>
+                  <label class="control-label pull-right">
+                    <strong>{{
+                      vatReport.vatOutTotal | number : "1.2-2"
+                    }}</strong>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <lib-form-panel
+      [smHeadingFont]="'15px'"
+      [smHeadingColor]="'rgb(33, 33, 33)'"
+      smHeading="resources.reports-vat-sectionheading-vatinput"
+    ></lib-form-panel>
+    <table class="table table-hover table-condensed table-bordered">
+      <thead>
+        <tr>
+          <th>
+            <span
+              translate="resources.reports-vat-vatinput-tablecolumnheading-date"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatinput-tablecolumnheading-paidto"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatinput-tablecolumnheading-category"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatinput-tablecolumnheading-description"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatinput-tablecolumnheading-exclamount"
+            ></span>
+          </th>
+          <th>
+            <span
+              translate="resources.reports-vat-vatinput-tablecolumnheading-vatamount"
+            ></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of vatReport.vatInItems">
+          <td>{{ item.date | date : "dd MMM yyyy" }}</td>
+          <td>{{ item.paidTo }}</td>
+          <td>{{ item.category }}</td>
+          <td>{{ item.description }}</td>
+          <td class="text-right">{{ item.exclAmount | number : "1.2-2" }}</td>
+          <td class="text-right">{{ item.vatAmount | number : "1.2-2" }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label col-md-5"
+                    ><span class="pull-left card-data"
+                      translate="resources.reports-vat-label-totalinputvat"
+                    ></span
+                  ></label>
+                  <label class="control-label pull-right">
+                    <strong>{{
+                      vatReport.vatInTotal | number : "1.2-2"
+                    }}</strong>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+        <lib-form-panel
+          [smHeadingFont]="'15px'"
+          [smHeadingColor]="'rgb(33, 33, 33)'"
+          [smLabel]="'resources.reports-vat-panelheading-summary'"
+        >
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label col-md-6">
+                  <span class="pull-left"
+                    translate="resources.reports-vat-label-totaloutputvat"
+                  ></span>
+                </label>
+                <label class="control-label pull-right">
+                  <strong>{{
+                    vatReport.vatOutTotal | number : "1.2-2"
+                  }}</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="control-label col-md-6"
+                  ><span class="pull-left"
+                    translate="resources.reports-vat-label-totalinputvat"
+                  ></span
+                ></label>
+                <label class="control-label pull-right">
+                  <strong>{{ vatReport.vatInTotal | number : "1.2-2" }}</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group" style="margin-bottom: 0">
+                <label class="control-label col-md-6">
+                  <strong><span class="pull-left">{{
+                    vatReport.vatTotal >= 0 ? totalVatPayment : totalVatRefund
+                  }}</span></strong>
+                </label>
+                <label class="control-label pull-right">
+                  <strong
+                    [ngClass]="{
+                      red: vatReport.vatTotal >= 0,
+                      green: vatReport.vatTotal < 0
+                    }"
+                    >{{ vatReport.vatTotal | number : "1.2-2" }}</strong
+                  >
+                </label>
+              </div>
+            </div>
+          </div>
+        </lib-form-panel>
+      </div>
+    </div>
+  </div>
+</div>
